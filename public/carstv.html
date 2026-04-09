@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=900">
+
+  <title>Product Page</title>
+
+  <link rel="icon" href="files/my logo.jpg">
+  <link rel="stylesheet" href="carssub.css">
+
+  <script src="https://kit.fontawesome.com/e1426ab85b.js" crossorigin="anonymous"></script>
+
+  <style>
+    body { margin: 0; padding: 0; background: #f9f9f9; color: #222; }
+    main { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+
+    .oldPrice { color: #d33925; text-decoration: line-through; font-weight: bold; }
+    #productPrice { color: green; }
+
+    #productImg { transition: opacity 0.8s ease-in-out; }
+    .fade-out { opacity: 0; }
+
+    #about {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 60px;
+      width: 90%;
+      max-width: 900px;
+    }
+
+    #about .about-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      align-items: flex-start;
+    }
+
+    #about img {
+      width: 300px;
+      height: 330px;
+      object-fit: cover;
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px;
+    }
+
+    #about-details { flex: 1; min-width: 250px; }
+
+    #about button {
+      background: #e7b307;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .related {
+      text-align: center;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 1800px;
+    }
+
+    .projects {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .project {
+      background: #fff;
+      border-radius: 10px;
+      padding-bottom: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      max-width: 220px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .project img {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      background: #fff;
+      border-radius: 10px 10px 0 0;
+    }
+  </style>
+</head>
+
+<body>
+
+<main>
+
+<section id="about">
+  <div class="about-content">
+    <img id="productImg">
+
+    <div id="about-details">
+      <h2 id="productName"></h2>
+      <p id="productModel"></p>
+      <p id="productPrice"></p>
+      <p id="oldPrice" class="oldPrice"></p>
+      <p id="productDesc"></p>
+
+      <button id="buyNowBtn">Buy Now</button>
+      <button onclick="shareProduct()">Share</button>
+    </div>
+  </div>
+</section>
+
+<section id="related" class="related">
+  <h2>Related Products</h2>
+  <div class="projects" id="projects"></div>
+</section>
+
+</main>
+
+<script>
+
+const API_URL = "https://cars3-158h.onrender.com";
+
+function getProductId() {
+  return new URLSearchParams(window.location.search).get("id");
+}
+
+async function loadProduct() {
+  const id = getProductId();
+
+  let product;
+
+  if (id) {
+    const res = await fetch(`${API_URL}/api/cars/${id}`);
+    product = await res.json();
+  } else {
+    product = JSON.parse(localStorage.getItem("selectedProduct"));
+  }
+
+  if (!product) return;
+
+  document.getElementById("productName").textContent = product.make + " " + product.model;
+  document.getElementById("productModel").textContent = "Model: " + product.model;
+  document.getElementById("productPrice").textContent = "Price: Ksh." + product.price.toLocaleString();
+  document.getElementById("productDesc").textContent = product.description;
+  document.getElementById("oldPrice").textContent = product.oldPrice ? "Was: Ksh." + product.oldPrice.toLocaleString() : "";
+
+  const img = document.getElementById("productImg");
+  img.src = Array.isArray(product.image) ? product.image[0] : product.image;
+
+  localStorage.setItem("selectedProduct", JSON.stringify(product));
+
+  loadRelated(product);
+}
+
+async function loadRelated(product) {
+  const res = await fetch(`${API_URL}/api/cars`);
+  const data = await res.json();
+
+  const related = data.filter(c =>
+    c.category === product.category && c.id !== product.id
+  );
+
+  const container = document.getElementById("projects");
+  container.innerHTML = "";
+
+  related.forEach(c => {
+    const img = Array.isArray(c.image) ? c.image[0] : c.image;
+
+    const div = document.createElement("div");
+    div.className = "project";
+    div.innerHTML = `
+      <img src="${img}">
+      <h3>${c.make} ${c.model}</h3>
+      <p>Ksh.${c.price.toLocaleString()}</p>
+    `;
+
+    div.onclick = () => {
+      localStorage.setItem("selectedProduct", JSON.stringify(c));
+      window.location.href = "carstv.html?id=" + c.id;
+    };
+
+    container.appendChild(div);
+  });
+}
+
+loadProduct();
+
+// BUY
+document.getElementById("buyNowBtn").onclick = () => {
+  const product = JSON.parse(localStorage.getItem("selectedProduct"));
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (!cart.find(c => c.id === product.id)) {
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Added to cart");
+  }
+};
+
+
+
+// SHARE (IMPORTANT FIX)
+function shareProduct() {
+  const product = JSON.parse(localStorage.getItem("selectedProduct"));
+
+  if (!product) {
+    alert("No product selected");
+    return;
+  }
+
+  const url = `${API_URL}/product/${product.id}`;
+
+  window.open(
+    `https://wa.me/?text=${encodeURIComponent(url)}`,
+    "_blank"
+  );
+}
+
+</script>
+
+</body>
+</html>
