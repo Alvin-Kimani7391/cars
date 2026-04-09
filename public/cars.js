@@ -85,7 +85,7 @@ document.getElementById("orderForm").addEventListener("submit", function (e) {
 
   message += `\n-------------------------\n💰 *Total: Ksh.${total.toLocaleString()}*\n\nPlease confirm my order. ✅`;
 
-  const sellerPhone = "254715418492";
+  const sellerPhone = "254794327798";
   const whatsappURL = `https://wa.me/${sellerPhone}?text=${encodeURIComponent(message)}`;
   window.open(whatsappURL, "_blank");
 
