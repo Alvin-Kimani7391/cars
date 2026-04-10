@@ -800,3 +800,158 @@ nav button{
 }
  
 
+
+
+
+
+/* ===== MODERN ORANGE THEME UPGRADE (SAFE PATCH) ===== */
+
+/* Gradient Branding */
+header {
+  background: linear-gradient(135deg, #ff6600, #ff9900) !important;
+  /* color: white !important; */
+}
+
+nav {
+  background: #1a1a1a !important;
+}
+
+/* Buttons Modern Look */
+.addbtn
+{
+  background: linear-gradient(135deg, #ff6600, #ff9900) !important;
+  border-radius: 25px !important;
+  transition: 0.3s ease;
+}
+
+.addbtn:hover,
+#show-cart-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Product Cards Upgrade */
+.product-item {
+  border: none !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.product-item:hover {
+  transform: translateY(-8px) !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+}
+
+/* Price Styling 
+.price {
+  color: #ff6600 !important;
+}
+
+.old-price {
+  color: #999 !important;
+}
+
+ Search Bar Modern */
+#searchbar {
+  border-radius: 30px !important;
+  border: 2px solid #eee !important;
+}
+
+#searchbar:focus {
+  border-color: #ff9900 !important;
+  box-shadow: 0 0 8px rgba(255,153,0,0.3);
+}
+
+/* Category Buttons */
+.filter-btn {
+  background: #eee !important;
+  border-radius: 20px !important;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: linear-gradient(135deg, #ff6600, #ff9900) !important;
+  color: white !important;
+}
+
+/* Sidebar Upgrade */
+.list {
+  background: linear-gradient(180deg, #2b2b2b, #1a1a1a) !important;
+  border: none !important;
+}
+
+.list li:hover {
+  background: rgba(255,255,255,0.1) !important;
+}
+
+/* Cart Styling */
+.cart,
+.cart-box {
+  border-radius: 12px !important;
+}
+
+/* Footer Upgrade */
+.footer1 {
+  border-bottom: 3px solid #ff6600 !important;
+}
+
+.footer1 h2 {
+  color: #ff9900 !important;
+}
+
+/* Loader color */
+#loader .dot {
+  background: linear-gradient(135deg, #ff6600, #ff9900) !important;
+}
+
+
+
+
+
+
+
+
+/* ===== STICKY CATEGORY BAR ===== */
+/* ===== FORCE STICKY (REAL E-COMMERCE STYLE) ===== */
+/* ===== CATEGORY BAR ===== */
+.category-bar {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+.category-bar::-webkit-scrollbar { height: 5px; }
+.category-bar::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+/* Buttons inside */
+.category-bar .filter-btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
+
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+
+  background: #eee;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+/* Active + hover */
+.category-bar .filter-btn:hover,
+.category-bar .filter-btn.active {
+  background: linear-gradient(135deg, #ff6600, #ff9900);
+  color: white;
+}
+
+.category-bar {
+  backdrop-filter: blur(6px);
+}

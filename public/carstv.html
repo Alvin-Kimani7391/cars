@@ -218,7 +218,7 @@ function shareProduct() {
     return;
   }
 
-  const url = `${API_URL}/product/${product.id}`;
+  const url = `${API_URL}/product/${product.id}?t=${Date.now()}`;
 
   window.open(
     `https://wa.me/?text=${encodeURIComponent(url)}`,

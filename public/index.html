@@ -6,7 +6,7 @@
         <!-- <meta name="viewport" content="width=1200"> -->
 
         
-        <title>Zack Zion Suppliers</title>
+        <title>Six Star Suppliers</title>
         <link rel="stylesheet" href="cars.css">
         <link rel="icon" href="images2/preview.jpg">
         <script src="https://kit.fontawesome.com/e1426ab85b.js" crossorigin="anonymous"></script>
@@ -40,7 +40,7 @@
   <div class="dot"></div>
   <div class="dot"></div>
 </div>
-        <header><p>Zack Zion Suppliers</p></header>
+        <header><p>Six Star Suppliers</p></header>
 
 
         <button id="button" onclick="togglemenu()" style="color: white;">☰</button>
@@ -73,6 +73,21 @@
             <button id="showcart"></button>
 
         </nav><br>
+
+
+        <div class="category-bar">
+  <button class="filter-btn active" data-category="all">All</button>
+  <button class="filter-btn" data-category="fridge">Fridge</button>
+  <button class="filter-btn" data-category="mouse">Mouse</button>
+  <button class="filter-btn" data-category="microwave">Microwave</button>
+  <button class="filter-btn" data-category="extension">Extension</button>
+  <button class="filter-btn" data-category="bt">BT Speaker</button>
+  <button class="filter-btn" data-category="airpods">EarPods</button>
+  <button class="filter-btn" data-category="powerbank">PowerBank</button>
+  <button class="filter-btn" data-category="system">Systems</button>
+  <button class="filter-btn" data-category="pad">Gaming</button>
+</div>
+
         <main>
             <div class="search-wrapper">
             <input type="text" id="searchbar" placeholder="Search products by name..." />
@@ -212,10 +227,43 @@
             
             </div>
             <div class="footer2">
-                <p>&copy; 2025 Zack Zion Suppliers</p>
+                <p>&copy; 2025 Six Star Suppliers</p>
             </div>
 
         </footer>
+
+
+
+        <script>
+const categoryBar = document.querySelector(".category-bar");
+
+let isDown = false;
+let startX;
+let scrollLeft;
+
+categoryBar.addEventListener("mousedown", (e) => {
+  isDown = true;
+  startX = e.pageX - categoryBar.offsetLeft;
+  scrollLeft = categoryBar.scrollLeft;
+});
+
+categoryBar.addEventListener("mouseleave", () => {
+  isDown = false;
+});
+
+categoryBar.addEventListener("mouseup", () => {
+  isDown = false;
+});
+
+categoryBar.addEventListener("mousemove", (e) => {
+  if (!isDown) return;
+  e.preventDefault();
+  const x = e.pageX - categoryBar.offsetLeft;
+  const walk = (x - startX) * 2;
+  categoryBar.scrollLeft = scrollLeft - walk;
+});
+</script>
+
 
         <script>
             window.addEventListener("load", () => {
