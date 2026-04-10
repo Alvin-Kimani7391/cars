@@ -8,16 +8,228 @@
   <style>
     /* General Styles */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {  
-      line-height: 1.6; 
-      background: white; 
-      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-                margin: 0;
-                padding: 0;
-                align-items: center;
-    justify-content: center;
-    }
-    main { max-width: 1000px; margin: auto; padding: 40px; }
+    body {
+  margin: 0;
+  padding: 0;
+  background: #f5f6f8;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  color: #222;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 15px;
+}
+
+
+/* ===== HEADER ===== */
+header {
+  padding: 15px 20px;
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  background: linear-gradient(135deg, #ff6600, #ff9900);
+  color: #fff;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+
+  padding: 12px;
+  background: #111;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+/* Nav links */
+nav a {
+  color: #eee;
+  text-decoration: none;
+  font-size: 1em;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 20px;
+  transition: 0.3s ease;
+}
+
+nav a:hover {
+  background: linear-gradient(135deg, #ff6600, #ff9900);
+  color: #fff;
+}
+
+/* Cart button */
+#showcart {
+  position: absolute;
+  right: 15px;
+  background: linear-gradient(135deg, #ff6600, #ff9900);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* ===== SIDEBAR BUTTON ===== */
+#button {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  font-size: 1.5em;
+  background: #111;
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1001;
+  transition: 0.3s ease;
+}
+
+#button:hover {
+  background: #ff6600;
+}
+
+/* ===== SIDEBAR MENU ===== */
+.list {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 260px;
+  height: 100%;
+  padding-top: 80px;
+
+  background: linear-gradient(180deg, #1a1a1a, #000);
+  box-shadow: 5px 0 20px rgba(0,0,0,0.3);
+
+  transition: 0.3s ease;
+  z-index: 1000;
+}
+
+/* Show sidebar */
+.list.show {
+  left: 0;
+}
+
+/* Items */
+.list li {
+  list-style: none;
+  margin: 8px 15px;
+}
+
+/* Buttons inside */
+.list button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #2a2a2a;
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+  transition: 0.3s ease;
+}
+
+/* Hover */
+.list button:hover {
+  background: linear-gradient(135deg, #ff6600, #ff9900);
+  transform: translateX(5px);
+}
+
+/* Active */
+.list button.active {
+  background: linear-gradient(135deg, #ff6600, #ff9900);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #111;
+  color: #ccc;
+  margin-top: 50px;
+}
+
+/* Top footer */
+.footer1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+
+  padding: 40px 20px;
+  border-bottom: 1px solid #333;
+}
+
+/* Section titles */
+.footer1 h2 {
+  color: #ff9900;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+}
+
+/* Links */
+.footer1 a {
+  display: block;
+  margin: 6px 0;
+  text-decoration: none;
+  color: #aaa;
+  font-size: 0.95em;
+  transition: 0.3s ease;
+}
+
+.footer1 a:hover {
+  color: #fff;
+  transform: translateX(5px);
+}
+
+/* Social icons */
+.footer1 .icon a {
+  display: inline-block;
+  margin: 5px;
+}
+
+/* Bottom footer */
+.footer2 {
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9em;
+  background: #000;
+  color: #777;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+
+  header {
+    font-size: 1.4em;
+  }
+
+  nav {
+    gap: 10px;
+  }
+
+  nav a {
+    font-size: 0.8em;
+    padding: 6px 10px;
+  }
+
+  #showcart {
+    font-size: 0.8em;
+  }
+
+  .footer1 {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
     h1, h2 { text-align: center; margin-bottom: 20px; color: orange; }
     p { font-size: 1.2em; margin-bottom: 15px; }
     
@@ -236,6 +448,42 @@
   <div class="dot"></div>
 </div>
 
+
+<header><p>Six Star Suppliers</p></header>
+
+
+        <button id="button" onclick="togglemenu()" style="color: white;">☰</button>
+            <span class="sidebar" id="sidebar">
+            <ul id="list"class="list">
+                
+
+  
+  <li><a  ><button class="filter-btn active" data-category="all">All</button></a></li>
+  <li><a ><button class="filter-btn" data-category="fridge">Fridge</button></a></li>
+  <li><a ><button class="filter-btn" data-category="mouse">Mouse</button></a></li>
+  <li><a ><button class="filter-btn" data-category="microwave">Microwave</button></a></li>
+  <li><a ><button class="filter-btn" data-category="extension">Extension</button></a></li>
+  <li><a ><button class="filter-btn" data-category="reflector&labcoat">Comrade Arena</button></a></li>
+  <li><a ><button class="filter-btn" data-category="bt">BT Speaker</button></a></li>
+  <li><a ><button class="filter-btn" data-category="airpods">EarPods</button></a></li>
+  <li><a ><button class="filter-btn" data-category="powerbank">PowerBank</button></a></li>
+  <li><a ><button class="filter-btn" data-category="system">Multimedia Systems</button></a></li>
+  <li><a ><button class="filter-btn" data-category="pad">Gaming Hub</button></a></li>
+  
+  <li><a ><button class="filter-btn" data-category="headphones">HeadPhones</button></a></li>
+  
+</ul>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="index.html">Products</a>
+            <a href="contact.html">Contact</a>
+            <button id="showcart"></button>
+
+        </nav><br>
+
+
 <main>
   <!-- About Section -->
   <section id="about">
@@ -274,7 +522,7 @@ Product colors may vary slightly due to lighting or device display differences.<
     <h2>Customer Feedback</h2>
     <p>We value your feedback! If you have any suggestions, questions, or concerns, please reach out to our customer support. We aim to respond as quickly as possible.</p>
   <h2>Privacy Policy</h2>
-    <p>We respect your privacy and protect your personal information. We collect data like name, email, and order details to process purchases, improve our services, and communicate with you. We do not sell your data. By using our site, you agree to our privacy practices.We respect your privacy and protect your personal information. We collect data like name, email, and order details to process purchases, improve our services, and communicate with you. We do not sell your data. By using our site, you agree to our privacy practices.</p>
+    <p>We respect your privacy and protect your personal information. We collect data like name, email, and order details to process purchases, improve our services, and communicate with you. We do not sell your data. By using our site, you agree to our privacy practices.</p>
     <button id="feedbackBtn">Give Feedback</button>
 
     <section class="contact-info">
@@ -303,6 +551,9 @@ Product colors may vary slightly due to lighting or device display differences.<
     </div>
   </div>
 </main>
+
+
+
 
 <script>
   // Feedback Modal Logic

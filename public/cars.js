@@ -147,11 +147,16 @@ function checkout(method, total) {
 // ===============================
 function displaymycart() {
   const cartbox = document.getElementById("cartbox");
+
   mycartcontent.innerHTML = "";
+
   let itemCount = 0;
+  let total = 0;
 
   cart.forEach((item, index) => {
     itemCount++;
+    total += item.price; // ✅ FIX: calculate total
+
     const imgSrc = Array.isArray(item.image) ? item.image[0] : item.image;
 
     const div = document.createElement("div");
@@ -169,10 +174,34 @@ function displaymycart() {
     mycartcontent.appendChild(div);
   });
 
+  // ✅ Cart count
   if (cartbox) {
     cartbox.classList.add("cartboxx");
     cartbox.innerHTML = `MY CART: ${itemCount}`;
   }
+
+  // ✅ Summary (FIXED CONTAINER)
+  if (cart.length > 0) {
+    const summary = document.createElement("div");
+    summary.classList.add("cart-summary2");
+
+    summary.innerHTML = `
+      <h3>SubTotal: Ksh.${total.toLocaleString()}</h3>
+      
+    `;
+
+    mycartcontent.appendChild(summary); // ✅ FIX HERE
+
+     setTimeout(() => {
+      const sendOrderBtn = document.getElementById("send-order-btn");
+      if (sendOrderBtn) sendOrderBtn.addEventListener("click", sendOrderToSeller);
+    }, 10);
+
+  } else {
+    cartcontainer.innerHTML = `<p class="empty">Your cart is empty.</p>`;
+  }
+
+  carttotal.textContent = `Total: Ksh.${total.toLocaleString()}`;
 }
 
 // ===============================
@@ -307,28 +336,86 @@ document.addEventListener("DOMContentLoaded", () => {
     updateshowcart();
   }
 
+
+
+
+
+  
   function renderPagination(totalPages) {
-    const paginationContainer = document.getElementById("pagination");
-    if (!paginationContainer) return;
+  const pagination = document.getElementById("pagination");
+  if (!pagination) return;
 
-    paginationContainer.innerHTML = "";
+  pagination.innerHTML = "";
+  if (totalPages <= 1) return;
 
-    for (let i = 1; i <= totalPages; i++) {
-      const btn = document.createElement("button");
-      btn.textContent = i;
-      if (i === currentPage) btn.classList.add("active");
+  const createButton = (text, page, className = "") => {
+    const btn = document.createElement("button");
+    btn.textContent = text;
 
-      btn.addEventListener("click", () => {
-        currentPage = i;
-        displaycars(
-          document.getElementById("searchbar").value.trim().toLowerCase(),
-          document.querySelector(".filter-btn.active").getAttribute("data-category")
-        );
-      });
+    if (className) btn.classList.add(className);
+    if (page === currentPage) btn.classList.add("active");
 
-      paginationContainer.appendChild(btn);
+    btn.addEventListener("click", () => {
+      currentPage = page;
+
+      displaycars(
+        document.getElementById("searchbar").value.trim().toLowerCase(),
+        document.querySelector(".filter-btn.active")?.dataset.category || "all"
+      );
+
+      renderPagination(totalPages);
+
+      document.getElementById("product")
+        .scrollIntoView({ behavior: "smooth" });
+    });
+
+    return btn;
+  };
+
+  // ⬅ PREVIOUS
+  if (currentPage > 1) {
+    pagination.appendChild(createButton("←", currentPage - 1, "nav"));
+  }
+
+  const maxVisible = 5;
+  let start = Math.max(1, currentPage - 2);
+  let end = Math.min(totalPages, start + maxVisible - 1);
+
+  // START DOTS
+  if (start > 1) {
+    pagination.appendChild(createButton(1, 1));
+
+    if (start > 2) {
+      const dots = document.createElement("span");
+      dots.textContent = "...";
+      pagination.appendChild(dots);
     }
   }
+
+  // MAIN NUMBERS
+  for (let i = start; i <= end; i++) {
+    pagination.appendChild(createButton(i, i));
+  }
+
+  // END DOTS
+  if (end < totalPages) {
+    if (end < totalPages - 1) {
+      const dots = document.createElement("span");
+      dots.textContent = "...";
+      pagination.appendChild(dots);
+    }
+
+    pagination.appendChild(createButton(totalPages, totalPages));
+  }
+
+  // ➡ NEXT
+  if (currentPage < totalPages) {
+    pagination.appendChild(createButton("→", currentPage + 1, "nav"));
+  }
+}
+
+ // Dynamic year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
 
   // SEARCH + FILTER (UNCHANGED)
   const searchbar = document.getElementById("searchbar");
@@ -383,6 +470,21 @@ document.addEventListener("DOMContentLoaded", () => {
     displaycart();
     displaymycart();
   });
+
+
+  const footer = document.getElementById("footer");
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY + window.innerHeight;
+  const footerTop = footer.offsetTop;
+
+  if(scrollY >= footerTop) {
+    showcartbtn.classList.add('hidden'); // hide button
+  } else {
+    showcartbtn.classList.remove('hidden'); // show button
+  }
+});
+
 
   // ===============================
   // LOAD DATA (BACKEND FIRST, JSON FALLBACK)
