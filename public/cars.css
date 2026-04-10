@@ -4,12 +4,9 @@
   margin: 0;
   padding: 0;
 }
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  background: #f9f9f9;
-}
+
+
+
 
 
 #loader {
@@ -56,87 +53,7 @@ html, body {
 
 
 
-/* ===== HEADER ===== */
-header {
-  padding: 20px;
-  text-align: center;
-  font-size: 2.6em;
-  background-color: #e2b934;
-  color: black;
-  font-weight: bold;
-  
-}
 
-/* ===== NAVBAR ===== */
-nav {
-  padding: 15px;
-  text-align: center;
-  background-color: #1c1c1c;
-}
-nav a {
-  color: #ffffff;
-  text-decoration: none;
-  padding: 10px 18px;
-  transition: background 0.3s ease;
-  font-size: 1.6em;
-}
-nav a:hover {
-  background-color: #57554f;
-}
-
-/* ===== SIDEBAR MENU ===== */
-#button {
-  position: absolute;
-  top: 80px;
-  left: 0;
-  padding: 15px 18px;
-  border: none;
-  background: none;
-  font-size: 2em;
-  cursor: pointer;
-  z-index: 1000;
-  transition: transform 0.3s ease;
-}
-#button.open { transform: rotate(90deg); }
-
-.list {
-  display: none;
-  z-index: 1000;
-  left: -300px;
-  position: absolute;
-  top: 80px;
-  padding-top: 70px;
-  background: linear-gradient(180deg, rgb(107,103,103), grey 100%);
-  width: 300px;
-  height: 100vh;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
-  border: 2px solid #035c5c;
-  overflow-y: auto;
-  transition: left 0.3s ease;
-}
-ul.show { left: 0; }
-
-.list li {
-  list-style: none;
-  padding: 12px 16px;
-  margin: 6px 10px;
-  border-radius: 8px;
-  border-bottom: 1px solid #ccc;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-.list li:hover {
-  background-color: rgba(255,255,255,0.15);
-  transform: translateX(5px);
-}
-.list li a, .list li button {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.1em;
-  text-decoration: none;
-}
 .search-wrapper {
     position: relative;
       /* or your search bar width */
@@ -270,63 +187,9 @@ ul.show { left: 0; }
     color: white;
 }
 
-/* ===== FOOTER ===== */
-footer{
-  justify-content: center;
-  text-align: center;
-  background-color: black;
-  transform: translateY(10px);
-  opacity: 0;
-    transition: transform 0.8s ease-out, opacity 0.8s ease-out
-}
-footer.visible{
-                transform: translateY(0);
-  opacity: 1;
-            }
-.footer1 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 100px;
-  background-color: black;
-  color: white;
-  align-items: center;
-  justify-content: center;
-  
-  padding: 40px 10px;
-  border-bottom: 3px solid orange;
-}
-.footer1 a{
-  font-size: 1.3em;
-}
-.footer1 h2 { color: orange; }
-.footer2 {
-  background-color: black;
-  color: white;
-  text-align: center;
-  padding: 15px;
-  font-size: 1.2em;
-}
-.footer2 p{
-                margin-top: 20px;
-                text-align: center;
-                font-size: 1.5em;
-            }
-            section .icon{
-                display: flex;
-                flex-wrap: wrap;
-            }
 
-            section a{
-              
-                margin: 4px;
-                text-align: center;
-                display: block;
-                padding: 10px;
-                cursor: pointer;
-                font-size: 1.0em;
-                text-decoration: none;
-                color: inherit;
-            }
+
+
 #mycart h1 {
     color: #d3c4c4;
     margin-bottom: 15px;
@@ -661,6 +524,10 @@ nav button{
   }
 }
 
+
+
+
+
 /* Phones (<=600px): 2 per row */
 @media (max-width: 600px) {
   header { font-size: 1.4em; }
@@ -670,7 +537,7 @@ nav button{
     padding: 15px;
   }
 nav button{
-    position: absolute;
+    
    font-size: 0.9em;
 }
 #button{
@@ -802,6 +669,7 @@ nav button{
 }
 #searchbar{
   margin-top: 5px;
+  width: 100%;
 }
   footer{
     font-size: 0.7em;
@@ -877,6 +745,7 @@ nav {
 
  Search Bar Modern */
 #searchbar {
+  width: 90% !important;
   border-radius: 30px !important;
   border: 2px solid #eee !important;
 }
@@ -944,7 +813,7 @@ nav {
   gap: 10px;
   padding: 10px;
   background: white;
-  position: sticky;
+  position:static;
   top: 0;
   z-index: 999;
 }
@@ -1040,12 +909,7 @@ body {
   color: #222;
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 15px;
-}
+
 
 
 /* ===== HEADER ===== */
@@ -1068,7 +932,7 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 25px;
+  gap: 20px;
 
   padding: 12px;
   background: #111;
@@ -1096,7 +960,7 @@ nav a:hover {
 /* Cart button */
 #showcart {
   position: absolute;
-  right: 15px;
+  
   background: linear-gradient(135deg, #ff6600, #ff9900);
   border: none;
   padding: 8px 12px;
@@ -1124,4 +988,85 @@ nav a:hover {
 
 #button:hover {
   background: #ff6600;
+}
+
+
+/* ===== FOOTER ===== */
+footer {
+  background: #111;
+  color: #ccc;
+  margin-top: 50px;
+}
+
+/* Top footer */
+.footer1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+
+  padding: 40px 20px;
+  border-bottom: 1px solid #333;
+}
+
+/* Section titles */
+.footer1 h2 {
+  color: #ff9900;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+}
+
+/* Links */
+.footer1 a {
+  display: block;
+  margin: 6px 0;
+  text-decoration: none;
+  color: #aaa;
+  font-size: 0.95em;
+  transition: 0.3s ease;
+}
+
+.footer1 a:hover {
+  color: #fff;
+  transform: translateX(5px);
+}
+
+/* Social icons */
+.footer1 .icon a {
+  display: inline-block;
+  margin: 5px;
+}
+
+/* Bottom footer */
+.footer2 {
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9em;
+  background: #000;
+  color: #777;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+
+  header {
+    font-size: 1.4em;
+  }
+
+  nav {
+    gap: 10px;
+  }
+
+  nav a {
+    font-size: 0.8em;
+    padding: 6px 10px;
+  }
+
+  #showcart {
+    font-size: 0.8em;
+  }
+
+  .footer1 {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
 }
