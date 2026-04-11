@@ -39,6 +39,7 @@ window.addEventListener("click", e => {
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let cars = [];
 let currentPage = 1;
+let showNewOnly = false;
 const productsPerPage = 26;
 
 // ===============================
@@ -290,6 +291,21 @@ document.addEventListener("click", function(e) {
   }
 });
 
+
+function isNewProduct(car) {
+  if (!car.createdAt) return false;
+
+  const created = new Date(car.createdAt);
+
+  // Check if date is valid
+  if (isNaN(created.getTime())) return false;
+
+  const now = new Date();
+  const diffDays = (now - created) / (1000 * 60 * 60 * 24);
+
+  return diffDays <= 7; // change days if you want
+}
+
 // ===============================
 // MAIN
 // ===============================
@@ -299,10 +315,17 @@ document.addEventListener("DOMContentLoaded", () => {
     carscontainer.innerHTML = "";
 
     const filteredCars = cars.filter(car => {
-      const namematch = (`${car.make} ${car.model}`).toLowerCase().includes(filter.toLowerCase());
-      const categorymatch = category === "all" || car.category === category;
-      return namematch && categorymatch;
-    });
+  const namematch = (`${car.make} ${car.model}`).toLowerCase().includes(filter.toLowerCase());
+  const categorymatch = category === "all" || car.category === category;
+
+  let newMatch = true;
+
+  if (showNewOnly) {
+    newMatch = isNewProduct(car); // ✅ SAFE check
+  }
+
+  return namematch && categorymatch && newMatch;
+});
 
     const totalPages = Math.ceil(filteredCars.length / productsPerPage);
     const startIndex = (currentPage - 1) * productsPerPage;
@@ -337,6 +360,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
+
+const newBtn = document.getElementById("newProductsBtn");
+
+newBtn.addEventListener("click", () => {
+  showNewOnly = !showNewOnly;
+  currentPage = 1;
+
+  // Optional: change button text
+  newBtn.textContent = showNewOnly ? "Show All Products" : "Show New Products";
+
+  displaycars(
+    document.getElementById("searchbar").value.trim().toLowerCase(),
+    document.querySelector(".filter-btn.active")?.dataset.category || "all"
+  );
+});
 
 
 
