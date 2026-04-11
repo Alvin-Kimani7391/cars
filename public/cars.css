@@ -825,7 +825,7 @@ nav {
 }
 
 /* Buttons inside */
-.category-bar .filter-btn {
+#newProductsBtn,.category-bar .filter-btn {
   flex: 0 0 auto;
   white-space: nowrap;
 
@@ -839,7 +839,7 @@ nav {
 }
 
 /* Active + hover */
-.category-bar .filter-btn:hover,
+#newProductsBtn:hover,.category-bar .filter-btn:hover,
 .category-bar .filter-btn.active {
   background: linear-gradient(135deg, #ff6600, #ff9900);
   color: white;

@@ -363,18 +363,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const newBtn = document.getElementById("newProductsBtn");
 
-newBtn.addEventListener("click", () => {
-  showNewOnly = !showNewOnly;
-  currentPage = 1;
+if (newBtn) {
+  newBtn.addEventListener("click", () => {
+    showNewOnly = !showNewOnly;
+    currentPage = 1;
 
-  // Optional: change button text
-  newBtn.textContent = showNewOnly ? "Show All Products" : "Show New Products";
+    // ✅ Remove active state from categories
+    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
 
-  displaycars(
-    document.getElementById("searchbar").value.trim().toLowerCase(),
-    document.querySelector(".filter-btn.active")?.dataset.category || "all"
-  );
-});
+    newBtn.textContent = showNewOnly ? "Show All Products" : "New Arrivals";
+
+    displaycars(
+      document.getElementById("searchbar").value.trim().toLowerCase(),
+      "all" // ✅ IGNORE category
+    );
+  });
+}
 
 
 
@@ -467,16 +471,28 @@ newBtn.addEventListener("click", () => {
   });
 
   document.addEventListener("click", e => {
-    if (e.target.classList.contains("filter-btn")) {
-      const category = e.target.getAttribute("data-category");
+  if (e.target.classList.contains("filter-btn")) {
 
-      document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
-      e.target.classList.add("active");
+    // ✅ TURN OFF new mode when category is clicked
+    showNewOnly = false;
 
-      displaycars(searchbar.value.trim().toLowerCase(), category);
-      hotsearches.style.display = "none";
-    }
-  });
+    // ✅ Reset New button text
+    const newBtn = document.getElementById("newProductsBtn");
+    if (newBtn) newBtn.textContent = "New Arrivals";
+
+    const category = e.target.getAttribute("data-category");
+
+    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+    e.target.classList.add("active");
+
+    displaycars(
+      document.getElementById("searchbar").value.trim().toLowerCase(),
+      category
+    );
+
+    hotsearches.style.display = "none";
+  }
+});
 
   document.addEventListener("click", (e) => {
     if (e.target.classList.contains("hot-item")) {
