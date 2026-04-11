@@ -362,6 +362,7 @@ footer {
   box-shadow: 0 8px 25px rgba(0,0,0,0.08);
   width: 95%;
   max-width: 1200px;
+  
 }
 
 .related h2 {
@@ -434,6 +435,7 @@ footer {
 
   .projects {
     display: block;
+    
     
   }
 
@@ -557,12 +559,15 @@ footer {
             
             </div>
             <div class="footer2">
-                <p>&copy; <span id="year"></span> Six Star Suppliers</p>
+                <p>&copy; <a id="year"></a> Six Star Suppliers</p>
             </div>
 
         </footer>
 
 <script>
+
+// Dynamic year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
 
 const API_URL = "https://cars3-158h.onrender.com";
 

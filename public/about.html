@@ -286,7 +286,7 @@ footer {
 #feedbackBtn {
     display: block;
     margin: 30px auto;
-    background-color: rgb(228, 171, 67); /* main site teal */
+    background: linear-gradient(135deg, #ff6600, #ff9900); /* main site teal */
     color: white;
     border: none;
     padding: 12px 20px;
@@ -533,7 +533,7 @@ Product colors may vary slightly due to lighting or device display differences.<
     <button id="feedbackBtn">Give Feedback</button>
 
     <section class="contact-info">
-      <p><i class="fa-brands fa-whatsapp fa-2xl" style="color: #0ee132;"></i><strong>Customer Support:</strong><br>+254 715 418 492</p>
+      <p><i class="fa-brands fa-whatsapp fa-2xl" style="color: #0ee132;"></i><strong>Customer Support:</strong><br>+254 794 327 798</p>
       <p><i class="fa-regular fa-envelope fa-2xl" style="color: #ffffff;"></i><strong></i>Email:</strong><br><a href="mailto:alvinkimani685@gmail.com?subject=Customer%20Support&body=Hello%2C%20I%20need%20help%20with..." id="email">
   feedbackzionsupplier@gmail.com
 </a> </p>
@@ -563,6 +563,11 @@ Product colors may vary slightly due to lighting or device display differences.<
 
 
 <script>
+
+  // Dynamic year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    
   // Feedback Modal Logic
   const feedbackModal = document.getElementById('feedbackModal');
   const feedbackBtn = document.getElementById('feedbackBtn');

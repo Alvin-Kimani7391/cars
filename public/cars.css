@@ -990,7 +990,6 @@ nav a:hover {
   background: #ff6600;
 }
 
-
 /* ===== FOOTER ===== */
 footer {
   background: #111;
@@ -1059,7 +1058,15 @@ footer {
   nav a {
     font-size: 0.8em;
     padding: 6px 10px;
+    
   }
+
+  #button{
+  position: absolute;
+  margin-top: -25px;
+  margin-left: -5px;
+  
+}
 
   #showcart {
     font-size: 0.8em;
@@ -1070,3 +1077,123 @@ footer {
     text-align: center;
   }
 }
+
+
+/* Dots */
+#loader .dot {
+  width: 15px;
+  height: 15px;
+  margin: 0 8px;
+  background: orange; /* dot color */
+  border-radius: 50%;
+  animation: bounce 0.6s infinite ease-in-out;
+}
+
+/* Delay each dot for rhythm effect */
+#loader .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+#loader .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Bouncing animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.7); /* how big they grow */
+  }
+}
+            .visit-us{
+                background: linear-gradient(135deg, #ff6600, #ff9900);
+    color: black;
+    padding: 18px 0;
+    border-radius: 20px;
+    margin: 30px auto 0 auto;
+    width: 60%;
+    font-size: 1.3em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    text-align: center
+            }
+            footer{
+                text-align: center;
+                background-color: black;
+                
+  transform: translateY(10px); /* start slightly below view */
+  opacity: 0;
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+            }
+            footer.visible{
+                transform: translateY(0);
+  opacity: 1;
+            }
+            .footer1{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 100px;
+                background-color: black;
+                color: white;
+                margin-top: 100px;
+                align-items: center;
+                justify-content: center;
+                padding: 40px 10px;
+                border-bottom: solid 3px orange;
+                
+            }
+            .footer1 a{
+                font-size: 1.3em ;
+            }
+            .footer1 h2{
+                color:linear-gradient(135deg, #ff6600, #ff9900);
+            }
+            .footer2{
+                background-color: black;
+                color: white;
+                height: 70px;
+                text-align: center;
+                padding: 15px;
+            }
+            .footer2 p{
+                margin-top: 20px;
+                text-align: center;
+                font-size: 1.5em;
+            }
+            section .icon{
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            section a{
+                margin: 4px;
+                text-align: center;
+                display: block;
+                padding: 10px;
+                cursor: pointer;
+                font-size: 1.0em;
+                text-decoration: none;
+                color: inherit;
+            }
+            @media (max-width: 600px) {
+                 .visit-us{
+                width: 90%;
+                font-size: 0.9em;
+                padding: 15px 0;
+            }
+          footer{
+     font-size: 0.7em;
+    text-align: center;
+    justify-content: center;
+  }
+  .footer1{
+    gap: 10px;
+  }
+  .footer1 i{
+    font-size: 30px !important;  /* 👍 smaller icons for mobile */
+  }
+   .footer1 section a i{
+    font-size: 30px !important;
+  }
+
+            }

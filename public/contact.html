@@ -483,11 +483,13 @@ footer {
             
             </div>
             <div class="footer2">
-                <p>&copy; 2025 Zack Zion Suppliers</p>
+                <p>&copy; <a id="year"></a> Six Star Suppliers</p>
             </div>
 
         </footer>
         <script>
+            // Dynamic year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
             window.addEventListener("load", () => {
     document.getElementById("footer").classList.add("visible");
   });
