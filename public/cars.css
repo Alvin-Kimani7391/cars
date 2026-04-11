@@ -547,6 +547,7 @@ nav button{
   
 }
 .list {
+  display: none;
   z-index: 1000;
   left: -260px;
   position: absolute;
