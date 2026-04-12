@@ -8,6 +8,7 @@ setTimeout(() => console.log("This runs once"), 1000);
 const API_URL = "https://cars3-158h.onrender.com"; // CHANGE THIS
 
 // === DOM ELEMENTS ===
+
 const carscontainer = document.getElementById("product");
 const cartcontainer = document.getElementById("cart-content");
 const carttotal = document.getElementById("cart-total");
@@ -17,6 +18,8 @@ const showcart = document.getElementById("showcart");
 const mycart = document.getElementById("mycart");
 const mycartcontent = document.getElementById("mycart-content");
 const closeMyCart = document.getElementById("closeMyCart");
+const hotDealsContainer = document.getElementById("hot-deals");
+
 
 // Modals
 const orderModal = document.getElementById("orderFormModal");
@@ -40,6 +43,7 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let cars = [];
 let currentPage = 1;
 let showNewOnly = false;
+let showHotDealsOnly = false;
 const productsPerPage = 26;
 
 // ===============================
@@ -319,9 +323,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const categorymatch = category === "all" || car.category === category;
 
   let newMatch = true;
+  let hotMatch = true;
 
   if (showNewOnly) {
-    newMatch = isNewProduct(car); // ✅ SAFE check
+    newMatch = isNewProduct(car);
   }
 
   return namematch && categorymatch && newMatch;
@@ -359,6 +364,50 @@ document.addEventListener("DOMContentLoaded", () => {
     updateshowcart();
   }
 
+
+
+  
+function displayHotDealsPreview() {
+  const hotDeals = cars.filter(car => car.hotDeal === true);
+
+  const preview = hotDeals.slice(0, 2); // 👈 ONLY 2
+
+  
+
+  preview.forEach(car => {
+    const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
+
+    const div = document.createElement("div");
+    
+    div.classList.add("product-item");
+
+    let oldPriceHtml = "";
+      if (car.oldPrice) {
+        oldPriceHtml = `<p class="old-price"><strong>Was: Ksh.${car.oldPrice.toLocaleString()}</strong></p>`;
+      }
+
+    div.innerHTML = `
+      <img src="${imgSrc}" onclick="openProduct(${car.id})">
+      <div class="product-item-info">
+          <h3>${car.make} ${car.model}</h3>
+          <p class="price"><strong>Price: Ksh.${car.price.toLocaleString()}</strong></p>
+          ${oldPriceHtml}
+          <button class="addbtn" onclick="addToCart(${car.id})">Add To Cart</button>
+        </div>
+    `;
+
+    hotDealsContainer.appendChild(div);
+  });
+
+ // ✅ View all button
+  //const viewAll = document.getElementById("hotDealsBtn");
+  
+  //viewAll.onclick = () => window.location.href = "hotdeals.html";
+
+ 
+
+  //hotDealsContainer.appendChild(viewAll);
+}
 
 
 const newBtn = document.getElementById("newProductsBtn");
@@ -494,6 +543,14 @@ if (newBtn) {
   }
 });
 
+
+const hotDealsBtn = document.getElementById("hotDealsBtn");
+
+
+
+
+
+
   document.addEventListener("click", (e) => {
     if (e.target.classList.contains("hot-item")) {
       const searchName = e.target.textContent.trim().toLowerCase();
@@ -547,6 +604,7 @@ window.addEventListener('scroll', () => {
     .then(res => res.json())
     .then(data => {
       cars = shufflearray(data);
+      displayHotDealsPreview();
       displaycars();
     })
     .catch(() => {
@@ -554,6 +612,7 @@ window.addEventListener('scroll', () => {
         .then(res => res.json())
         .then(data => {
           cars = shufflearray(data);
+          displayHotDealsPreview();
           displaycars();
         });
     });

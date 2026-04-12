@@ -618,7 +618,7 @@ nav button{
   font-size: 0.8em;
     background: rgb(224, 220, 220);
 }
-  .product {
+  #hot-deals,.product {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;   /* center items */

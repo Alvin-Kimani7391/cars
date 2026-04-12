@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hot Deals - Cars</title>
+    <script src="https://kit.fontawesome.com/e1426ab85b.js" crossorigin="anonymous"></script>
+    
+    <style>
+        
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .deal-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .deal-card:hover {
+            transform: translateY(-5px);
+        }
+        .deal-image {
+            width: 100%;
+            height: 200px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .deal-content {
+            padding: 15px;
+        }
+        .deal-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .deal-price {
+            color: #e74c3c;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .deal-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .btn {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #229954;
+        }
+
+        .deal-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+body{
+                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                margin: 0;
+                padding: 0;
+                align-items: center;
+    justify-content: center;
+            }
+            #loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: none; /* or your background color */
+  backdrop-filter: blur(5px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f5f6f8;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  color: #222;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 15px;
+}
+
+
+/* ===== HEADER ===== */
+/* ===== HEADER ===== */
+header {
+  padding: 15px 20px;
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  background: linear-gradient(135deg, #ff6600, #ff9900);
+  color: #fff;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+
+  padding: 12px;
+  background: #111;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+/* Nav links */
+nav a {
+  color: #eee;
+  text-decoration: none;
+  font-size: 1em;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 20px;
+  transition: 0.3s ease;
+}
+
+nav a:hover {
+  background: linear-gradient(135deg, #ff6600, #ff9900);
+  color: #fff;
+}
+
+/* Cart button */
+#showcart {
+  position: absolute;
+  right: 15px;
+  background: linear-gradient(135deg, #ff6600, #ff9900);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* ===== SIDEBAR BUTTON ===== */
+#button {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  font-size: 1.5em;
+  background: #111;
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1001;
+  transition: 0.3s ease;
+}
+
+#button:hover {
+  background: #ff6600;
+}
+
+/* ===== SIDEBAR MENU ===== */
+.list {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 260px;
+  height: 100%;
+  padding-top: 80px;
+
+  background: linear-gradient(180deg, #1a1a1a, #000);
+  box-shadow: 5px 0 20px rgba(0,0,0,0.3);
+
+  transition: 0.3s ease;
+  z-index: 1000;
+}
+
+/* Show sidebar */
+.list.show {
+  left: 0;
+}
+
+/* Items */
+.list li {
+  list-style: none;
+  margin: 8px 15px;
+}
+
+/* Buttons inside */
+.list button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #2a2a2a;
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+  transition: 0.3s ease;
+}
+
+/* Hover */
+.list button:hover {
+  background: linear-gradient(135deg, #ff6600, #ff9900);
+  transform: translateX(5px);
+}
+
+/* Active */
+.list button.active {
+  background: linear-gradient(135deg, #ff6600, #ff9900);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #111;
+  color: #ccc;
+  margin-top: 50px;
+}
+
+/* Top footer */
+.footer1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+
+  padding: 40px 20px;
+  border-bottom: 1px solid #333;
+}
+
+/* Section titles */
+.footer1 h2 {
+  color: #ff9900;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+}
+
+/* Links */
+.footer1 a {
+  display: block;
+  margin: 6px 0;
+  text-decoration: none;
+  color: #aaa;
+  font-size: 0.95em;
+  transition: 0.3s ease;
+}
+
+.footer1 a:hover {
+  color: #fff;
+  transform: translateX(5px);
+}
+
+/* Social icons */
+.footer1 .icon a {
+  display: inline-block;
+  margin: 5px;
+}
+
+/* Bottom footer */
+.footer2 {
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9em;
+  background: #000;
+  color: #777;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+
+  header {
+    font-size: 1.4em;
+  }
+
+  nav {
+    gap: 10px;
+  }
+
+  nav a {
+    font-size: 0.8em;
+    padding: 6px 10px;
+  }
+
+  #button{
+  position: absolute;
+  margin-top: -25px;
+  margin-left: -5px;
+  
+}
+
+  #showcart {
+    font-size: 0.8em;
+  }
+
+  .footer1 {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+
+/* Dots */
+#loader .dot {
+  width: 15px;
+  height: 15px;
+  margin: 0 8px;
+  background: orange; /* dot color */
+  border-radius: 50%;
+  animation: bounce 0.6s infinite ease-in-out;
+}
+
+/* Delay each dot for rhythm effect */
+#loader .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+#loader .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Bouncing animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.7); /* how big they grow */
+  }
+}
+            .visit-us{
+                background: linear-gradient(135deg, #ff6600, #ff9900);
+    color: black;
+    padding: 18px 0;
+    border-radius: 20px;
+    margin: 30px auto 0 auto;
+    width: 60%;
+    font-size: 1.3em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    text-align: center
+            }
+            footer{
+                text-align: center;
+                background-color: black;
+                
+  transform: translateY(10px); /* start slightly below view */
+  opacity: 0;
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+            }
+            footer.visible{
+                transform: translateY(0);
+  opacity: 1;
+            }
+            .footer1{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 100px;
+                background-color: black;
+                color: white;
+                margin-top: 100px;
+                align-items: center;
+                justify-content: center;
+                padding: 40px 10px;
+                border-bottom: solid 3px orange;
+                
+            }
+            .footer1 a{
+                font-size: 1.3em ;
+            }
+            .footer1 h2{
+                color:linear-gradient(135deg, #ff6600, #ff9900);
+            }
+            .footer2{
+                background-color: black;
+                color: white;
+                height: 70px;
+                text-align: center;
+                padding: 15px;
+            }
+            .footer2 p{
+                margin-top: 20px;
+                text-align: center;
+                font-size: 1.5em;
+            }
+            section .icon{
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            section a{
+                margin: 4px;
+                text-align: center;
+                display: block;
+                padding: 10px;
+                cursor: pointer;
+                font-size: 1.0em;
+                text-decoration: none;
+                color: inherit;
+            }
+            @media (max-width: 600px) {
+                 .visit-us{
+                width: 90%;
+                font-size: 0.9em;
+                padding: 15px 0;
+            }
+          footer{
+     font-size: 0.7em;
+    text-align: center;
+    justify-content: center;
+  }
+  .footer1{
+    gap: 10px;
+  }
+  .footer1 i{
+    font-size: 30px !important;  /* 👍 smaller icons for mobile */
+  }
+   .footer1 section a i{
+    font-size: 30px !important;
+  }
+
+            }
+
+    </style>
+</head>
+
+
+    <body>
+
+<header><p>Six Star Suppliers</p></header>
+
+
+        <button id="button" onclick="togglemenu()" style="color: white;">☰</button>
+            <span class="sidebar" id="sidebar">
+            <ul id="list"class="list">
+                
+
+  
+  <li><a  ><button class="filter-btn active" data-category="all">All</button></a></li>
+  <li><a ><button class="filter-btn" data-category="fridge">Fridge</button></a></li>
+  <li><a ><button class="filter-btn" data-category="mouse">Mouse</button></a></li>
+  <li><a ><button class="filter-btn" data-category="microwave">Microwave</button></a></li>
+  <li><a ><button class="filter-btn" data-category="extension">Extension</button></a></li>
+  <li><a ><button class="filter-btn" data-category="reflector&labcoat">Comrade Arena</button></a></li>
+  <li><a ><button class="filter-btn" data-category="bt">BT Speaker</button></a></li>
+  <li><a ><button class="filter-btn" data-category="airpods">EarPods</button></a></li>
+  <li><a ><button class="filter-btn" data-category="powerbank">PowerBank</button></a></li>
+  <li><a ><button class="filter-btn" data-category="system">Multimedia Systems</button></a></li>
+  <li><a ><button class="filter-btn" data-category="pad">Gaming Hub</button></a></li>
+  
+  <li><a ><button class="filter-btn" data-category="headphones">HeadPhones</button></a></li>
+  
+</ul>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="index.html">Products</a>
+            <a href="contact.html">Contact</a>
+            <button id="showcart"></button>
+
+        </nav><br>
+
+        <div id="loader">
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+    
+
+    <div class="container">
+        <div class="deals-grid" id="hotDealsGrid"></div>
+    </div>
+<footer id="footer" class="footer">
+            <div class="footer1">
+            <section>
+                <h2>Customer service</h2>
+                <a href="contact.html">Contact Us/Visit Us</a>
+                <a href="about.html">FAQs</a>
+                <a href="https://wa.me/254715418492?text=Hello%20I%20want%20to%20track%20my%20order">Track My Order</a>
+
+                <a></a>
+            </section>
+
+            
+            <section>
+                <h2>About Us </h2>
+                <a href="about.html">Our Story</a>
+                <a>Our depot</a>
+                <a href="index.html">Our Products</a>
+                <a></a>
+                
+            </section>
+
+            <section>
+                <h2>Our Policies</h2>
+                <a href="about.html">Shipping & Returns</a>
+                <a href="about.html ">Terms & Conditions</a>
+                <a href="about.html">Privacy Policy</a>
+                <a></a>
+            </section>
+
+            <section>
+                <h2>Get in Touch</h2>
+                <a><i class="fa-solid fa-phone fa-xl" style="color: #fcfcfc;"></i>  +254 715 418 492</a>
+                <a>     <i ></i>     +254 111 976 842</a>
+      <a href="mailto:feedbackzionsupplier@gmail.com"><i class="fa-regular fa-envelope fa-2xl" style="color: #ffffff;"></i>  feedbackzionsupplier@gmail.com</a>
+                <a>
+                    <div class="icon">
+                        <a href="https://www.facebook.com/share/1GkdidaAiP/"><i class="fa-brands fa-facebook-f fa-2xl "   style="color: #ffffff;"></i></a>
+                        <a href="https://wa.me/254715418492"><i class="fa-brands fa-whatsapp fa-2xl" style="color: #ffffff;"></i></a>
+                <a href="https://vm.tiktok.com/ZMHTmxytY9hkR-cyBwf/"><i class="fa-brands fa-tiktok fa-2xl" style="color: #f8f6f6;"></i></a>
+                <a href="https://www.instagram.com/zakayowathiari?igsh=MWdiYmFjMHdiZGF2Mw==" target="_blank"><i class="fa-brands fa-instagram fa-2xl" style="color: #ffffff;"></i></a>
+                <a href="https://x.com/zackzionsu81654?t=WZZB9CX79pPlQ2BK34V9lg&s=09" target="_blank"><i class="fa-brands fa-square-x-twitter fa-2xl" style="color: #fafafa;"></i></a>
+                
+                    </div>
+                </a>
+            </section>
+            
+            </div>
+            <div class="footer2">
+                <p>&copy; <a id="year"></a> Six Star Suppliers</p>
+            </div>
+
+        </footer>
+
+
+
+        <script>
+const API_URL = "https://cars3-158h.onrender.com";
+
+const grid = document.getElementById("hotDealsGrid");
+
+function displayHotDeals(cars) {
+    const hotDeals = cars.filter(car => car.hotDeal === true);
+
+    grid.innerHTML = "";
+
+    if (hotDeals.length === 0) {
+        grid.innerHTML = "<p>No hot deals available right now.</p>";
+        return;
+    }
+
+    hotDeals.forEach(car => {
+        const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
+
+        const div = document.createElement("div");
+        div.classList.add("deal-card");
+
+        div.innerHTML = `
+            <img src="${imgSrc}" class="deal-image">
+            <div class="deal-content">
+                <div class="deal-title">${car.make} ${car.model}</div>
+                <div class="deal-price">Ksh.${car.price.toLocaleString()}</div>
+                <div class="deal-description">
+                    ${car.category || "Hot deal vehicle"}
+                </div>
+                <button class="btn" onclick="openProduct(${car.id})">
+                    View Details
+                </button>
+            </div>
+        `;
+
+        grid.appendChild(div);
+    });
+}
+
+function openProduct(id) {
+    window.location.href = `carstv.html?id=${id}`;
+}
+
+// Fetch data
+fetch(API_URL + "/api/cars")
+    .then(res => res.json())
+    .then(data => displayHotDeals(data))
+    .catch(() => {
+        fetch("cars.json")
+            .then(res => res.json())
+            .then(data => displayHotDeals(data));
+    });
+</script>
+
+<script>
+const footer = document.getElementById("footer");
+
+window.addEventListener("scroll", () => {
+  const scrollY = window.scrollY + window.innerHeight;
+  const footerTop = footer.offsetTop;
+
+  if (scrollY >= footerTop - 50) {
+    footer.classList.add("visible");
+  }
+});
+</script>
+
+</body>
+</html>
