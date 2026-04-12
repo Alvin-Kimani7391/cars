@@ -821,7 +821,7 @@ nav {
 /* ===== STICKY CATEGORY BAR ===== */
 /* ===== FORCE STICKY (REAL E-COMMERCE STYLE) ===== */
 /* ===== CATEGORY BAR ===== */
-/*.category-bar {
+.category-bar {
   display: flex;
   overflow-x: auto;
   gap: 10px;
@@ -898,7 +898,7 @@ nav {
 }
 
 /* 🔥 RECTANGLE IMAGE */
-.category-bar .filter-btn img {
+#newProductsBtn img,.category-bar .filter-btn img {
   width: 70px;
   height: 55px;
   object-fit: cover;
@@ -926,7 +926,7 @@ nav {
 }
 
 /* Image zoom effect */
-.category-bar .filter-btn:hover img {
+#newProductsBtn:hover img,.category-bar .filter-btn:hover img {
   transform: scale(1.08);
 }
 
@@ -946,7 +946,7 @@ nav {
     padding: 8px;
   }
 
-  .category-bar .filter-btn img {
+  #newProductsBtn img,.category-bar .filter-btn img {
     width: 90px;
     height: 70px;
   }
