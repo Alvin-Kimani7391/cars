@@ -113,6 +113,14 @@
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
+.filter-btn img{
+  
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
 .product-item-info {
   padding: 10px;
 }
@@ -628,6 +636,11 @@ nav button{
   object-fit: cover;  /* prevents zoom cropping */
           /* adds clean spacing around images */
   }
+
+
+ 
+
+
   .product-item-info h3{
     font-size: 0.75em;
     font-weight: bold;
@@ -808,7 +821,7 @@ nav {
 /* ===== STICKY CATEGORY BAR ===== */
 /* ===== FORCE STICKY (REAL E-COMMERCE STYLE) ===== */
 /* ===== CATEGORY BAR ===== */
-.category-bar {
+/*.category-bar {
   display: flex;
   overflow-x: auto;
   gap: 10px;
@@ -817,7 +830,7 @@ nav {
   position:static;
   top: 0;
   z-index: 999;
-}
+}*/
 .category-bar::-webkit-scrollbar { height: 5px; }
 .category-bar::-webkit-scrollbar-thumb {
   background: #ccc;
@@ -848,6 +861,104 @@ nav {
 .category-bar {
   backdrop-filter: blur(6px);
 }
+
+
+
+/* Category bar */
+.category-bar {
+  display: flex;
+  overflow-x: auto;
+  gap: 14px;
+  padding: 12px;
+  background: white;
+  position: static;
+  top: 0;
+  z-index: 999;
+}
+
+/* Buttons now vertical */
+#newProductsBtn,
+.category-bar .filter-btn {
+  flex: 0 0 auto;
+
+  display: flex;
+  flex-direction: column;   /* 🔥 STACK image + text */
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px;
+  border-radius: 16px;
+  border: none;
+
+  background: #f5f5f5;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  min-width: 85px; /* keeps size consistent */
+}
+
+/* 🔥 RECTANGLE IMAGE */
+.category-bar .filter-btn img {
+  width: 70px;
+  height: 55px;
+  object-fit: cover;
+
+  border-radius: 10px; /* rectangle with smooth edges */
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+
+  margin-bottom: 6px;
+  transition: transform 0.3s ease;
+}
+
+/* Text below image */
+.category-bar .filter-btn span {
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  color: #333;
+}
+
+/* Hover */
+#newProductsBtn:hover,
+.category-bar .filter-btn:hover {
+  transform: translateY(-4px);
+  background: #fff3e6;
+}
+
+/* Image zoom effect */
+.category-bar .filter-btn:hover img {
+  transform: scale(1.08);
+}
+
+/* Active */
+.category-bar .filter-btn.active {
+  background: linear-gradient(135deg, #ff6600, #ff9900);
+}
+
+.category-bar .filter-btn.active span {
+  color: white;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .category-bar .filter-btn {
+    min-width: 75px;
+    padding: 8px;
+  }
+
+  .category-bar .filter-btn img {
+    width: 90px;
+    height: 70px;
+  }
+
+  .category-bar .filter-btn span {
+    font-size: 11px;
+  }
+}
+
+
+
+
 
 /* ===== Floating Cart Button (Mobile) ===== */
 @media (max-width: 600px) {
@@ -939,7 +1050,7 @@ nav {
   background: #111;
   position: sticky;
   top: 0;
-  z-index: 999;
+  
 }
 
 /* Nav links */
@@ -1085,7 +1196,7 @@ footer {
   width: 15px;
   height: 15px;
   margin: 0 8px;
-  background: orange; /* dot color */
+  background: linear-gradient(135deg, #ff6600, #ff9900); /* dot color */
   border-radius: 50%;
   animation: bounce 0.6s infinite ease-in-out;
 }
@@ -1198,3 +1309,10 @@ footer {
   }
 
             }
+
+
+
+
+
+
+            
