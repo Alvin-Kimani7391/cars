@@ -18,6 +18,7 @@ const showcart = document.getElementById("showcart");
 const mycart = document.getElementById("mycart");
 const mycartcontent = document.getElementById("mycart-content");
 const closeMyCart = document.getElementById("closeMyCart");
+const newArrivalsContainer = document.getElementById("new-arrivals");
 const hotDealsContainer = document.getElementById("hot-deals");
 
 
@@ -42,7 +43,7 @@ window.addEventListener("click", e => {
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let cars = [];
 let currentPage = 1;
-let showNewOnly = false;
+//let showNewOnly = false;
 let showHotDealsOnly = false;
 const productsPerPage = 26;
 
@@ -325,10 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let newMatch = true;
   let hotMatch = true;
 
-  if (showNewOnly) {
-    newMatch = isNewProduct(car);
-  }
-
+  
   return namematch && categorymatch && newMatch;
 });
 
@@ -409,25 +407,42 @@ function displayHotDealsPreview() {
   //hotDealsContainer.appendChild(viewAll);
 }
 
+function displayNewArrivalsPreview() {
+  const newProducts = cars.filter(isNewProduct);
 
-const newBtn = document.getElementById("newProductsBtn");
+  const preview = newProducts.slice(0, 2); // same style as hot deals
 
-if (newBtn) {
-  newBtn.addEventListener("click", () => {
-    showNewOnly = !showNewOnly;
-    currentPage = 1;
+  newArrivalsContainer.innerHTML = ""; // IMPORTANT: prevent duplicates
 
-    // ✅ Remove active state from categories
-    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+  preview.forEach(car => {
+    const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
 
-    newBtn.textContent = showNewOnly ? "Show All Products" : "New Arrivals";
+    const div = document.createElement("div");
+    div.classList.add("product-item");
 
-    displaycars(
-      document.getElementById("searchbar").value.trim().toLowerCase(),
-      "all" // ✅ IGNORE category
-    );
+    let oldPriceHtml = "";
+    if (car.oldPrice) {
+      oldPriceHtml = `<p class="old-price"><strong>Was: Ksh.${car.oldPrice.toLocaleString()}</strong></p>`;
+    }
+
+    div.innerHTML = `
+      <img src="${imgSrc}" onclick="openProduct(${car.id})">
+      <div class="product-item-info">
+        <h3>${car.make} ${car.model}</h3>
+        <p class="price"><strong>Price: Ksh.${car.price.toLocaleString()}</strong></p>
+        ${oldPriceHtml}
+        <button class="addbtn" onclick="addToCart(${car.id})">Add To Cart</button>
+      </div>
+    `;
+
+    newArrivalsContainer.appendChild(div);
   });
 }
+
+
+
+
+
 
 
 
@@ -604,6 +619,7 @@ window.addEventListener('scroll', () => {
     .then(res => res.json())
     .then(data => {
       cars = shufflearray(data);
+      displayNewArrivalsPreview();
       displayHotDealsPreview();
       displaycars();
     })
@@ -612,6 +628,7 @@ window.addEventListener('scroll', () => {
         .then(res => res.json())
         .then(data => {
           cars = shufflearray(data);
+          displayNewArrivalsPreview();
           displayHotDealsPreview();
           displaycars();
         });

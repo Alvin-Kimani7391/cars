@@ -618,7 +618,7 @@ nav button{
   font-size: 0.8em;
     background: rgb(224, 220, 220);
 }
-  #hot-deals,.product {
+  #new-arrivals,#hot-deals,.product {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;   /* center items */
@@ -1309,6 +1309,55 @@ footer {
   }
 
             }
+
+
+
+/* ===== SECTION WRAPPER ===== */
+.section-block {
+  margin: 40px auto;
+  padding: 20px;
+  max-width: 1200px;
+}
+
+/* ===== SECTION HEADER (MODERN CARD STYLE) ===== */
+.section-header {
+  text-align: start;
+  margin-bottom: 15px;
+}
+
+.section-header h2 {
+  display: inline-block;
+  font-size: 1.8em;
+  font-weight: bold;
+  padding: 10px 25px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #ff6600, #ff9900);
+  color: white;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  letter-spacing: 1px;
+}
+
+/* ===== VIEW MORE LINK ===== */
+.view-more {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.view-more a {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #fff;
+  background: #111;
+  transition: 0.3s ease;
+}
+
+.view-more a:hover {
+  background: linear-gradient(135deg, #ff6600, #ff9900);
+  transform: scale(1.05);
+}
 
 
 
