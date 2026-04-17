@@ -64,7 +64,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 60%;
+  width: 90%;
   display: block;
   padding: 15px;
   margin: 20px auto;
@@ -504,7 +504,7 @@
     color: white;
 }
 nav button{
-    position: absolute;
+    position: inherit;
     background: none;
     border: none;
     font-family: inherit;
@@ -1064,6 +1064,10 @@ nav a {
   transition: 0.3s ease;
 }
 
+nav a button{
+  top: 15px;
+}
+
 nav a:hover {
   background: linear-gradient(135deg, #ff6600, #ff9900);
   color: #fff;
@@ -1075,7 +1079,7 @@ nav a:hover {
   
   background: linear-gradient(135deg, #ff6600, #ff9900);
   border: none;
-  padding: 8px 12px;
+  padding: 5px 10px;
   border-radius: 20px;
   color: white;
   cursor: pointer;
@@ -1166,10 +1170,12 @@ footer {
   nav {
     gap: 10px;
   }
-
+   nav a button{
+    margin-top: 0px;
+   }
   nav a {
     font-size: 0.8em;
-    padding: 6px 10px;
+    
     
   }
 

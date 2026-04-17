@@ -195,18 +195,20 @@ function displaymycart() {
 
     summary.innerHTML = `
       <h3>SubTotal: Ksh.${total.toLocaleString()}</h3>
-      
+      <button class="paybtn" id="send-order-btn-mini">Send Order to Seller</button>
     `;
 
     mycartcontent.appendChild(summary); // ✅ FIX HERE
 
      setTimeout(() => {
-      const sendOrderBtn = document.getElementById("send-order-btn");
+      const sendOrderBtn = document.getElementById("send-order-btn-mini");
       if (sendOrderBtn) sendOrderBtn.addEventListener("click", sendOrderToSeller);
     }, 10);
 
   } else {
-    cartcontainer.innerHTML = `<p class="empty">Your cart is empty.</p>`;
+    
+  mycartcontent.innerHTML = `<p class="empty">Your cart is empty.</p>`;
+
   }
 
   carttotal.textContent = `Total: Ksh.${total.toLocaleString()}`;
@@ -642,6 +644,7 @@ document.addEventListener("click", (e) => {
 
 
 
+
 document.addEventListener("click", e => {
   const btn = e.target.closest(".filter-btn"); // ✅ handles clicks on image too
   if (!btn) return;
@@ -649,7 +652,12 @@ document.addEventListener("click", e => {
   const category = btn.getAttribute("data-category");
 
   // ✅ redirect to product page with category
-  window.location.href = `product.html?category=${encodeURIComponent(category)}`;
+ 
+      document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+      e.target.classList.add("active");
+      const searchText = searchbar.value.trim().toLowerCase();
+      displaycars(searchText, category);
+      hotsearches.style.display = "none";
 });
 
 

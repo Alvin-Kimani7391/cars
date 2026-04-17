@@ -9,239 +9,7 @@
     
     <style>
         
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-        .deals-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .deal-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: transform 0.3s;
-        }
-        .deal-card:hover {
-            transform: translateY(-5px);
-        }
-        .deal-image {
-            width: 100%;
-            height: 200px;
-            background-color: #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .deal-content {
-            padding: 15px;
-        }
-        .deal-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .deal-price {
-            color: #e74c3c;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .deal-description {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        .btn {
-            background-color: #27ae60;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-        }
-        .btn:hover {
-            background-color: #229954;
-        }
-
-        .deal-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-body{
-                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-                margin: 0;
-                padding: 0;
-                align-items: center;
-    justify-content: center;
-            }
-            #loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: none; /* or your background color */
-  backdrop-filter: blur(5px);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-
-
-body {
-  margin: 0;
-  padding: 0;
-  background: #f5f6f8;
-  font-family: 'Segoe UI', Tahoma, sans-serif;
-  color: #222;
-}
-
-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 15px;
-}
-
-
-/* ===== HEADER ===== */
-/* ===== HEADER ===== */
-header {
-  padding: 15px 20px;
-  text-align: center;
-  font-size: 2em;
-  font-weight: bold;
-  background: linear-gradient(135deg, #ff6600, #ff9900);
-  color: #fff;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
-
-/* ===== NAVBAR ===== */
-nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-
-  padding: 12px;
-  background: #111;
-  position: sticky;
-  top: 0;
-  z-index: 999;
-}
-
-/* Nav links */
-nav a {
-  color: #eee;
-  text-decoration: none;
-  font-size: 1em;
-  font-weight: 500;
-  padding: 8px 14px;
-  border-radius: 20px;
-  transition: 0.3s ease;
-}
-
-nav a:hover {
-  background: linear-gradient(135deg, #ff6600, #ff9900);
-  color: #fff;
-}
-
-/* Cart button */
-#showcart {
-  position: absolute;
-  right: 15px;
-  background: linear-gradient(135deg, #ff6600, #ff9900);
-  border: none;
-  padding: 8px 12px;
-  border-radius: 20px;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-/* ===== SIDEBAR BUTTON ===== */
-#button {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  font-size: 1.5em;
-  background: #111;
-  color: white;
-  border: none;
-  padding: 10px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  z-index: 1001;
-  transition: 0.3s ease;
-}
-
-#button:hover {
-  background: #ff6600;
-}
-
-/* ===== SIDEBAR MENU ===== */
-.list {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: -260px;
-  width: 260px;
-  height: 100%;
-  padding-top: 80px;
-
-  background: linear-gradient(180deg, #1a1a1a, #000);
-  box-shadow: 5px 0 20px rgba(0,0,0,0.3);
-
-  transition: 0.3s ease;
-  z-index: 1000;
-}
-
-/* Show sidebar */
-.list.show {
-  left: 0;
-}
-
-/* Items */
-.list li {
-  list-style: none;
-  margin: 8px 15px;
-}
-
-/* Buttons inside */
-.list button {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  background: #2a2a2a;
-  color: #fff;
-  cursor: pointer;
-  text-align: left;
-  transition: 0.3s ease;
-}
-
-/* Hover */
-.list button:hover {
-  background: linear-gradient(135deg, #ff6600, #ff9900);
-  transform: translateX(5px);
-}
-
-/* Active */
-.list button.active {
-  background: linear-gradient(135deg, #ff6600, #ff9900);
-}
-
+        
 /* ===== FOOTER ===== */
 footer {
   background: #111;
@@ -497,7 +265,7 @@ footer {
             <a href="about.html">About</a>
             <a href="product.html">Products</a>
             <a href="contact.html">Contact</a>
-            <button id="showcart"></button>
+            <a><button id="showcart"></button></a>
 
         </nav><br>
 
@@ -533,7 +301,7 @@ footer {
 
 <main>
             <div class="search-wrapper">
-            <input type="text" id="searchbar" placeholder="Search products by name..."  style="width: 90%;"/>
+            <input type="text" id="searchbar" placeholder="Search products by name..."  />
             <div id="suggestions-box" class="suggestions-box"></div>
         
             
@@ -711,6 +479,10 @@ footer {
 
 
 
+
+
+
+
 const footer = document.getElementById("footer");
 
 window.addEventListener("scroll", () => {
@@ -720,6 +492,72 @@ window.addEventListener("scroll", () => {
   if (scrollY >= footerTop - 50) {
     footer.classList.add("visible");
   }
+});
+</script>
+
+<script>
+const categoryBar = document.querySelector(".category-bar");
+
+let isDown = false;
+let startX;
+let scrollLeft;
+
+categoryBar.addEventListener("mousedown", (e) => {
+  isDown = true;
+  startX = e.pageX - categoryBar.offsetLeft;
+  scrollLeft = categoryBar.scrollLeft;
+});
+
+categoryBar.addEventListener("mouseleave", () => {
+  isDown = false;
+});
+
+categoryBar.addEventListener("mouseup", () => {
+  isDown = false;
+});
+
+categoryBar.addEventListener("mousemove", (e) => {
+  if (!isDown) return;
+  e.preventDefault();
+  const x = e.pageX - categoryBar.offsetLeft;
+  const walk = (x - startX) * 2;
+  categoryBar.scrollLeft = scrollLeft - walk;
+});
+</script>
+
+
+        <script>
+            window.addEventListener("load", () => {
+    document.getElementById("footer").classList.add("visible");
+  });
+        </script>
+
+      <script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("a[href]").forEach(link => {
+    const href = link.getAttribute("href");
+
+    // 1. skip empty hrefs
+    if (!href) return;
+
+    // 2. skip anchors (#something)
+    if (href.startsWith("#")) return;
+
+    // 3. only show loader when going to another HTML page
+    if (!href.endsWith(".html")) return;
+
+    link.addEventListener("click", function(e) {
+      e.preventDefault();
+
+      const loader = document.getElementById("loader");
+      loader.style.display = "flex";
+      loader.style.opacity = "1";
+
+      setTimeout(() => {
+        window.location.href = href;
+      }, 150);
+    });
+  });
 });
 </script>
 
