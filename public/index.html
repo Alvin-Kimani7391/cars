@@ -440,35 +440,46 @@ function displaymycart() {
   let itemCount = 0;
   let total = 0;
 
-  cart.forEach((item, index) => {
+  // ✅ COUNT + TOTAL FIRST
+  cart.forEach(item => {
     itemCount++;
-    total += item.price; // ✅ FIX: calculate total
-
-    const imgSrc = Array.isArray(item.image) ? item.image[0] : item.image;
-
-    const div = document.createElement("div");
-    div.classList.add("cart-item");
-
-    div.innerHTML = `
-      <div class="mycart-item-info">
-        <img src="${imgSrc}" style="width:50px;height:auto;">
-        <h3>${item.make} ${item.model}</h3>
-        <p><strong>Price: Ksh.${item.price.toLocaleString()}</strong></p>
-        <button class="removebtn" onclick="removeFromCart(${index})">Remove</button>
-      </div>
-    `;
-
-    mycartcontent.appendChild(div);
+    total += item.price;
   });
 
-  // ✅ Cart count
+  // ✅ KEEP your cartbox (unchanged)
   if (cartbox) {
     cartbox.classList.add("cartboxx");
     cartbox.innerHTML = `MY CART: ${itemCount}`;
   }
 
-  // ✅ Summary (FIXED CONTAINER)
+  // ✅ ADD HEADER AT TOP (NEW FIX)
+  const header = document.createElement("div");
+  header.classList.add("cart-header");
+  header.innerHTML = `<h2>MY CART: ${itemCount}</h2>`;
+  mycartcontent.appendChild(header);
+
+  // ✅ SHOW ITEMS OR EMPTY MESSAGE
   if (cart.length > 0) {
+
+    cart.forEach((item, index) => {
+      const imgSrc = Array.isArray(item.image) ? item.image[0] : item.image;
+
+      const div = document.createElement("div");
+      div.classList.add("cart-item");
+
+      div.innerHTML = `
+        <div class="mycart-item-info">
+          <img src="${imgSrc}" style="width:50px;height:auto;">
+          <h3>${item.make} ${item.model}</h3>
+          <p><strong>Price: Ksh.${item.price.toLocaleString()}</strong></p>
+          <button class="removebtn" onclick="removeFromCart(${index})">Remove</button>
+        </div>
+      `;
+
+      mycartcontent.appendChild(div);
+    });
+
+    // ✅ SUMMARY
     const summary = document.createElement("div");
     summary.classList.add("cart-summary2");
 
@@ -477,15 +488,19 @@ function displaymycart() {
       <button class="paybtn" id="send-order-btn-mini">Send Order to Seller</button>
     `;
 
-    mycartcontent.appendChild(summary); // ✅ FIX HERE
+    mycartcontent.appendChild(summary);
 
-     setTimeout(() => {
+    setTimeout(() => {
       const sendOrderBtn = document.getElementById("send-order-btn-mini");
       if (sendOrderBtn) sendOrderBtn.addEventListener("click", sendOrderToSeller);
     }, 10);
 
   } else {
-    mycartcontent.innerHTML = `<p class="empty">Your cart is empty.</p>`;
+    // ✅ FIX: don't wipe header
+    const empty = document.createElement("p");
+    empty.classList.add("empty");
+    empty.textContent = "Your cart is empty.";
+    mycartcontent.appendChild(empty);
   }
 
   carttotal.textContent = `Total: Ksh.${total.toLocaleString()}`;
