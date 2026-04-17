@@ -20,6 +20,7 @@ const mycartcontent = document.getElementById("mycart-content");
 const closeMyCart = document.getElementById("closeMyCart");
 const newArrivalsContainer = document.getElementById("new-arrivals");
 const hotDealsContainer = document.getElementById("hot-deals");
+const someProductsContainer = document.getElementById("someproduct");
 
 
 // Modals
@@ -106,6 +107,7 @@ document.getElementById("orderForm").addEventListener("submit", function (e) {
 // ===============================
 showcart.addEventListener("click", () => {
   displaymycart();
+  
   mycart.style.display = "flex";
 });
 
@@ -308,7 +310,7 @@ function isNewProduct(car) {
   const now = new Date();
   const diffDays = (now - created) / (1000 * 60 * 60 * 24);
 
-  return diffDays <= 7; // change days if you want
+  return diffDays <= 14; // change days if you want
 }
 
 // ===============================
@@ -368,7 +370,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function displayHotDealsPreview() {
   const hotDeals = cars.filter(car => car.hotDeal === true);
 
-  const preview = hotDeals.slice(0, 2); // 👈 ONLY 2
+  const preview = hotDeals.slice(0, 3); // 👈 ONLY 3
 
   
 
@@ -410,7 +412,7 @@ function displayHotDealsPreview() {
 function displayNewArrivalsPreview() {
   const newProducts = cars.filter(isNewProduct);
 
-  const preview = newProducts.slice(0, 2); // same style as hot deals
+  const preview = newProducts.slice(0, 3); // same style as hot deals
 
   newArrivalsContainer.innerHTML = ""; // IMPORTANT: prevent duplicates
 
@@ -441,6 +443,88 @@ function displayNewArrivalsPreview() {
 
 
 
+
+
+
+function displaySomeProducts() {
+  someProductsContainer.innerHTML = ""; // prevent duplicates
+
+  const preview = cars.slice(0, 3); // 👈 2 products only
+
+  preview.forEach(car => {
+    const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
+
+    const div = document.createElement("div");
+    div.classList.add("product-item");
+
+    let oldPriceHtml = "";
+    if (car.oldPrice) {
+      oldPriceHtml = `<p class="old-price"><strong>Was: Ksh.${car.oldPrice.toLocaleString()}</strong></p>`;
+    }
+
+    div.innerHTML = `
+      <img src="${imgSrc}" onclick="openProduct(${car.id})">
+      <div class="product-item-info">
+        <h3>${car.make} ${car.model}</h3>
+        <p class="price"><strong>Price: Ksh.${car.price.toLocaleString()}</strong></p>
+        ${oldPriceHtml}
+        <button class="addbtn" onclick="addToCart(${car.id})">Add To Cart</button>
+      </div>
+    `;
+
+    someProductsContainer.appendChild(div);
+  });
+}
+
+
+function getCategoryFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("category") || "all";
+}
+
+
+
+
+function showSuggestions(searchText) {
+  const box = document.getElementById("suggestions-box");
+
+  if (!searchText) {
+    box.style.display = "none";
+    return;
+  }
+
+  const matches = cars.filter(car =>
+    `${car.make} ${car.model}`.toLowerCase().includes(searchText.toLowerCase())
+  ).slice(0, 6); // limit to 6 results
+
+  box.innerHTML = "";
+
+  if (matches.length === 0) {
+    box.style.display = "none";
+    return;
+  }
+
+  matches.forEach(car => {
+    const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
+
+    const div = document.createElement("div");
+    div.classList.add("suggestion-item");
+
+    div.innerHTML = `
+      <img src="${imgSrc}">
+      <span>${car.make} ${car.model}</span>
+    `;
+
+    // 🔥 CLICK → GO TO PRODUCT PAGE
+    div.addEventListener("click", () => {
+      window.location.href = `carstv.html?id=${car.id}`;
+    });
+
+    box.appendChild(div);
+  });
+
+  box.style.display = "block";
+}
 
 
 
@@ -529,34 +613,46 @@ function displayNewArrivalsPreview() {
   searchbar.addEventListener("focus", () => (hotsearches.style.display = "flex"));
   searchbar.addEventListener("blur", () => setTimeout(() => hotsearches.style.display = "none", 150));
 
+
+
+
+
   searchbar.addEventListener("keyup", e => {
-    const text = e.target.value.trim().toLowerCase();
-    displaycars(text, document.querySelector(".filter-btn.active")?.dataset.category || "all");
-  });
+  const text = e.target.value.trim().toLowerCase();
 
-  document.addEventListener("click", e => {
-  if (e.target.classList.contains("filter-btn")) {
+  displaycars(
+    text,
+    document.querySelector(".filter-btn.active")?.dataset.category || "all"
+  );
 
-    // ✅ TURN OFF new mode when category is clicked
-    showNewOnly = false;
+  showSuggestions(text); // ✅ ADD THIS
+});
 
-    // ✅ Reset New button text
-    const newBtn = document.getElementById("newProductsBtn");
-    if (newBtn) newBtn.textContent = "New Arrivals";
 
-    const category = e.target.getAttribute("data-category");
 
-    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
-    e.target.classList.add("active");
 
-    displaycars(
-      document.getElementById("searchbar").value.trim().toLowerCase(),
-      category
-    );
+document.addEventListener("click", (e) => {
+  const box = document.getElementById("suggestions-box");
+  const search = document.getElementById("searchbar");
 
-    hotsearches.style.display = "none";
+  if (!box.contains(e.target) && e.target !== search) {
+    box.style.display = "none";
   }
 });
+
+
+
+document.addEventListener("click", e => {
+  const btn = e.target.closest(".filter-btn"); // ✅ handles clicks on image too
+  if (!btn) return;
+
+  const category = btn.getAttribute("data-category");
+
+  // ✅ redirect to product page with category
+  window.location.href = `product.html?category=${encodeURIComponent(category)}`;
+});
+
+
 
 
 const hotDealsBtn = document.getElementById("hotDealsBtn");
@@ -619,17 +715,20 @@ window.addEventListener('scroll', () => {
     .then(res => res.json())
     .then(data => {
       cars = shufflearray(data);
-      displayNewArrivalsPreview();
+      displayNewArrivalsPreview(); // now behaves like hot deals
       displayHotDealsPreview();
-      displaycars();
+      displaySomeProducts();
+      const categoryFromURL = getCategoryFromURL();
+displaycars("", categoryFromURL);
     })
     .catch(() => {
       fetch("cars.json")
         .then(res => res.json())
         .then(data => {
           cars = shufflearray(data);
-          displayNewArrivalsPreview();
+          displayNewArrivalsPreview(); // now behaves like hot deals
           displayHotDealsPreview();
+          displaySomeProducts();
           displaycars();
         });
     });

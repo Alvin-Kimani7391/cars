@@ -618,7 +618,7 @@ nav button{
   font-size: 0.8em;
     background: rgb(224, 220, 220);
 }
-  #new-arrivals,#hot-deals,.product {
+  .product {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;   /* center items */
@@ -1313,55 +1313,197 @@ footer {
 
 
 /* ===== SECTION WRAPPER ===== */
+/* ===== SECTION WRAPPER ===== */
 .section-block {
-  margin: 40px auto;
-  padding: 20px;
+  margin: 20px auto;
+  padding: 16px;
   max-width: 1200px;
 }
 
-/* ===== SECTION HEADER (MODERN CARD STYLE) ===== */
+/* ===== SECTION HEADER ===== */
 .section-header {
-  text-align: start;
-  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  gap: 10px;
 }
 
+/* Title */
 .section-header h2 {
-  display: inline-block;
-  font-size: 1.8em;
-  font-weight: bold;
-  padding: 10px 25px;
-  border-radius: 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 20px;
   background: linear-gradient(135deg, #ff6600, #ff9900);
-  color: white;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-  letter-spacing: 1px;
+  color: #fff;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  margin: 0;
 }
 
-/* ===== VIEW MORE LINK ===== */
+/* Optional subtle underline accent */
+.section-header h2::after {
+  content: "";
+  display: block;
+  width: 40%;
+  height: 3px;
+  margin-top: 5px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.5);
+}
+
+/* ===== VIEW MORE (INLINE STYLE FOR MOBILE) ===== */
 .view-more {
-  text-align: center;
-  margin-top: 15px;
+  margin: 0;
 }
 
 .view-more a {
-  display: inline-block;
-  padding: 10px 18px;
-  border-radius: 25px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
   text-decoration: none;
-  font-weight: bold;
-  color: #fff;
-  background: #111;
-  transition: 0.3s ease;
+  color: #111;
+  background: #f5f5f5;
+  transition: all 0.25s ease;
+  white-space: nowrap;
 }
 
+/* Hover (desktop) */
 .view-more a:hover {
   background: linear-gradient(135deg, #ff6600, #ff9900);
-  transform: scale(1.05);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Tap effect (mobile feel) */
+.view-more a:active {
+  transform: scale(0.96);
+}
+
+/* ===== RESPONSIVE (TABLET & UP) ===== */
+@media (min-width: 768px) {
+  .section-block {
+    margin: 40px auto;
+    padding: 20px;
+  }
+
+  .section-header h2 {
+    font-size: 0.5rem;
+    padding: 7px 15px;
+  }
+
+  .view-more a {
+    font-size: 0.95rem;
+    padding: 8px 16px;
+  }
+}
+
+
+/* ===== HORIZONTAL SCROLL (PREVIEW SECTIONS) ===== */
+.product-scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 10px 5px;
+  scroll-behavior: smooth;
+  
+  /* smooth mobile scrolling */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Hide scrollbar (clean look) */
+.product-scroll::-webkit-scrollbar {
+  display: none;
+}
+.product-scroll {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* ===== PRODUCT CARD (SCROLL VERSION) ===== */
+.product-scroll .product-item {
+  flex: 0 0 auto;   /* 🔥 IMPORTANT: prevents shrinking */
+  width: 75%;       /* 👈 mobile card size */
+  max-width: 260px;
+  height: 340px;
+}
+
+/* Slightly smaller image for mobile */
+.product-scroll .product-item img {
+  height: 160px;
+}
+.product-scroll {
+  scroll-snap-type: x mandatory;
+}
+
+.product-scroll .product-item {
+  scroll-snap-align: start;
+}
+
+/* ===== MOBILE SCROLL USING product-scroll ===== */
+@media (max-width: 600px) {
+
+  .product-scroll {
+    display: flex;
+    flex-wrap: nowrap;          /* 🔥 no wrapping */
+    overflow-x: auto;           /* 🔥 horizontal scroll */
+    gap: 12px;
+    padding: 10px 5px;
+    justify-content: flex-start;
+
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Hide scrollbar */
+  .product-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Cards behave like your grid */
+  .product-scroll .product-item {
+    flex: 0 0 calc(50% - 10px);   /* 👈 SAME 2-per-row feel */
+    max-width: calc(50% - 10px);
+    height: auto;
+    scroll-snap-align: start;
+  }
+
+  .product-scroll .product-item img {
+    height: 140px;
+    object-fit: cover;
+  }
 }
 
 
 
+.suggestions-box {
+  position: absolute;
+  background: white;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  z-index: 999;
+  display: none;
+}
 
+.suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
+.suggestion-item:hover {
+  background: #f2f2f2;
+}
+
+.suggestion-item img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
 
             

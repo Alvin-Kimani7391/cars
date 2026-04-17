@@ -66,9 +66,9 @@
 </ul>
 
         <nav>
-            <a href="#">Home</a>
+            <a href="index.html">Home</a>
             <a href="about.html">About</a>
-            <a href="#product">Products</a>
+            <a href="product.html">Products</a>
             <a href="contact.html">Contact</a>
             <button id="showcart"></button>
 
@@ -97,6 +97,7 @@
         <main>
             <div class="search-wrapper">
             <input type="text" id="searchbar" placeholder="Search products by name..." />
+            <div id="suggestions-box" class="suggestions-box"></div>
         
             
             <div id="hotsearches" class="hotsearches">
@@ -138,10 +139,10 @@
 <!-- ===== NEW ARRIVALS SECTION ===== -->
 <section class="section-block">
   <div class="section-header">
-    <h2>🆕 New Arrivals</h2>
+    <h2>New Arrivals</h2>
   </div>
 
-  <div id="new-arrivals" class="product"></div>
+  <div id="new-arrivals" class="product-scroll"></div>
 
   <div class="view-more">
     <a href="newarrivals.html">>> View More New Arrivals</a>
@@ -152,18 +153,28 @@
 <!-- ===== HOT DEALS SECTION ===== -->
 <section class="section-block">
   <div class="section-header">
-    <h2>🔥 Hot Deals</h2>
+    <h2>Hot Deals</h2>
   </div>
 
-  <div id="hot-deals" class="product"></div>
+  <div id="hot-deals" class="product-scroll"></div>
 
   <div class="view-more">
     <a href="hotdeals.html">>> View More Hot Deals</a>
   </div>
 </section>
 <br>
-        
-        <div class="product" id="product"></div><br>
+
+<!-- ===== HOT DEALS SECTION ===== -->
+<section class="section-block">
+  <div class="section-header">
+    <h2>Our Catalog</h2>
+  </div>
+<div id="someproduct" class="product-scroll"></div>
+<div class="view-more">
+    <a href="product.html">>> View all the products</a>
+  </div>
+
+        <div class="product" id="product" style="display: none;"></div><br>
         <button id="show-cart-btn">Shop</button><br><br>
 
         <div id="popup" class="popup">
@@ -178,7 +189,7 @@
         
         <div id="cart-total"></div></div>
 
-        <div id="pagination" class="pagination"></div>
+        <div id="pagination" class="pagination" style="display: none;"></div>
            
         
         <div id="mycart" class="mycart">
@@ -266,7 +277,21 @@
 
         </footer>
 
+<script>
 
+
+
+const footer = document.getElementById("footer");
+
+window.addEventListener("scroll", () => {
+  const scrollY = window.scrollY + window.innerHeight;
+  const footerTop = footer.offsetTop;
+
+  if (scrollY >= footerTop - 50) {
+    footer.classList.add("visible");
+  }
+});
+</script>
 
         <script>
 const categoryBar = document.querySelector(".category-bar");
