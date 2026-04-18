@@ -28,6 +28,96 @@ main {
   padding: 30px 15px;
 }
 
+.cart-box{
+  width: 90%;
+}
+.cart{
+  width: 90%;
+}
+.cart-item-info h3{
+  font-size: 0.75em;
+  white-space: nowrap;      /* Prevent wrapping */
+  overflow: hidden;         /* Hide extra text */
+  text-overflow: ellipsis;  /* Add "..." */
+}
+
+.mycart-item-info h3{
+  font-size: 0.75em;
+  white-space: nowrap;      /* Prevent wrapping */
+  overflow: hidden;         /* Hide extra text */
+  text-overflow: ellipsis;  /* Add "..." */
+}
+.cart-item-info p{
+  font-size: 0.8em;
+}
+.mycart-item-info p{
+  font-size: 0.8em;
+}
+.cart-item-info button{
+    padding: 6px 10px;
+    font-size: 0.8em;
+  }
+  .mycart-item-info button{
+    padding: 6px 10px;
+    font-size: 0.8em;
+  }
+.hotsearches-buttons button{
+  padding: 12px 3px;
+  text-align: center;
+  font-size: 0.8em;
+    background: rgb(224, 220, 220);
+}
+  .product {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;   /* center items */
+    gap: 15px;
+  }
+
+  .product-item {
+    flex: 0 0 calc(50% - 15px);  /* 2 per row */
+    max-width: calc(50% - 15px);
+    height: auto;/* allow height to adjust naturally */
+    padding-bottom: 10px;  /* add space under button */
+  }
+  .product-item img{
+    height: 140px;        /* smaller Jumia-like height */
+  object-fit: cover;  /* prevents zoom cropping */
+          /* adds clean spacing around images */
+  }
+
+
+ 
+
+
+  .product-item-info h3{
+    font-size: 0.75em;
+    font-weight: bold;
+    overflow: hidden;         /* Hide extra text */
+  text-overflow: ellipsis;  /* Add "..." */
+  white-space: nowrap;
+  width: 100%;
+  }
+  .product-item-info p{
+    font-size: 0.8em;
+  }
+  .addbtn{
+    padding: 6px 10px;
+    font-size: 0.8em;
+  }
+  #show-cart-btn{
+    padding: 12px 6px;
+    /*margin: 4px auto;*/
+    font-size: 1em;
+    position: fixed;
+    left: 0;
+  }
+  .cart-summary{
+    font-size: 1.3em;   
+}
+
+
+
 #showcart {
   top: 12px;
 }
@@ -711,7 +801,27 @@ footer {
   cursor: pointer;
   font-size: 22px;
 }
+.paybtn{
+  
+    padding: 10px 20px;
+    font-size: 0.5em;
+    cursor: pointer;
+    margin-top: 10px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
 
+/* ✅ Make mycart 90% width on phones */
+@media (max-width: 600px) {
+  .cart-box {
+    width: 80% !important;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 60vh; /* optional: better fit on screen */
+  }
+}
 </style>
 </head>
 
@@ -1100,20 +1210,24 @@ function displaymycart() {
     const img = Array.isArray(item.image) ? item.image[0] : item.image;
 
     const div = document.createElement("div");
+    div.classList.add("cart-item");
     div.innerHTML = `
+    <div class="mycart-item-info">
       <img src="${img}" width="50">
       <h4>${item.make} ${item.model}</h4>
-      <p>Ksh.${item.price.toLocaleString()}</p>
-      <button onclick="removeFromCart(${index})">Remove</button>
-    `;
+      <p><strong>Price: Ksh.${item.price.toLocaleString()}</strong></p>
+      <button class="removebtn" onclick="removeFromCart(${index})">Remove</button>
+       </div>
+      `;
 
     mycartcontent.appendChild(div);
   });
 
   const summary = document.createElement("div");
+  summary.classList.add("cart-summary2");
   summary.innerHTML = `
     <h3>Total: Ksh.${total.toLocaleString()}</h3>
-    <button onclick="sendOrderToSeller()">Send Order</button>
+    <button class="paybtn" onclick="sendOrderToSeller()">Send Order</button>
   `;
 
   mycartcontent.appendChild(summary);
