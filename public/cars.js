@@ -97,8 +97,7 @@ document.getElementById("orderForm").addEventListener("submit", function (e) {
   window.open(whatsappURL, "_blank");
 
   localStorage.removeItem("cart");
-  displaycart();
-  updateshowcart();
+  updateCartUI();
   orderModal.style.display = "none";
 });
 
@@ -114,6 +113,14 @@ showcart.addEventListener("click", () => {
 closeMyCart.addEventListener("click", () => (mycart.style.display = "none"));
 closePopup.addEventListener("click", () => (popup.style.display = "none"));
 
+
+function updateCartUI() {
+  updateshowcart();
+  displaycart();
+  displaymycart();
+}
+
+
 function addToCart(id) {
   const car = cars.find(c => c.id === id);
   if (!car) return;
@@ -125,17 +132,14 @@ function addToCart(id) {
 
   cart.push(car);
   localStorage.setItem("cart", JSON.stringify(cart));
-  displaycart();
-  updateshowcart();
+  updateCartUI();
   alert(`${car.make} ${car.model} added to cart successfully!`);
 }
 
 function removeFromCart(index) {
   cart.splice(index, 1);
   localStorage.setItem("cart", JSON.stringify(cart));
-  displaycart();
-  displaymycart();
-  updateshowcart();
+  updateCartUI();
 }
 
 function checkout(method, total) {
@@ -320,6 +324,8 @@ function isNewProduct(car) {
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
 
+updateCartUI();
+
   function displaycars(filter = "", category = "all") {
     carscontainer.innerHTML = "";
 
@@ -372,7 +378,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function displayHotDealsPreview() {
   const hotDeals = cars.filter(car => car.hotDeal === true);
 
-  const preview = hotDeals.slice(0, 3); // 👈 ONLY 3
+  const preview = hotDeals.slice(0, 6); // 👈 ONLY 3
 
   
 
@@ -414,7 +420,7 @@ function displayHotDealsPreview() {
 function displayNewArrivalsPreview() {
   const newProducts = cars.filter(isNewProduct);
 
-  const preview = newProducts.slice(0, 3); // same style as hot deals
+  const preview = newProducts.slice(0, 6); // same style as hot deals
 
   newArrivalsContainer.innerHTML = ""; // IMPORTANT: prevent duplicates
 
@@ -451,7 +457,7 @@ function displayNewArrivalsPreview() {
 function displaySomeProducts() {
   someProductsContainer.innerHTML = ""; // prevent duplicates
 
-  const preview = cars.slice(0, 3); // 👈 2 products only
+  const preview = cars.slice(0, 6); // 👈 6 products only
 
   preview.forEach(car => {
     const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
@@ -695,11 +701,9 @@ const hotDealsBtn = document.getElementById("hotDealsBtn");
   });
 
   window.addEventListener("pageshow", () => {
-    cart = JSON.parse(localStorage.getItem("cart")) || [];
-    updateshowcart();
-    displaycart();
-    displaymycart();
-  });
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
+  updateCartUI();
+});
 
 
   const footer = document.getElementById("footer");
