@@ -378,7 +378,7 @@ updateCartUI();
 function displayHotDealsPreview() {
   const hotDeals = cars.filter(car => car.hotDeal === true);
 
-  const preview = hotDeals.slice(0, 6); // 👈 ONLY 3
+  const preview = hotDeals.slice(0, 4); // 👈 ONLY 3
 
   
 
@@ -457,7 +457,7 @@ function displayNewArrivalsPreview() {
 function displaySomeProducts() {
   someProductsContainer.innerHTML = ""; // prevent duplicates
 
-  const preview = cars.slice(0, 6); // 👈 6 products only
+  const preview = cars.slice(0, 5); // 👈 6 products only
 
   preview.forEach(car => {
     const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
