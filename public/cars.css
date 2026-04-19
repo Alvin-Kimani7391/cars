@@ -1068,10 +1068,7 @@ nav a button{
   top: 15px;
 }
 
-nav a:hover {
-  background: linear-gradient(135deg, #ff6600, #ff9900);
-  color: #fff;
-}
+
 
 /* Cart button */
 #showcart {

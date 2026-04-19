@@ -499,6 +499,38 @@ footer {
 }
 
             }
+
+            .navfilter {
+  position: relative;
+  display: inline-block;
+  padding: 8px 12px;
+  transition: color 0.3s ease;
+}
+
+.navfilter::after {
+  
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, #ff6600, #ff9900);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+  border-radius: 2px;
+}
+
+.navfilter:hover::after,
+.navfilter.active::after {
+  transform: scaleX(1);
+}
+
+.navfilter:hover,
+.navfilter.active {
+  font-weight: bolder;
+}
         </style>
     </head>
 
@@ -527,13 +559,12 @@ footer {
   
 </ul>
 
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="product.html">Products</a>
-            <a href="contact.html">Contact</a>
-            <button id="showcart"></button>
-
+         <nav>
+            <a href="index.html" class="navfilter">Home</a>
+            <a href="about.html" class="navfilter">About</a>
+            <a href="product.html " class="navfilter">Products</a>
+            <a href="contact.html" class="navfilter active">Contact</a>
+            <a><button id="showcart"></button></a>
         </nav><br>
 
 
@@ -639,6 +670,21 @@ footer {
             </div>
 
         </footer>
+
+        <script>
+  const navItems = document.querySelectorAll('.navfilter');
+
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      // remove active from all
+      navItems.forEach(el => el.classList.remove('active'));
+
+      // add active to clicked one
+      item.classList.add('active');
+    });
+  });
+</script>
+
         <script>
             // Dynamic year in footer
     document.getElementById("year").textContent = new Date().getFullYear();
