@@ -54,7 +54,57 @@
 #showcart {
   width: 80px;
 }
+#view{
+  margin-right: 0px;
+}
+.category-bar {
+  display: none;
+  transition: all 0.3s ease;
+}
 
+.category-bar.show {
+  display: flex; /* or block depending on your layout */
+}
+
+/* Container to control alignment */
+.view-toggle {
+  display: flex;
+  justify-content: space-between; /* 👈 THIS is the key */
+  align-items: center;
+  margin: 10px 0;
+  padding: 0 10px;
+}
+
+/* Style the text */
+.view-toggle span {
+  color: #666;
+  font-size: 1.3em;
+}
+
+/* Button stays same */
+#viewBtn {
+  background: linear-gradient(90deg, #ff6600, #ff9900);
+  color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+#viewBtn:hover {
+  background: linear-gradient(90deg, #ff6600, #ff9900);
+  border-color: #bbb;
+  color: rgb(255, 255, 255);
+  transform: translateY(-1px);
+}
+
+#viewBtn:active {
+  
+  transform: scale(0.96);
+}
         </style>
         <meta property="og:title" content="Six Star Suppliers – Quality Products at Affordable Prices">
 <meta property="og:description" content="Six Star Suppliers is an online shopping website offering high-quality products at affordable prices. Shop now for the best deals!">
@@ -101,6 +151,8 @@
   
 </ul>
 
+            </span>
+            
         <nav>
             <a href="index.html" class="navfilter active">Home</a>
             <a href="about.html" class="navfilter">About</a>
@@ -109,6 +161,10 @@
             <a><button id="showcart"></button></a>
         </nav><br>
 
+<div class="view-toggle">
+  <span>Click here to ...</span>
+  <button id="viewBtn">View categories ▼</button>
+</div>
 
         <div class="category-bar">
   <button class="filter-btn active" data-category="all"><img src="images2/image.png" >All</button>
@@ -311,6 +367,19 @@
             </div>
 
         </footer>
+
+<script>
+viewBtn.addEventListener("click", () => {
+  categoryBar.classList.toggle("show");
+
+  if (categoryBar.classList.contains("show")) {
+    viewBtn.textContent = "Hide categories ▲";
+  } else {
+    viewBtn.textContent = "View categories ▼";
+  }
+});
+
+</script>
 
 <script>
   const navItems = document.querySelectorAll('.navfilter');
