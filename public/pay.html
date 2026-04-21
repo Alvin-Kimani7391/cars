@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout</title>
+
+<style>
+:root{
+  --bg: #0b0b0c;
+  --panel: #121214;
+  --card: #16161a;
+  --border: rgba(255,140,0,0.18);
+
+  --orange: #ff6600;
+  --amber: #ffb703;
+  --text: #fff3e0;
+  --muted: #b9a48f;
+}
+
+/* ===== BODY ===== */
+body {
+  font-family: system-ui, 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: radial-gradient(circle at top, #1a0f0a, var(--bg));
+  color: var(--text);
+}
+
+/* ===== CHECKOUT CONTAINER ===== */
+.checkout-container {
+  max-width: 520px;
+  margin: auto;
+  background: linear-gradient(180deg, var(--panel), #0f0f10);
+  padding: 22px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+}
+
+/* ===== HEADINGS ===== */
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: var(--amber);
+}
+
+/* ===== CART ITEMS ===== */
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 12px;
+  margin-bottom: 10px;
+
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+.cart-item img {
+  width: 48px;
+  border-radius: 8px;
+}
+
+.cart-item h4 {
+  font-size: 0.85rem;
+  margin: 0;
+  color: #ffd7b0;
+}
+
+/* ===== QUANTITY CONTROLS ===== */
+.qty-controls {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.qty-controls button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--orange), var(--amber));
+  color: white;
+  font-weight: bold;
+}
+
+.qty-controls button:disabled {
+  opacity: 0.4;
+}
+
+/* ===== REMOVE BUTTON ===== */
+.removebtn {
+  background: linear-gradient(135deg, #ff3d00, #ff9100);
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ===== INPUTS ===== */
+.input-group {
+  margin-top: 12px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+
+  border-radius: 10px;
+  border: 1px solid var(--border);
+
+  background: var(--card);
+  color: var(--text);
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255,102,0,0.15);
+}
+
+/* ===== SUMMARY ===== */
+.summary {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+.summary h3 {
+  color: var(--amber);
+  margin: 0;
+}
+
+/* ===== MAIN BUTTON ===== */
+button.main {
+  width: 100%;
+  padding: 14px;
+  margin-top: 15px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, var(--orange), var(--amber));
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+button.main:hover {
+  transform: translateY(-2px);
+}
+
+/* ===== PAYMENT MODAL ===== */
+.payment-modal {
+  display: none;
+  margin-top: 15px;
+  padding: 15px;
+
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+/* ===== SUCCESS ===== */
+.success {
+  text-align: center;
+  color: var(--amber);
+  font-weight: bold;
+}
+
+/* ===== HEADER ===== */
+header {
+  padding: 16px;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+
+  background: linear-gradient(135deg, var(--orange), var(--amber));
+  color: white;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+/* ===== NAV ===== */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+
+  padding: 10px;
+  background: #0f0f10;
+
+  position: sticky;
+  top: 0;
+  z-index: 999;
+
+  border-bottom: 1px solid var(--border);
+}
+
+nav a {
+  color: #ffd7b0;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+
+nav a:hover {
+  background: rgba(255,102,0,0.12);
+}
+
+/* ===== CART BUTTON ===== */
+#showcart {
+  position: absolute;
+  right: 15px;
+
+  background: linear-gradient(135deg, var(--orange), var(--amber));
+  border: none;
+  padding: 8px 12px;
+  border-radius: 20px;
+
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ===== SIDEBAR ===== */
+#button {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+
+  background: #151515;
+  border: 1px solid var(--border);
+  color: white;
+
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#button:hover {
+  background: var(--orange);
+}
+
+/* ===== SIDEBAR MENU ===== */
+.list {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: -260px;
+
+  width: 260px;
+  height: 100%;
+
+  padding-top: 80px;
+  background: linear-gradient(180deg, #1a0f0a, #0a0503);
+
+  transition: 0.3s ease;
+}
+
+.list.show {
+  left: 0;
+}
+
+.list button {
+  width: 100%;
+  padding: 10px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #1f1208;
+  color: white;
+
+  text-align: left;
+  cursor: pointer;
+}
+
+.list button:hover,
+.list button.active {
+  background: linear-gradient(135deg, var(--orange), var(--amber));
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #0f0a05;
+  color: #ccc;
+  margin-top: 50px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+  .checkout-container {
+    margin: 20px 12px;
+    padding: 18px;
+  }
+
+  nav {
+    gap: 10px;
+    font-size: 0.85rem;
+  }
+}
+</style>
+
+</head>
+
+<header><p>Six Star Suppliers</p></header>
+
+
+        <button id="button" onclick="togglemenu()" style="color: white;">☰</button>
+            <span class="sidebar" id="sidebar">
+            <ul id="list"class="list">
+                
+
+  
+  <li><a  ><button class="filter-btn active" data-category="all">All</button></a></li>
+  <li><a ><button class="filter-btn" data-category="fridge">Fridge</button></a></li>
+  <li><a ><button class="filter-btn" data-category="mouse">Mouse</button></a></li>
+  <li><a ><button class="filter-btn" data-category="microwave">Microwave</button></a></li>
+  <li><a ><button class="filter-btn" data-category="extension">Extension</button></a></li>
+  <li><a ><button class="filter-btn" data-category="reflector&labcoat">Comrade Arena</button></a></li>
+  <li><a ><button class="filter-btn" data-category="bt">BT Speaker</button></a></li>
+  <li><a ><button class="filter-btn" data-category="airpods">EarPods</button></a></li>
+  <li><a ><button class="filter-btn" data-category="powerbank">PowerBank</button></a></li>
+  <li><a ><button class="filter-btn" data-category="system">Multimedia Systems</button></a></li>
+  <li><a ><button class="filter-btn" data-category="pad">Gaming Hub</button></a></li>
+  
+  <li><a ><button class="filter-btn" data-category="headphones">HeadPhones</button></a></li>
+  
+</ul>
+
+         <nav>
+            <a href="index.html" class="navfilter">Home</a>
+            <a href="product.html" class="navfilter">All Products</a>
+            <a href="carstv.html" class="navfilter active">Explore</a>
+            <a href="contact.html" class="navfilter">Contact</a>
+           
+        </nav><br>
+
+
+
+<body>
+
+<div class="checkout-container">
+<h2>Checkout</h2>
+
+<div id="checkout-items"></div>
+
+<div class="input-group">
+<label>M-Pesa Number</label>
+<input type="text" id="phone" placeholder="0712345678">
+</div>
+
+<div class="input-group">
+<label>Email</label>
+<input type="email" id="email" placeholder="you@example.com">
+</div>
+
+<div class="input-group">
+<label>Delivery Location</label>
+<select id="location" onchange="updateTotal()">
+<option value="0">Select Location</option>
+<option value="100">Nairobi CBD - Ksh 0</option>
+<option value="250">Westlands - Ksh 50</option>
+<option value="500">Thika - Ksh 100</option>
+<option value="400">Western Region - Ksh 400</option>
+<option value="400">Coast Region - Ksh 400</option>
+</select>
+</div>
+
+<div class="summary">
+<p>Items Total: Ksh <span id="item-price">0</span></p>
+<p>Transport: Ksh <span id="transport-fee">0</span></p>
+<h3>Total: Ksh <span id="total-price">0</span></h3>
+</div>
+
+<button class="main" onclick="showPayment()">Proceed to Pay</button>
+
+<div id="payment-step" class="payment-modal">
+  <button onclick="document.getElementById('payment-step').style.display='none'">
+  Close
+</button>
+<h4>Payment Details</h4>
+<p>Till Number: <strong>4045314</strong></p>
+<p>Name: <strong>John Paul Munene</strong></p>
+
+<input type="text" id="mpesa-code" placeholder="Paste M-Pesa Code">
+
+<button onclick="submitOrder()">Submit Order</button>
+</div>
+
+<p id="msg"></p>
+
+</div>
+
+<script>
+const API = "https://cars3-158h.onrender.com";
+
+function cleanProduct(item) {
+  return {
+    ...item,
+    price: Number(String(item.price).replace(/[^0-9]/g, "")) || 0,
+    qty: Number(item.qty) || 1
+  };
+}
+// ===============================
+// CART
+// ===============================
+let cart = [];
+
+try {
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart = Array.isArray(cart) ? cart.map(cleanProduct) : [];
+} catch (e) {
+  cart = [];
+}
+
+cart = cart.map(i => ({ ...i, qty: i.qty || 1 }));
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+// ===============================
+function increaseQty(i){ cart[i].qty++; saveCart(); loadCheckout(); }
+function decreaseQty(i){ if(cart[i].qty>1){ cart[i].qty--; saveCart(); loadCheckout(); } }
+function removeFromCart(i){ cart.splice(i,1); saveCart(); loadCheckout(); }
+
+// ===============================
+function loadCheckout() {
+  const container = document.getElementById("checkout-items");
+  container.innerHTML = "";
+
+  if(cart.length === 0){
+    container.innerHTML = "<p>Your cart is empty</p>";
+    updateTotal();
+    return;
+  }
+
+  cart.forEach((item,i)=>{
+    const img = Array.isArray(item.image) ? item.image[0] : item.image;
+
+    container.innerHTML += `
+      <div class="cart-item">
+        <img src="${img}">
+        <h4>${item.make} ${item.model}</h4>
+
+        <div class="qty-controls">
+          <button onclick="decreaseQty(${i})" ${item.qty===1?'disabled':''}>-</button>
+          <span>${item.qty}</span>
+          <button onclick="increaseQty(${i})">+</button>
+        </div>
+
+        <p>Ksh ${(item.price*item.qty).toLocaleString()}</p>
+
+        <button class="removebtn" onclick="removeFromCart(${i})">X</button>
+      </div>
+    `;
+  });
+
+  updateTotal();
+}
+
+// ===============================
+function updateTotal() {
+  const transport = Number(document.getElementById("location").value) || 0;
+  const items = cart.reduce((s,i)=>s+(i.price*i.qty),0);
+
+  document.getElementById("item-price").innerText = items.toLocaleString();
+  document.getElementById("transport-fee").innerText = transport;
+  document.getElementById("total-price").innerText = (items+transport).toLocaleString();
+}
+
+// ===============================
+function showPayment() {
+  document.getElementById("payment-step").style.display = "block";
+}
+
+// ===============================
+async function submitOrder() {
+  const msg = document.getElementById("msg");
+  msg.innerHTML = "Processing...";
+
+  const data = {
+    phone: document.getElementById("phone").value,
+    email: document.getElementById("email").value,
+    location: document.getElementById("location").options[
+      document.getElementById("location").selectedIndex
+    ].text,
+    total: Number(
+      document.getElementById("total-price").innerText.replace(/,/g, "")
+    ),
+    mpesaCode: document.getElementById("mpesa-code").value,
+    items: cart
+  };
+
+  if (!data.phone || !data.email || !data.mpesaCode) {
+    msg.innerHTML = "<span style='color:red'>Fill all fields</span>";
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API}/confirm-order`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (res.ok) {
+      const orderNumber = result.orderNumber;
+      localStorage.setItem("lastOrder", orderNumber);
+
+      msg.innerHTML = `
+        <div class="success">
+          Order placed successfully 🎉<br>
+          Your Order Number: <b>${orderNumber}</b><br>
+          Redirecting to tracking...
+        </div>
+      `;
+
+      localStorage.removeItem("cart");
+
+      // 👉 redirect after 2 seconds with order number
+      setTimeout(() => {
+    window.location.href = "trackorder.html";
+  }, 2000);
+
+    } else {
+      msg.innerHTML = "<span style='color:red'>Failed: " + result.error + "</span>";
+    }
+
+  } catch (err) {
+    msg.innerHTML = "<span style='color:red'>Network error</span>";
+  }
+}
+
+// ===============================
+document.addEventListener("DOMContentLoaded", loadCheckout);
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const order = params.get("order");
+
+  if (order) {
+    document.getElementById("orderInput").value = order;
+    trackOrder(); // auto search immediately
+  }
+});
+
+</script>
+
+</body>
+</html>

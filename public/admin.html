@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Orders Dashboard</title>
+
+<style>
+body {
+  font-family: system-ui;
+  background: #0b1220;
+  margin: 0;
+  padding: 20px;
+  color: #e2e8f0;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.topbar {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+button.refresh {
+  background: #22c55e;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#orders {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  background: #111827;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid #1f2937;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.status {
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.PENDING { background: orange; }
+.CONFIRMED { background: #22c55e; }
+.PROCESSING { background: #3b82f6; }
+.SHIPPED { background: #a855f7; }
+.OUT_FOR_DELIVERY { background: #f59e0b; }
+.DELIVERED { background: #16a34a; }
+
+.info p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+.controls {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+select {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  background: #0f172a;
+  color: white;
+  border: 1px solid #334155;
+}
+
+button.update {
+  background: #3b82f6;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button.update:hover {
+  background: #2563eb;
+}
+
+.loading, .empty {
+  text-align: center;
+  color: #94a3b8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <h2>📦 Orders Admin Panel</h2>
+  <button class="refresh" onclick="loadOrders()">Refresh</button>
+</div>
+
+<div id="orders">
+  <div class="loading">Loading...</div>
+</div>
+
+<script>
+const BASE = "https://cars3-158h.onrender.com";
+const ADMIN_KEY = "12345secure";
+
+const STATUSES = [
+  "PENDING",
+  "CONFIRMED",
+  "PROCESSING",
+  "SHIPPED",
+  "OUT_FOR_DELIVERY",
+  "DELIVERED"
+];
+
+document.addEventListener("DOMContentLoaded", loadOrders);
+
+// ===============================
+// LOAD ORDERS
+// ===============================
+async function loadOrders() {
+  const res = await fetch(`${BASE}/api/orders`, {
+    headers: { "admin-key": ADMIN_KEY }
+  });
+
+  const data = await res.json();
+
+  const container = document.getElementById("orders");
+
+  if (!data.length) {
+    container.innerHTML = `<p class="empty">No orders found</p>`;
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(order => {
+    const div = document.createElement("div");
+    div.className = "card";
+
+    div.innerHTML = `
+      <div class="header">
+        <strong>${order.orderNumber}</strong>
+        <span class="status ${order.status}">
+          ${order.status}
+        </span>
+      </div>
+
+      <div class="info">
+        <p>Email: ${order.email}</p>
+        <p>Phone: ${order.phone}</p>
+        <p>Total: KES ${order.total}</p>
+        <p>Mpesa: ${order.mpesaCode}</p>
+      </div>
+
+      <div class="controls">
+        <select id="select-${order._id}">
+          ${STATUSES.map(s => `
+            <option value="${s}" ${s === order.status ? "selected" : ""}>
+              ${s}
+            </option>
+          `).join("")}
+        </select>
+
+        <button class="update" onclick="updateStatus('${order._id}')">
+          Update
+        </button>
+      </div>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+// ===============================
+// UPDATE STATUS (NEW SYSTEM)
+// ===============================
+async function updateStatus(id) {
+  const select = document.getElementById(`select-${id}`);
+  const status = select.value;
+
+  await fetch(`${BASE}/api/orders/status/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "admin-key": ADMIN_KEY
+    },
+    body: JSON.stringify({ status })
+  });
+
+  loadOrders();
+}
+</script>
+
+</body>
+</html>

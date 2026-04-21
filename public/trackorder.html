@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Track Your Order</title>
+
+<style>
+:root{
+  --bg: #0b0b0c;
+  --panel: #121214;
+  --card: #16161a;
+  --border: rgba(255,140,0,0.18);
+
+  --orange: #ff6600;
+  --amber: #ffb703;
+  --text: #fff3e0;
+  --muted: #b9a48f;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #1a0f0a, var(--bg));
+  color: var(--text);
+}
+
+/* ===== HEADER ===== */
+header {
+  padding: 16px;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--orange), var(--amber));
+  color: white;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+/* ===== NAV ===== */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  padding: 10px;
+  background: #0f0f10;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  border-bottom: 1px solid var(--border);
+}
+
+nav a {
+  color: #ffd7b0;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 20px;
+  transition: 0.25s;
+}
+
+nav a:hover {
+  background: rgba(255,102,0,0.12);
+}
+
+/* ===== SIDEBAR BUTTON ===== */
+#button {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  background: #151515;
+  border: 1px solid var(--border);
+  color: white;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 720px;
+  margin: 50px auto;
+  padding: 28px;
+  background: linear-gradient(180deg, var(--panel), #0f0f10);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* ===== INPUT ===== */
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: white;
+  outline: none;
+  font-size: 1rem;
+}
+
+input:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255,102,0,0.15);
+}
+
+/* ===== BUTTON ===== */
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--orange), var(--amber));
+  color: white;
+  transition: 0.25s;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  opacity: 0.6;
+}
+
+/* ===== CARD ===== */
+.card {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+/* ===== BADGE ===== */
+.badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* cleaner statuses */
+.PENDING { background: #ff8c00; }
+.CONFIRMED { background: #ffb703; color:#000; }
+.PROCESSING { background: #ff6a00; }
+.SHIPPED { background: #ff9100; }
+.OUT_FOR_DELIVERY { background: #ffb703; color:#000; }
+.DELIVERED { background: #ffcc00; color:#000; }
+
+/* ===== TIMELINE ===== */
+.timeline {
+  margin-top: 25px;
+  padding-left: 18px;
+  border-left: 2px solid rgba(255,140,0,0.25);
+}
+
+.step {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.step::before {
+  content: "";
+  position: absolute;
+  left: -26px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2a2a2a;
+  border: 2px solid var(--orange);
+}
+
+.step.active::before {
+  background: var(--orange);
+  box-shadow: 0 0 10px var(--orange);
+}
+
+.step h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #ffd7b0;
+}
+
+.time {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ===== STATES ===== */
+.error {
+  color: #ff6b6b;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.loading {
+  text-align: center;
+  color: var(--muted);
+}
+
+.small {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+  .container {
+    margin: 25px 12px;
+    padding: 18px;
+  }
+
+  nav {
+    gap: 10px;
+    font-size: 0.85rem;
+  }
+
+  #button {
+    top: 10px;
+    left: 10px;
+  }
+}
+</style>
+</head>
+
+
+<header><p>Six Star Suppliers</p></header>
+
+
+       
+
+         <nav>
+            <a href="index.html" class="navfilter">Home</a>
+            <a href="product.html" class="navfilter">All Products</a>
+            <a href="pay.html" class="navfilter active">My cart</a>
+            <a href="contact.html" class="navfilter">Contact</a>
+            
+        </nav><br>
+
+
+
+<body>
+
+<div class="container">
+  <h1>📦 Track Your Order</h1>
+
+  <p class="small">Enter Order Number (ORD-XXXXXX) or Phone Number</p>
+
+  <input type="text" id="orderInput" placeholder="e.g. ORD-123456 or 0712345678">
+  <button id="trackBtn" onclick="trackOrder()">Track Order</button>
+
+  <div id="result"></div>
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+  const savedOrder = localStorage.getItem("lastOrder");
+
+  if (savedOrder) {
+    document.getElementById("orderInput").value = savedOrder;
+
+    trackOrder(); // auto run search
+
+    // optional: clear after use
+    localStorage.removeItem("lastOrder");
+  }
+});
+
+const API = "https://cars3-158h.onrender.com";
+
+function formatDate(date) {
+  return new Date(date).toLocaleString();
+}
+
+async function trackOrder() {
+  const input = document.getElementById("orderInput");
+  const btn = document.getElementById("trackBtn");
+  const result = document.getElementById("result");
+
+  const value = input.value.trim();
+
+  if (!value) {
+    result.innerHTML = `<p class="error">Please enter order number or phone</p>`;
+    return;
+  }
+
+  btn.disabled = true;
+  result.innerHTML = `<p class="loading">Loading...</p>`;
+
+  try {
+    let url;
+
+    // detect order number vs phone
+    if (value.startsWith("ORD-")) {
+      url = `${API}/track-order/${value}`;
+    } else {
+      url = `${API}/my-orders?phone=${value}`;
+    }
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (res.status !== 200) {
+      result.innerHTML = `<p class="error">No order found</p>`;
+      btn.disabled = false;
+      return;
+    }
+
+    // ==========================
+    // PHONE RESULT (MULTIPLE ORDERS)
+    // ==========================
+    if (Array.isArray(data)) {
+
+      if (data.length === 0) {
+        result.innerHTML = `<p class="error">No orders found for this phone</p>`;
+        btn.disabled = false;
+        return;
+      }
+
+      result.innerHTML = data.map(order => `
+        <div class="card">
+          <h3>${order.orderNumber}</h3>
+          <p>Total: KES ${order.total}</p>
+
+          <div class="badge ${order.status}">
+            ${order.status.replaceAll("_", " ")}
+          </div>
+        </div>
+      `).join("");
+
+    } 
+    // ==========================
+    // SINGLE ORDER RESULT
+    // ==========================
+    else {
+
+      const history = data.statusHistory || [];
+
+      const timeline = history.slice().reverse().map(step => `
+        <div class="step active">
+          <h4>${step.status.replaceAll("_", " ")}</h4>
+          <div class="time">${step.date ? formatDate(step.date) : ""}</div>
+        </div>
+      `).join("");
+
+      result.innerHTML = `
+        <div class="card">
+          <h3>Order: ${data.orderNumber}</h3>
+          <p>Total: KES ${data.total}</p>
+
+          <div class="badge ${data.status}">
+            ${data.status.replaceAll("_", " ")}
+          </div>
+
+          <div class="timeline">
+            ${timeline || "<p>No tracking history yet</p>"}
+          </div>
+        </div>
+      `;
+    }
+
+  } catch (err) {
+    console.error(err);
+    result.innerHTML = `<p class="error">Server error. Try again later.</p>`;
+  }
+
+  btn.disabled = false;
+}
+</script>
+
+</body>
+</html>
