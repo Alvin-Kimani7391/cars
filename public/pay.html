@@ -68,7 +68,11 @@ h2 {
   font-size: 0.85rem;
   margin: 0;
   color: #ffd7b0;
+  white-space: nowrap;      /* Prevent wrapping */
+  overflow: hidden;         /* Hide extra text */
+  text-overflow: ellipsis;  /* Add "..." */
 }
+
 
 /* ===== QUANTITY CONTROLS ===== */
 .qty-controls {
