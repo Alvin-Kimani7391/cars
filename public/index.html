@@ -410,7 +410,7 @@
   </div>
 
         <div class="product" id="product" style="display: none;"></div><br>
-        <button id="show-cart-btn">Shop</button><br><br>
+        <button id="show-cart-btn"></button><br><br>
 
         <div id="popup" class="popup">
           <div class="cart">
@@ -508,7 +508,7 @@
                 <h2>Customer service</h2>
                 <a href="contact.html">Contact Us/Visit Us</a>
                 <a href="about.html">FAQs</a>
-                <a href="https://wa.me/254111976842?text=Hello%20I%20want%20to%20track%20my%20order">Track My Order</a>
+                <a href="trackorder.html">Track My Order</a>
 
                 <a></a>
             </section>
@@ -979,7 +979,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function displayHotDealsPreview() {
   const hotDeals = cars.filter(car => car.hotDeal === true);
 
-  const preview = hotDeals.slice(0, 3); // 👈 ONLY 3
+  const preview = hotDeals.slice(0, 6); // 👈 ONLY 3
 
   
 
@@ -1021,7 +1021,7 @@ function displayHotDealsPreview() {
 function displayNewArrivalsPreview() {
   const newProducts = cars.filter(isNewProduct);
 
-  const preview = newProducts.slice(0, 3); // same style as hot deals
+  const preview = newProducts.slice(0, 6); // same style as hot deals
 
   newArrivalsContainer.innerHTML = ""; // IMPORTANT: prevent duplicates
 
@@ -1058,7 +1058,7 @@ function displayNewArrivalsPreview() {
 function displaySomeProducts() {
   someProductsContainer.innerHTML = ""; // prevent duplicates
 
-  const preview = cars.slice(0, 3); // 👈 2 products only
+  const preview = cars.slice(0, 6); // 👈 6 products only
 
   preview.forEach(car => {
     const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
@@ -1304,7 +1304,20 @@ const hotDealsBtn = document.getElementById("hotDealsBtn");
     displaymycart();
   });
 
+const footer = document.getElementById("footer");
 
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY + window.innerHeight;
+  const footerTop = footer.offsetTop;
+
+  if(scrollY >= footerTop) {
+    showcartbtn.classList.add('hidden'); // hide button
+  } else {
+    showcartbtn.classList.remove('hidden'); // show button
+  }
+});
+
+  
   
 
 // ===============================
@@ -1369,16 +1382,7 @@ fetch(API_URL + "/api/cars")
 
 
 
-const footer = document.getElementById("footer");
 
-window.addEventListener("scroll", () => {
-  const scrollY = window.scrollY + window.innerHeight;
-  const footerTop = footer.offsetTop;
-
-  if (scrollY >= footerTop - 50) {
-    footer.classList.add("visible");
-  }
-});
 </script>
 
         <script>
