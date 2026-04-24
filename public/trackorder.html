@@ -333,6 +333,11 @@ async function trackOrder() {
       result.innerHTML = data.map(order => `
         <div class="card">
           <h3>${order.orderNumber}</h3>
+
+            <div style="margin:10px 0;">
+      ${renderItems(order.items)}
+    </div>
+
           <p>Total: KES ${order.total}</p>
 
           <div class="badge ${order.status}">
@@ -359,6 +364,11 @@ async function trackOrder() {
       result.innerHTML = `
         <div class="card">
           <h3>Order: ${data.orderNumber}</h3>
+
+          <div style="margin:10px 0;">
+  ${renderItems(data.items)}
+</div>
+
           <p>Total: KES ${data.total}</p>
 
           <div class="badge ${data.status}">
@@ -379,7 +389,22 @@ async function trackOrder() {
 
   btn.disabled = false;
 }
+
+function renderItems(items) {
+  if (!items || items.length === 0) return "<p>No items</p>";
+
+  return items.map(item => `
+    <div style="margin-bottom:8px;">
+      • ${item.make} ${item.model} x${item.qty}
+      <br>
+      <small>KES ${(item.price * item.qty).toLocaleString()}</small>
+    </div>
+  `).join("");
+}
+
 </script>
+
+
 
 </body>
 </html>

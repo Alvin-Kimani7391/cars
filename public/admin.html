@@ -20,12 +20,13 @@ h2 {
   margin-bottom: 20px;
 }
 
+/* ===== TOP BAR ===== */
 .topbar {
   max-width: 1100px;
   margin: auto;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 button.refresh {
@@ -37,6 +38,48 @@ button.refresh {
   cursor: pointer;
 }
 
+/* ===== SEARCH ===== */
+.searchbar {
+  max-width: 1100px;
+  margin: auto;
+  margin-bottom: 15px;
+}
+
+.searchbar input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #0f172a;
+  color: white;
+}
+
+/* ===== STATUS FILTERS ===== */
+.tabs {
+  max-width: 1100px;
+  margin: auto;
+  margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tab {
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.tab.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+}
+
+/* ===== ORDERS ===== */
 #orders {
   max-width: 1100px;
   margin: auto;
@@ -121,6 +164,27 @@ button.update:hover {
   <button class="refresh" onclick="loadOrders()">Refresh</button>
 </div>
 
+<!-- SEARCH -->
+<div class="searchbar">
+  <input
+    type="text"
+    id="search"
+    placeholder="Search by name, phone or order number..."
+    oninput="applyFilters()"
+  />
+</div>
+
+<!-- STATUS FILTERS -->
+<div class="tabs">
+  <button class="tab active" onclick="setFilter('ALL')">ALL</button>
+  <button class="tab" onclick="setFilter('PENDING')">PENDING</button>
+  <button class="tab" onclick="setFilter('CONFIRMED')">CONFIRMED</button>
+  <button class="tab" onclick="setFilter('PROCESSING')">PROCESSING</button>
+  <button class="tab" onclick="setFilter('SHIPPED')">SHIPPED</button>
+  <button class="tab" onclick="setFilter('OUT_FOR_DELIVERY')">OUT</button>
+  <button class="tab" onclick="setFilter('DELIVERED')">DELIVERED</button>
+</div>
+
 <div id="orders">
   <div class="loading">Loading...</div>
 </div>
@@ -129,6 +193,11 @@ button.update:hover {
 const BASE = "https://cars3-158h.onrender.com";
 const ADMIN_KEY = "12345secure";
 
+let allOrders = [];
+let statusFilter = "ALL";
+let searchTerm = "";
+
+/* =============================== */
 const STATUSES = [
   "PENDING",
   "CONFIRMED",
@@ -138,28 +207,62 @@ const STATUSES = [
   "DELIVERED"
 ];
 
+/* =============================== */
 document.addEventListener("DOMContentLoaded", loadOrders);
 
-// ===============================
-// LOAD ORDERS
-// ===============================
+/* =============================== */
+function renderItems(items) {
+  if (!items || !items.length) return "<p>No items</p>";
+
+  return items.map(item => `
+    <div style="margin-bottom:8px;">
+      • ${item.make} ${item.model} x${item.qty}
+      <br>
+      <small>KES ${(item.price * item.qty).toLocaleString()}</small>
+    </div>
+  `).join("");
+}
+
+/* =============================== */
 async function loadOrders() {
   const res = await fetch(`${BASE}/api/orders`, {
     headers: { "admin-key": ADMIN_KEY }
   });
 
-  const data = await res.json();
+  allOrders = await res.json();
+  renderOrders();
+}
 
+/* =============================== */
+function renderOrders() {
   const container = document.getElementById("orders");
 
-  if (!data.length) {
+  let filtered = allOrders;
+
+  // STATUS FILTER
+  if (statusFilter !== "ALL") {
+    filtered = filtered.filter(o => o.status === statusFilter);
+  }
+
+  // SEARCH FILTER
+  if (searchTerm.trim()) {
+    const term = searchTerm.toLowerCase();
+
+    filtered = filtered.filter(o =>
+      o.orderNumber.toLowerCase().includes(term) ||
+      o.phone.toLowerCase().includes(term) ||
+      (o.name && o.name.toLowerCase().includes(term))
+    );
+  }
+
+  if (!filtered.length) {
     container.innerHTML = `<p class="empty">No orders found</p>`;
     return;
   }
 
   container.innerHTML = "";
 
-  data.forEach(order => {
+  filtered.forEach(order => {
     const div = document.createElement("div");
     div.className = "card";
 
@@ -172,10 +275,17 @@ async function loadOrders() {
       </div>
 
       <div class="info">
-        <p>Email: ${order.email}</p>
-        <p>Phone: ${order.phone}</p>
-        <p>Total: KES ${order.total}</p>
-        <p>Mpesa: ${order.mpesaCode}</p>
+        <p><b>Name:</b> ${order.name || "N/A"}</p>
+        <p><b>Email:</b> ${order.email}</p>
+        <p><b>Phone:</b> ${order.phone}</p>
+
+        <div style="margin:10px 0; padding:10px; background:#0f172a; border-radius:8px;">
+          <strong>Items:</strong>
+          ${renderItems(order.items)}
+        </div>
+
+        <p><b>Total:</b> KES ${order.total}</p>
+        <p><b>Mpesa:</b> ${order.mpesaCode}</p>
       </div>
 
       <div class="controls">
@@ -197,9 +307,23 @@ async function loadOrders() {
   });
 }
 
-// ===============================
-// UPDATE STATUS (NEW SYSTEM)
-// ===============================
+/* =============================== */
+function applyFilters() {
+  searchTerm = document.getElementById("search").value;
+  renderOrders();
+}
+
+/* =============================== */
+function setFilter(status) {
+  statusFilter = status;
+
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  event.target.classList.add("active");
+
+  renderOrders();
+}
+
+/* =============================== */
 async function updateStatus(id) {
   const select = document.getElementById(`select-${id}`);
   const status = select.value;

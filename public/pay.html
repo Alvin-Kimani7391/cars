@@ -355,6 +355,11 @@ footer {
 <div id="checkout-items"></div>
 
 <div class="input-group">
+<label>Full Name</label>
+<input type="text" id="name" placeholder="John Doe">
+</div>
+
+<div class="input-group">
 <label>M-Pesa Number</label>
 <input type="text" id="phone" placeholder="0712345678">
 </div>
@@ -489,7 +494,12 @@ async function submitOrder() {
   const msg = document.getElementById("msg");
   msg.innerHTML = "Processing...";
 
+const formattedItems = cart.map(item => {
+  return `${item.make} ${item.model} x${item.qty}`;
+}).join(", ");
+
   const data = {
+    name: document.getElementById("name").value,
     phone: document.getElementById("phone").value,
     email: document.getElementById("email").value,
     location: document.getElementById("location").options[
@@ -499,10 +509,11 @@ async function submitOrder() {
       document.getElementById("total-price").innerText.replace(/,/g, "")
     ),
     mpesaCode: document.getElementById("mpesa-code").value,
-    items: cart
+    items: cart, // keep this for backend
+ 
   };
 
-  if (!data.phone || !data.email || !data.mpesaCode) {
+  if (!data.name || !data.phone || !data.email || !data.mpesaCode) {
     msg.innerHTML = "<span style='color:red'>Fill all fields</span>";
     return;
   }
