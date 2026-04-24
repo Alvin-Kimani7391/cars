@@ -106,8 +106,8 @@ document.getElementById("orderForm").addEventListener("submit", function (e) {
 // ===============================
 showcart.addEventListener("click", () => {
   displaymycart();
-  
-  mycart.style.display = "flex";
+window.location.href = "pay.html";
+  mycart.style.display = "none";
 });
 
 closeMyCart.addEventListener("click", () => (mycart.style.display = "none"));

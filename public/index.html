@@ -51,9 +51,7 @@
 }
 
 
-#showcart {
-  width: 80px;
-}
+
 #view{
   margin-right: 0px;
 }
@@ -586,6 +584,12 @@ viewBtn.addEventListener("click", () => {
   });
 </script>
 
+
+
+
+
+
+
 <script>
 // Debug timers (optional)
 setInterval(() => console.log("Hi this runs after 1 second"), 1000);
@@ -697,7 +701,8 @@ document.getElementById("orderForm").addEventListener("submit", function (e) {
 showcart.addEventListener("click", () => {
   displaymycart();
   
-  mycart.style.display = "flex";
+  mycart.style.display = "none";
+  window.location.href = "pay.html";
 });
 
 closeMyCart.addEventListener("click", () => (mycart.style.display = "none"));
@@ -1288,7 +1293,8 @@ const hotDealsBtn = document.getElementById("hotDealsBtn");
 
   showcartbtn.addEventListener("click", () => {
     displaycart();
-    popup.style.display = "flex";
+    popup.style.display = "none";
+    window.location.href = "pay.html";// add hash to URL
   });
 
   window.addEventListener("pageshow", () => {

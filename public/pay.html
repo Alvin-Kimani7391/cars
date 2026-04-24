@@ -399,7 +399,7 @@ footer {
 
 <input type="text" id="mpesa-code" placeholder="Paste M-Pesa Code">
 
-<button onclick="submitOrder()">Submit Order</button>
+<button onclick="submitOrder(event)">Submit Order</button>
 </div>
 
 <p id="msg"></p>
@@ -490,68 +490,143 @@ function showPayment() {
 }
 
 // ===============================
-async function submitOrder() {
+async function submitOrder(event) {
   const msg = document.getElementById("msg");
-  msg.innerHTML = "Processing...";
+  const btn = event?.target || document.querySelector("#payment-step button:last-of-type");
 
-const formattedItems = cart.map(item => {
-  return `${item.make} ${item.model} x${item.qty}`;
-}).join(", ");
+  // 🛑 prevent double clicks
+  if (btn) btn.disabled = true;
 
-  const data = {
-    name: document.getElementById("name").value,
-    phone: document.getElementById("phone").value,
-    email: document.getElementById("email").value,
-    location: document.getElementById("location").options[
-      document.getElementById("location").selectedIndex
-    ].text,
-    total: Number(
-      document.getElementById("total-price").innerText.replace(/,/g, "")
-    ),
-    mpesaCode: document.getElementById("mpesa-code").value,
-    items: cart, // keep this for backend
- 
-  };
+  msg.innerHTML = "Processing your order... ⏳";
 
-  if (!data.name || !data.phone || !data.email || !data.mpesaCode) {
-    msg.innerHTML = "<span style='color:red'>Fill all fields</span>";
+  // =========================
+  // 🔎 GET FORM VALUES
+  // =========================
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const mpesaCode = document.getElementById("mpesa-code").value.trim();
+  const locationEl = document.getElementById("location");
+
+  const locationValue = locationEl.value;
+  const locationText = locationEl.options[locationEl.selectedIndex].text;
+
+  const total = Number(
+    document.getElementById("total-price").innerText.replace(/,/g, "")
+  );
+
+  // =========================
+  // ❌ VALIDATION
+  // =========================
+  if (!name || !phone || !email || !mpesaCode || locationValue === "0") {
+    msg.innerHTML = "<span style='color:red'>Please fill all fields including location</span>";
+    if (btn) btn.disabled = false;
     return;
   }
 
-  try {
-    const res = await fetch(`${API}/confirm-order`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
+  if (!/^0\d{9}$/.test(phone)) {
+    msg.innerHTML = "<span style='color:red'>Enter valid phone (e.g. 0712345678)</span>";
+    if (btn) btn.disabled = false;
+    return;
+  }
 
-    const result = await res.json();
+  if (cart.length === 0) {
+    msg.innerHTML = "<span style='color:red'>Your cart is empty</span>";
+    if (btn) btn.disabled = false;
+    return;
+  }
 
-    if (res.ok) {
-      const orderNumber = result.orderNumber;
-      localStorage.setItem("lastOrder", orderNumber);
+  // =========================
+  // 📦 PREP DATA
+  // =========================
+  const data = {
+    name,
+    phone,
+    email,
+    location: locationText,
+    total,
+    mpesaCode,
+    items: cart
+  };
 
-      msg.innerHTML = `
-        <div class="success">
-          Order placed successfully 🎉<br>
-          Your Order Number: <b>${orderNumber}</b><br>
-          Redirecting to tracking...
-        </div>
-      `;
+  // =========================
+  // ⏱ TIMEOUT HELPER
+  // =========================
+  const fetchWithTimeout = (url, options, timeout = 10000) => {
+    return Promise.race([
+      fetch(url, options),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Request timeout")), timeout)
+      )
+    ]);
+  };
 
-      localStorage.removeItem("cart");
+  // =========================
+  // 🔁 FETCH WITH RETRY
+  // =========================
+  async function sendRequest(retries = 2) {
+    try {
+      const res = await fetchWithTimeout(`${API}/confirm-order`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
 
-      // 👉 redirect after 2 seconds with order number
-      setTimeout(() => {
-    window.location.href = "trackorder.html";
-  }, 2000);
+      if (!res.ok) {
+        if (retries > 0) {
+          msg.innerHTML = "Waking server... retrying ⏳";
+          await new Promise(r => setTimeout(r, 2000));
+          return sendRequest(retries - 1);
+        }
+        throw new Error("Server error");
+      }
 
-    } else {
-      msg.innerHTML = "<span style='color:red'>Failed: " + result.error + "</span>";
+      return res.json();
+
+    } catch (err) {
+      if (retries > 0) {
+        msg.innerHTML = "Network issue... retrying 🔄";
+        await new Promise(r => setTimeout(r, 2000));
+        return sendRequest(retries - 1);
+      }
+      throw err;
     }
+  }
+
+  // =========================
+  // 🚀 EXECUTE
+  // =========================
+  try {
+    const result = await sendRequest();
+
+    const orderNumber = result.orderNumber;
+
+    localStorage.setItem("lastOrder", orderNumber);
+    localStorage.removeItem("cart");
+
+    msg.innerHTML = `
+      <div class="success">
+        ✅ Order placed successfully<br><br>
+        Order Number:<br><b>${orderNumber}</b><br><br>
+        Redirecting to tracking...
+      </div>
+    `;
+
+    setTimeout(() => {
+      window.location.href = "trackorder.html";
+    }, 2000);
 
   } catch (err) {
-    msg.innerHTML = "<span style='color:red'>Network error</span>";
+    console.error(err);
+
+    msg.innerHTML = `
+      <span style="color:red">
+        ❌ Failed to submit order.<br>
+        Please check your internet or try again.
+      </span>
+    `;
+
+    if (btn) btn.disabled = false;
   }
 }
 
