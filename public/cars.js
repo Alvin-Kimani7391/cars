@@ -697,7 +697,8 @@ const hotDealsBtn = document.getElementById("hotDealsBtn");
 
   showcartbtn.addEventListener("click", () => {
     displaycart();
-    popup.style.display = "flex";
+    window.location.href = "pay.html";
+    popup.style.display = "none";
   });
 
   window.addEventListener("pageshow", () => {
@@ -721,28 +722,56 @@ window.addEventListener('scroll', () => {
 
 
   // ===============================
-  // LOAD DATA (BACKEND FIRST, JSON FALLBACK)
-  // ===============================
-  fetch(API_URL + "/api/cars")
-    .then(res => res.json())
-    .then(data => {
-      cars = shufflearray(data);
-      displayNewArrivalsPreview(); // now behaves like hot deals
-      displayHotDealsPreview();
-      displaySomeProducts();
-      const categoryFromURL = getCategoryFromURL();
-displaycars("", categoryFromURL);
-    })
-    .catch(() => {
-      fetch("cars.json")
-        .then(res => res.json())
-        .then(data => {
-          cars = shufflearray(data);
-          displayNewArrivalsPreview(); // now behaves like hot deals
-          displayHotDealsPreview();
-          displaySomeProducts();
-          displaycars();
-        });
-    });
+// GLOBAL STATE
+// ===============================
+let carsLoadedFromBackend = false;
+
+// ===============================
+// CENTRAL RENDER FUNCTION
+// ===============================
+function renderAllCars() {
+  displayNewArrivalsPreview();
+  displayHotDealsPreview();
+  displaySomeProducts();
+
+  const categoryFromURL = getCategoryFromURL();
+  displaycars("", categoryFromURL);
+}
+
+// ===============================
+// 1. FAST LOAD (LOCAL JSON FIRST)
+// ===============================
+fetch("cars.json")
+  .then(res => res.json())
+  .then(data => {
+    cars = shufflearray(data);
+    renderAllCars(); // 🔥 instant UI (fast)
+
+    // mark as local render
+    carsLoadedFromBackend = false;
+  })
+  .catch(err => {
+    console.log("Local JSON failed:", err);
+  });
+
+// ===============================
+// 2. BACKEND UPGRADE (REPLACE DATA IF AVAILABLE)
+// ===============================
+fetch(API_URL + "/api/cars")
+  .then(res => {
+    if (!res.ok) throw new Error("Backend not ready");
+    return res.json();
+  })
+  .then(data => {
+    if (!Array.isArray(data)) return;
+
+    cars = shufflearray(data);
+    carsLoadedFromBackend = true;
+
+    renderAllCars(); // 🔄 refresh UI with fresh backend data
+  })
+  .catch(err => {
+    console.log("Backend not available, using local only");
+  });
 
 });
