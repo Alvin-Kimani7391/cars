@@ -709,16 +709,24 @@ const hotDealsBtn = document.getElementById("hotDealsBtn");
 
   const footer = document.getElementById("footer");
 
+const whatsappBtn = document.getElementById("whatsappBtn");
+const whatsappBtn2 = document.getElementById("whatsappBtn2");
+
 window.addEventListener('scroll', () => {
   const scrollY = window.scrollY + window.innerHeight;
   const footerTop = footer.offsetTop;
 
   if(scrollY >= footerTop) {
-    showcartbtn.classList.add('hidden'); // hide button
+    showcartbtn.classList.add('hidden');
+    whatsappBtn.classList.add('hidden');
+    whatsappBtn2.classList.add('hidden'); // 👈 ADD THIS
   } else {
-    showcartbtn.classList.remove('hidden'); // show button
+    showcartbtn.classList.remove('hidden');
+    whatsappBtn.classList.remove('hidden'); // 👈 ADD THIS
+    whatsappBtn2.classList.remove('hidden'); // 👈 ADD THIS
   }
 });
+
 
 
   // ===============================
