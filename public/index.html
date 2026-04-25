@@ -215,6 +215,9 @@
 
 /* Phones */
 @media (max-width: 480px) {
+  #show-cart-btn {
+    display: none;
+  }
   .slider-container {
     margin: 20px 10px;
     padding: 18px;
@@ -249,6 +252,144 @@
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
 }
 
+
+.whatsapp-float2 {
+  position: fixed;
+  right: 20px;
+  bottom: 40px;
+ text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: green;
+  color: white;
+
+  padding: 12px 16px;
+  border-radius: 50px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  backdrop-filter: blur(6px);
+
+  z-index: 9999;
+  cursor: pointer;
+
+  transition: all 0.35s ease;
+  
+}
+
+/* ICON */
+.whatsapp-float2 i {
+  font-size: 20px;
+}
+
+/* HOVER EFFECT */
+.whatsapp-float2:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+/* 🔥 HIDE LIKE CART BUTTON */
+.whatsapp-float2.hidden {
+  opacity: 0;
+  transform: translateX(40px); /* 👉 comes from RIGHT */
+  pointer-events: none;
+}
+
+/* OPTIONAL PULSE (modern feel) */
+.whatsapp-float2::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  background: rgba(37, 211, 102, 0.4);
+  animation: pulse 2s infinite;
+  z-index: -1;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  70% { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+
+.whatsapp-float {
+  position: fixed;
+  left: 20px;
+  bottom: 40px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: linear-gradient(135deg, #25D366, #1ebe5d);
+  color: white;
+
+  padding: 12px 16px;
+  border-radius: 50px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  backdrop-filter: blur(6px);
+
+  z-index: 9999;
+  cursor: pointer;
+
+  transition: all 0.35s ease;
+  
+}
+
+/* ICON */
+.whatsapp-float i {
+  font-size: 20px;
+}
+
+/* HOVER EFFECT */
+.whatsapp-float:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+/* 🔥 HIDE LIKE CART BUTTON */
+.whatsapp-float.hidden {
+  opacity: 0;
+  transform: translateX(-40px);
+  pointer-events: none;
+}
+
+/* OPTIONAL PULSE (modern feel) */
+.whatsapp-float::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  background: rgba(37, 211, 102, 0.4);
+  animation: pulse 2s infinite;
+  z-index: -1;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  70% { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+
+@media (max-width: 768px) {
+  .whatsapp-float,
+  #show-cart-btn {
+    height: 48px;        /* 🔥 SAME HEIGHT */
+    padding: 0 16px;     /* remove vertical padding */
+    display: flex;
+    align-items: center;
+  }
+}
         </style>
         <meta property="og:title" content="Six Star Suppliers – Quality Products at Affordable Prices">
 <meta property="og:description" content="Six Star Suppliers is an online shopping website offering high-quality products at affordable prices. Shop now for the best deals!">
@@ -410,7 +551,7 @@
   </div>
 
         <div class="product" id="product" style="display: none;"></div><br>
-        <button id="show-cart-btn">Shop</button><br><br>
+        <button style="display: none;" id="show-cart-btn">Shop</button><br><br>
 
         <div id="popup" class="popup">
           <div class="cart">
@@ -501,6 +642,25 @@
 
 </div>
 
+<a href="https://wa.me/254794327798?text=Hello%20I%20want%20to%20order"
+   target="_blank"
+   class="whatsapp-float"
+   id="whatsappBtn">
+
+  <i class="fa-brands fa-whatsapp"></i>
+  <span>Chat</span>
+</a>
+
+</div>
+
+<a href="pay.html"
+   
+   class="whatsapp-float2"
+   id="whatsappBtn2">
+
+  
+  <span>Shop Now</span>
+</a>
         </main>
         <footer id="footer" class="footer">
             <div class="footer1">
@@ -554,7 +714,9 @@
             </div>
 
         </footer>
-
+<script>
+  
+</script>
 
 
 <script>
@@ -1306,14 +1468,21 @@ const hotDealsBtn = document.getElementById("hotDealsBtn");
 
 const footer = document.getElementById("footer");
 
+const whatsappBtn = document.getElementById("whatsappBtn");
+const whatsappBtn2 = document.getElementById("whatsappBtn2");
+
 window.addEventListener('scroll', () => {
   const scrollY = window.scrollY + window.innerHeight;
   const footerTop = footer.offsetTop;
 
   if(scrollY >= footerTop) {
-    showcartbtn.classList.add('hidden'); // hide button
+    showcartbtn.classList.add('hidden');
+    whatsappBtn.classList.add('hidden');
+    whatsappBtn2.classList.add('hidden'); // 👈 ADD THIS
   } else {
-    showcartbtn.classList.remove('hidden'); // show button
+    showcartbtn.classList.remove('hidden');
+    whatsappBtn.classList.remove('hidden'); // 👈 ADD THIS
+    whatsappBtn2.classList.remove('hidden'); // 👈 ADD THIS
   }
 });
 
