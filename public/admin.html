@@ -154,6 +154,203 @@ button.update:hover {
   text-align: center;
   color: #94a3b8;
 }
+/* ===============================
+   PREMIUM SELECTION SYSTEM
+================================ */
+
+.order-check {
+  width: 18px;
+  height: 18px;
+  accent-color: #ef4444;
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+/* Card selection effect */
+.card {
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* highlight when selected */
+.card:has(.order-check:checked) {
+  border: 1px solid #ef4444;
+  box-shadow: 0 0 0 1px rgba(239,68,68,0.3), 0 10px 30px rgba(239,68,68,0.15);
+}
+
+/* ===============================
+   DELETE / ARCHIVE BUTTONS
+================================ */
+
+button.delete {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 6px 18px rgba(239,68,68,0.25);
+}
+
+button.delete:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(239,68,68,0.35);
+}
+
+/* ===============================
+   BULK ACTION BAR (FLOATING)
+================================ */
+
+.bulk-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid #1f2937;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bulk-bar button {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.bulk-bar span {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+/* ===============================
+   TRASH PANEL (ARCHIVE VIEW)
+================================ */
+
+#orders.trash-mode .card {
+  border: 1px solid #374151;
+  background: linear-gradient(135deg, #0b1220, #0f172a);
+}
+
+.trash-tag {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #7c2d12;
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.order-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.order-pill {
+  background: #0f172a;
+  border: 1px solid #334155;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* checkbox glow */
+.order-check {
+  width: 18px;
+  height: 18px;
+  accent-color: #ef4444;
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+/* selected card animation */
+.card:has(.order-check:checked) {
+  border: 1px solid #ef4444;
+  box-shadow: 0 0 0 1px rgba(239,68,68,0.3),
+              0 10px 30px rgba(239,68,68,0.15);
+  transform: scale(1.01);
+}
+
+
+/* ===============================
+   PREMIUM 3-DOT LOADER
+================================ */
+
+.loader {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 18, 32, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+
+.loader.hidden {
+  display: none;
+}
+
+.dots {
+  display: flex;
+  gap: 10px;
+}
+
+/* base dot */
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  animation: bounce 1.2s infinite ease-in-out;
+  transform: translateY(0);
+  opacity: 0.9;
+}
+
+/* colors */
+.dot.admin {
+  background: #3b82f6; /* admin blue */
+  box-shadow: 0 0 12px rgba(59,130,246,0.6);
+}
+
+.dot.yellow {
+  background: #facc15;
+  box-shadow: 0 0 12px rgba(250,204,21,0.6);
+  animation-delay: 0.15s;
+}
+
+.dot.red {
+  background: #ef4444;
+  box-shadow: 0 0 12px rgba(239,68,68,0.6);
+  animation-delay: 0.3s;
+}
+
+/* bounce animation */
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+}
 </style>
 </head>
 
@@ -163,6 +360,26 @@ button.update:hover {
   <h2>📦 Orders Admin Panel</h2>
   <button class="refresh" onclick="loadOrders()">Refresh</button>
 </div>
+
+<!-- ================= AGENTS SECTION ================= -->
+<div class="tabs" style="margin-top:20px;">
+  <button class="tab active" onclick="showPanel('orders', this)">ORDERS</button>
+<button class="tab" onclick="showPanel('agents', this)">AGENTS</button>
+<button class="tab" onclick="showPanel('leaderboard', this)">LEADERBOARD</button>
+<button class="tab" onclick="showArchived(this)">TRASH</button>
+</div>
+
+
+<div id="globalLoader" class="loader hidden">
+  <div class="dots">
+    <span class="dot admin"></span>
+    <span class="dot yellow"></span>
+    <span class="dot red"></span>
+  </div>
+</div>
+
+<div id="agentsPanel" style="display:none; max-width:1100px; margin:auto;"></div>
+<div id="leaderboardPanel" style="display:none; max-width:1100px; margin:auto;"></div>
 
 <!-- SEARCH -->
 <div class="searchbar">
@@ -174,15 +391,26 @@ button.update:hover {
   />
 </div>
 
+<div class="bulk-bar">
+  <span id="selectedCount">0 selected</span>
+
+  <div style="display:flex; gap:10px;">
+    <button onclick="bulkArchive()">🗑 Archive Selected</button>
+    <button onclick="clearSelection()" style="background:#334155;">
+      Clear
+    </button>
+  </div>
+</div>
+
 <!-- STATUS FILTERS -->
 <div class="tabs">
-  <button class="tab active" onclick="setFilter('ALL')">ALL</button>
-  <button class="tab" onclick="setFilter('PENDING')">PENDING</button>
-  <button class="tab" onclick="setFilter('CONFIRMED')">CONFIRMED</button>
-  <button class="tab" onclick="setFilter('PROCESSING')">PROCESSING</button>
-  <button class="tab" onclick="setFilter('SHIPPED')">SHIPPED</button>
-  <button class="tab" onclick="setFilter('OUT_FOR_DELIVERY')">OUT</button>
-  <button class="tab" onclick="setFilter('DELIVERED')">DELIVERED</button>
+  <button class="tab active" onclick="setFilter('ALL', this)">ALL</button>
+  <button class="tab" onclick="setFilter('PENDING', this)">PENDING</button>
+  <button class="tab" onclick="setFilter('CONFIRMED', this)">CONFIRMED</button>
+  <button class="tab" onclick="setFilter('PROCESSING', this)">PROCESSING</button>
+  <button class="tab" onclick="setFilter('SHIPPED', this)">SHIPPED</button>
+  <button class="tab" onclick="setFilter('OUT_FOR_DELIVERY', this)">OUT</button>
+  <button class="tab" onclick="setFilter('DELIVERED', this)">DELIVERED</button>
 </div>
 
 <div id="orders">
@@ -192,6 +420,14 @@ button.update:hover {
 <script>
 const BASE = "https://cars3-158h.onrender.com";
 const ADMIN_KEY = "12345secure";
+
+let agents = [];
+let leaderboard = [];
+let activePanel = "orders";
+
+let currentPage = 1;
+const pageSize = 5;
+
 
 let allOrders = [];
 let statusFilter = "ALL";
@@ -210,6 +446,309 @@ const STATUSES = [
 /* =============================== */
 document.addEventListener("DOMContentLoaded", loadOrders);
 
+
+
+function showLoader() {
+  document.getElementById("globalLoader").classList.remove("hidden");
+}
+
+function hideLoader() {
+  document.getElementById("globalLoader").classList.add("hidden");
+}
+
+
+function showPanel(panel, el) {
+  activePanel = panel;
+
+  // hide everything first
+  document.getElementById("orders").style.display = "none";
+  document.getElementById("agentsPanel").style.display = "none";
+  document.getElementById("leaderboardPanel").style.display = "none";
+
+  // remove trash mode always when leaving orders
+  document.getElementById("orders").classList.remove("trash-mode");
+
+  // tabs UI
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  el.classList.add("active");
+
+  // show selected panel
+  if (panel === "orders") {
+    document.getElementById("orders").style.display = "grid";
+    loadOrders();
+  }
+
+  if (panel === "agents") {
+    document.getElementById("agentsPanel").style.display = "block";
+    loadAgents();
+  }
+
+  if (panel === "leaderboard") {
+    document.getElementById("leaderboardPanel").style.display = "block";
+    loadLeaderboard();
+  }
+}
+
+async function loadAgents() {
+  const res = await fetch(`${BASE}/api/agents`, {
+    headers: { "admin-key": ADMIN_KEY }
+  });
+
+  const agents = await res.json();
+
+  const container = document.getElementById("agentsPanel");
+
+  container.innerHTML = `
+    <h3>🧑‍💼 Agents</h3>
+
+    <div style="margin-bottom:15px;">
+      <input id="agentName" placeholder="Agent name"
+        style="padding:10px; width:70%; border-radius:8px; border:1px solid #334155; background:#0f172a; color:white;">
+      <button onclick="createAgent()"
+        style="padding:10px 14px; background:#22c55e; border:none; border-radius:8px; cursor:pointer;">
+        Create
+      </button>
+    </div>
+
+    ${agents.map(a => `
+      <div class="card">
+        <p><b>${a.name}</b></p>
+        <p>Code: <b>${a.code}</b></p>
+        <button onclick="copyCode('${a.code}')">Copy Code</button>
+      </div>
+    `).join("")}
+  `;
+}
+
+
+function updateSelectionUI() {
+  const checkboxes = document.querySelectorAll(".order-check");
+  const checked = document.querySelectorAll(".order-check:checked");
+
+  document.getElementById("selectedCount").innerText =
+    `${checked.length} / ${checkboxes.length} selected`;
+}
+
+document.addEventListener("change", (e) => {
+  if (e.target.classList.contains("order-check")) {
+    updateSelectionUI();
+  }
+});
+
+async function showArchived(el) {
+  const res = await fetch(`${BASE}/api/orders/archived`, {
+    headers: { "admin-key": ADMIN_KEY }
+  });
+
+  const data = await res.json();
+
+  const container = document.getElementById("orders");
+
+  container.classList.add("trash-mode");
+  container.style.display = "grid";
+
+  document.getElementById("agentsPanel").style.display = "none";
+  document.getElementById("leaderboardPanel").style.display = "none";
+
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  el.classList.add("active");
+
+  renderArchived(data);
+}
+
+function clearSelection() {
+  document.querySelectorAll(".order-check").forEach(cb => cb.checked = false);
+  updateSelectionUI();
+}
+
+async function bulkArchive() {
+  const selected = [...document.querySelectorAll(".order-check:checked")]
+    .map(el => el.value);
+
+  if (!selected.length) {
+    alert("No orders selected");
+    return;
+  }
+
+  const confirmDelete = confirm(`Archive ${selected.length} orders?`);
+  if (!confirmDelete) return;
+
+  await fetch(`${BASE}/api/orders/bulk-archive`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "admin-key": ADMIN_KEY
+    },
+    body: JSON.stringify({ ids: selected })
+  });
+
+  loadOrders();
+}
+
+async function archiveOrder(id) {
+  const confirmDelete = confirm("Are you sure you want to move this order to trash?");
+
+  if (!confirmDelete) return;
+
+  showLoader(); // 👈 START LOADER
+  try 
+  
+  {
+    const res = await fetch(`${BASE}/api/orders/archive/${id}`, {
+      method: "PUT",
+      headers: { "admin-key": ADMIN_KEY }
+    });
+
+    if (!res.ok) throw new Error("Failed to archive");
+
+    alert("Order moved to trash 🗑");
+
+    loadOrders();
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong while archiving");
+  }
+    finally {
+      hideLoader(); // 👈 STOP LOADER
+    }
+}
+
+function showToast(message, action) {
+  const toast = document.createElement("div");
+
+  toast.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #111827;
+    border: 1px solid #334155;
+    padding: 12px 16px;
+    border-radius: 10px;
+    color: white;
+    z-index: 9999;
+  `;
+
+  toast.innerHTML = `
+    ${message}
+    <button style="margin-left:10px; color:#3b82f6;">UNDO</button>
+  `;
+
+  toast.querySelector("button").onclick = () => {
+    action();
+    toast.remove();
+  };
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.remove(), 5000);
+}
+
+
+function renderArchived(data) {
+  const container = document.getElementById("orders");
+
+  container.classList.add("trash-mode");
+
+  container.innerHTML = data.map(order => `
+    <div class="card">
+      <div class="header">
+        <strong>${order.orderNumber}</strong>
+        <span class="trash-tag">ARCHIVED</span>
+      </div>
+
+      <p>${order.name}</p>
+      <p>KES ${order.total}</p>
+
+      <div class="controls">
+        <button class="update" onclick="restoreOrder('${order._id}')">
+          ♻ Restore
+        </button>
+      </div>
+    </div>
+  `).join("");
+}
+
+async function restoreOrder(id) {
+  await fetch(`${BASE}/api/orders/restore/${id}`, {
+    method: "PUT",
+    headers: { "admin-key": ADMIN_KEY }
+  });
+
+  loadOrders();
+}
+
+async function createAgent() {
+  showLoader();
+  try{// 👈 START LOADER
+  const name = document.getElementById("agentName").value.trim();
+
+  if (!name) {
+    
+    return alert("Enter agent name");
+  }
+
+  await fetch(`${BASE}/api/agents`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "admin-key": ADMIN_KEY
+    },
+    body: JSON.stringify({ name })
+  });
+
+  document.getElementById("agentName").value = "";
+  loadAgents();
+}
+finally {
+  hideLoader(); // 👈 STOP LOADER
+}}
+
+
+function copyCode(code) {
+  navigator.clipboard.writeText(code);
+  alert(`Copied agent code: ${code}`);
+}
+
+
+
+async function loadLeaderboard() {
+  showLoader(); // 👈 START LOADER
+  try {
+    const res = await fetch(`${BASE}/api/agents/leaderboard`);
+
+    if (!res.ok) throw new Error("Server error");
+
+    const data = await res.json();
+
+    const container = document.getElementById("leaderboardPanel");
+
+    if (!data.length) {
+      container.innerHTML = "<p>No leaderboard data</p>";
+      return;
+    }
+
+    container.innerHTML = `
+      <h3>🏆 Agent Leaderboard</h3>
+      ${data.map((a, i) => `
+        <div class="card">
+  <h4>#${i + 1} ${a._id.name}</h4>
+  <p>Code: ${a._id.code}</p>
+  <p>Sales: KES ${a.totalSales.toLocaleString()}</p>
+  <p>Orders: ${a.totalOrders}</p>
+  <p>Commission: KES ${a.totalCommission.toLocaleString()}</p>
+</div>
+      `).join("")}
+    `;
+  } catch (err) {
+    document.getElementById("leaderboardPanel").innerHTML =
+      `<p style="color:red;">Failed to load leaderboard</p>`;
+    console.error(err);
+  }
+  finally {
+    hideLoader(); // 👈 STOP LOADER
+  }
+}
+
 /* =============================== */
 function renderItems(items) {
   if (!items || !items.length) return "<p>No items</p>";
@@ -225,12 +764,22 @@ function renderItems(items) {
 
 /* =============================== */
 async function loadOrders() {
-  const res = await fetch(`${BASE}/api/orders`, {
-    headers: { "admin-key": ADMIN_KEY }
-  });
+  showLoader(); // 👈 ADD
 
-  allOrders = await res.json();
-  renderOrders();
+  try {
+    const res = await fetch(`${BASE}/api/orders`, {
+      headers: { "admin-key": ADMIN_KEY }
+    });
+
+    const container = document.getElementById("orders");
+    container.classList.remove("trash-mode");
+
+    allOrders = await res.json();
+    renderOrders();
+    clearSelection();
+  } finally {
+    hideLoader(); // 👈 ALWAYS STOP LOADER
+  }
 }
 
 /* =============================== */
@@ -255,18 +804,29 @@ function renderOrders() {
     );
   }
 
-  if (!filtered.length) {
+  // RESET PAGE IF OUT OF RANGE
+  const totalPages = Math.ceil(filtered.length / pageSize);
+  if (currentPage > totalPages) currentPage = 1;
+
+  const start = (currentPage - 1) * pageSize;
+  const paginated = filtered.slice(start, start + pageSize);
+
+  if (!paginated.length) {
     container.innerHTML = `<p class="empty">No orders found</p>`;
     return;
   }
 
   container.innerHTML = "";
 
-  filtered.forEach(order => {
+  paginated.forEach(order => {
     const div = document.createElement("div");
-    div.className = "card";
 
+    div.className = "card";
     div.innerHTML = `
+    <div class="order-top">
+  <input type="checkbox" class="order-check" value="${order._id}">
+  <span class="order-pill">#${order.orderNumber}</span>
+</div>
       <div class="header">
         <strong>${order.orderNumber}</strong>
         <span class="status ${order.status}">
@@ -284,6 +844,7 @@ function renderOrders() {
           ${renderItems(order.items)}
         </div>
 
+        <p><b>Agent:</b> ${order.agentName || "None"} (${order.agentCode || "-"})</p>
         <p><b>Total:</b> KES ${order.total}</p>
         <p><b>Mpesa:</b> ${order.mpesaCode}</p>
       </div>
@@ -297,6 +858,10 @@ function renderOrders() {
           `).join("")}
         </select>
 
+        <button class="delete" onclick="archiveOrder('${order._id}')">
+  🗑 Move to Trash
+</button>
+
         <button class="update" onclick="updateStatus('${order._id}')">
           Update
         </button>
@@ -305,20 +870,105 @@ function renderOrders() {
 
     container.appendChild(div);
   });
+
+  renderPagination(totalPages);
+  
+
+updateSelectionUI(); // 👈 ADD THIS
+}
+
+
+function renderPagination(totalPages) {
+  const container = document.getElementById("orders");
+
+  if (totalPages <= 1) return;
+
+  const wrapper = document.createElement("div");
+  wrapper.style.cssText = `
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 25px 0 10px;
+  `;
+
+  wrapper.innerHTML = `
+    <button 
+      onclick="changePage(-1)" 
+      ${currentPage === 1 ? "disabled" : ""}
+      style="
+        padding: 10px 16px;
+        border-radius: 10px;
+        border: 1px solid #334155;
+        background: linear-gradient(135deg, #0f172a, #111827);
+        color: #e2e8f0;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.2s;
+        opacity: ${currentPage === 1 ? 0.4 : 1};
+      "
+      onmouseover="this.style.transform='translateY(-2px)'"
+      onmouseout="this.style.transform='translateY(0)'"
+    >
+      ⬅ Prev
+    </button>
+
+    <div style="
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: #111827;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      font-weight: 600;
+      box-shadow: 0 0 12px rgba(59,130,246,0.15);
+    ">
+      Page <span style="color:#3b82f6">${currentPage}</span> of ${totalPages}
+    </div>
+
+    <button 
+      onclick="changePage(1)" 
+      ${currentPage === totalPages ? "disabled" : ""}
+      style="
+        padding: 10px 16px;
+        border-radius: 10px;
+        border: 1px solid #334155;
+        background: linear-gradient(135deg, #0f172a, #111827);
+        color: #e2e8f0;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.2s;
+        opacity: ${currentPage === totalPages ? 0.4 : 1};
+      "
+      onmouseover="this.style.transform='translateY(-2px)'"
+      onmouseout="this.style.transform='translateY(0)'"
+    >
+      Next ➡
+    </button>
+  `;
+
+  container.appendChild(wrapper);
+}
+
+
+function changePage(dir) {
+  currentPage += dir;
+  renderOrders();
 }
 
 /* =============================== */
 function applyFilters() {
   searchTerm = document.getElementById("search").value;
+  currentPage = 1;
   renderOrders();
 }
 
 /* =============================== */
-function setFilter(status) {
+function setFilter(status, el) {
   statusFilter = status;
+  currentPage = 1;
 
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  event.target.classList.add("active");
+  el.classList.add("active");
 
   renderOrders();
 }

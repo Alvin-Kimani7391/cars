@@ -396,8 +396,15 @@ footer {
 <option value="300">Meru Region - Ksh 300</option>
 <option value="300">Namanga - Ksh 300</option>
 <option value="200">Kajiado - Ksh 200</option>
-<option value="400">Coast Region - Ksh 400</option>
+<option value="300">Coast Region - Ksh 300</option>
 </select>
+</div>
+
+<div class="input-group">
+  <label>Select Agent (Optional)</label>
+  <select id="agentSelect">
+    <option value="">No Agent</option>
+  </select>
 </div>
 
 <div class="summary">
@@ -522,6 +529,32 @@ function showPayment() {
   document.getElementById("payment-step").style.display = "block";
 }
 
+
+
+
+async function loadAgentsDropdown() {
+  try {
+    const res = await fetch(`${API}/api/public/agents`);
+    const agents = await res.json();
+
+    const select = document.getElementById("agentSelect");
+
+    agents.forEach(a => {
+      const option = document.createElement("option");
+      option.value = a.code;
+      option.textContent = `${a.name} (${a.code})`;
+      select.appendChild(option);
+    });
+
+  } catch (err) {
+    console.error("Failed to load agents", err);
+  }
+}
+
+
+
+
+
 // ===============================
 async function submitOrder(event) {
   const msg = document.getElementById("msg");
@@ -543,7 +576,7 @@ async function submitOrder(event) {
 
   const locationValue = locationEl.value;
   const locationText = locationEl.options[locationEl.selectedIndex].text;
-
+  const agentCode = document.getElementById("agentSelect").value;
   const total = Number(
     document.getElementById("total-price").innerText.replace(/,/g, "")
   );
@@ -577,6 +610,7 @@ async function submitOrder(event) {
     phone,
     email,
     location: locationText,
+    agentCode: agentCode || null,   // 🔥 ADD THIS
     total,
     mpesaCode,
     items: cart
@@ -664,7 +698,10 @@ async function submitOrder(event) {
 }
 
 // ===============================
-document.addEventListener("DOMContentLoaded", loadCheckout);
+document.addEventListener("DOMContentLoaded", () => {
+  loadCheckout();
+  loadAgentsDropdown(); // ✅ ADD THIS
+}); 
 
 
 document.addEventListener("DOMContentLoaded", () => {
