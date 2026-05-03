@@ -449,6 +449,18 @@ footer {
 <script>
 const API = "https://cars3-158h.onrender.com";
 
+async function wakeServer() {
+  try {
+    await fetch(`${API}/health`, {
+      method: "GET",
+      cache: "no-store"
+    });
+    console.log("Server wake request sent");
+  } catch (err) {
+    console.log("Wake failed or server starting:", err);
+  }
+}
+
 function cleanProduct(item) {
   return {
     ...item,
@@ -701,6 +713,21 @@ async function submitOrder(event) {
 document.addEventListener("DOMContentLoaded", () => {
   loadCheckout();
   loadAgentsDropdown(); // ✅ ADD THIS
+
+  async function wakeServer() {
+  try {
+    await fetch(`${API}/health`, {
+      method: "GET",
+      cache: "no-store"
+    });
+    console.log("Server wake request sent");
+  } catch (err) {
+    console.log("Server still waking or offline:", err);
+  }
+}
+
+ // 🔥 WAKE SERVER ON PAGE LOAD
+  wakeServer();
 }); 
 
 
