@@ -538,6 +538,8 @@ function updateTotal() {
 
 // ===============================
 function showPayment() {
+   // 🔥 wake server immediately
+  wakeServer();
   document.getElementById("payment-step").style.display = "block";
 }
 
@@ -546,6 +548,8 @@ function showPayment() {
 
 async function loadAgentsDropdown() {
   try {
+     // 🔥 wake server immediately
+  wakeServer();
     const res = await fetch(`${API}/api/public/agents`);
     const agents = await res.json();
 
@@ -714,18 +718,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadCheckout();
   loadAgentsDropdown(); // ✅ ADD THIS
 
-  async function wakeServer() {
-  try {
-    await fetch(`${API}/health`, {
-      method: "GET",
-      cache: "no-store"
-    });
-    console.log("Server wake request sent");
-  } catch (err) {
-    console.log("Server still waking or offline:", err);
-  }
-}
-
+  
  // 🔥 WAKE SERVER ON PAGE LOAD
   wakeServer();
 }); 
