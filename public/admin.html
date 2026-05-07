@@ -351,6 +351,17 @@ button.delete:hover {
     transform: translateY(-10px);
   }
 }
+#agentsPanel,
+#leaderboardPanel {
+  max-width: 1100px;
+  margin: 20px auto;
+  display: grid;
+  gap: 16px;
+}
+#agentsPanel .card,
+#leaderboardPanel .card {
+  margin: 0;
+}
 </style>
 </head>
 
@@ -460,30 +471,39 @@ function hideLoader() {
 function showPanel(panel, el) {
   activePanel = panel;
 
-  // hide everything first
+  // hide all panels
   document.getElementById("orders").style.display = "none";
   document.getElementById("agentsPanel").style.display = "none";
   document.getElementById("leaderboardPanel").style.display = "none";
 
-  // remove trash mode always when leaving orders
+  // reset trash mode
   document.getElementById("orders").classList.remove("trash-mode");
 
   // tabs UI
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   el.classList.add("active");
 
-  // show selected panel
+  // 👉 TOGGLE UI ELEMENTS HERE
+  const searchbar = document.querySelector(".searchbar");
+  const bulkBar = document.querySelector(".bulk-bar");
+
   if (panel === "orders") {
+    searchbar.style.display = "block";
+    bulkBar.style.display = "flex";
     document.getElementById("orders").style.display = "grid";
     loadOrders();
   }
 
   if (panel === "agents") {
+    searchbar.style.display = "none";
+    bulkBar.style.display = "none";
     document.getElementById("agentsPanel").style.display = "block";
     loadAgents();
   }
 
   if (panel === "leaderboard") {
+    searchbar.style.display = "none";
+    bulkBar.style.display = "none";
     document.getElementById("leaderboardPanel").style.display = "block";
     loadLeaderboard();
   }
@@ -711,6 +731,53 @@ function copyCode(code) {
 
 
 
+async function loadAgentOrders(code, name) {
+  showLoader();
+
+  try {
+    const res = await fetch(`${BASE}/api/agents/${code}/orders`, {
+      headers: { "admin-key": ADMIN_KEY }
+    });
+
+    const data = await res.json();
+
+    const container = document.getElementById("leaderboardPanel");
+
+    container.innerHTML = `
+      <h3>📊 ${name} (${code}) Orders</h3>
+
+      <div style="margin:10px 0; padding:10px; background:#0f172a; border-radius:10px;">
+        <b>Total Orders:</b> ${data.totalOrders} <br>
+        <b>Total Sales:</b> KES ${data.totalSales.toLocaleString()} <br>
+        <b>Total Commission:</b> KES ${data.totalCommission.toLocaleString()}
+      </div>
+
+      ${data.orders.map(o => `
+        <div class="card">
+          <div class="header">
+            <strong>${o.orderNumber}</strong>
+            <span class="status ${o.status}">${o.status}</span>
+          </div>
+
+          <p><b>Customer:</b> ${o.name}</p>
+          <p><b>Location:</b> ${o.location || o.address || "N/A"}</p>
+          <p><b>Phone:</b> ${o.phone}</p>
+
+          <p><b>Order Value:</b> KES ${o.total.toLocaleString()}</p>
+
+          <p><b>Commission:</b> KES ${(data.totalCommission / data.totalOrders).toLocaleString()}</p>
+        </div>
+      `).join("")}
+    `;
+  } catch (err) {
+    console.error(err);
+    alert("Failed to load agent orders");
+  } finally {
+    hideLoader();
+  }
+}
+
+
 async function loadLeaderboard() {
   showLoader(); // 👈 START LOADER
   try {
@@ -730,7 +797,8 @@ async function loadLeaderboard() {
     container.innerHTML = `
       <h3>🏆 Agent Leaderboard</h3>
       ${data.map((a, i) => `
-        <div class="card">
+        <div class="card" onclick="loadAgentOrders('${a._id.code}', '${a._id.name}')"
+     style="cursor:pointer;">
   <h4>#${i + 1} ${a._id.name}</h4>
   <p>Code: ${a._id.code}</p>
   <p>Sales: KES ${a.totalSales.toLocaleString()}</p>
@@ -838,6 +906,7 @@ function renderOrders() {
         <p><b>Name:</b> ${order.name || "N/A"}</p>
         <p><b>Email:</b> ${order.email}</p>
         <p><b>Phone:</b> ${order.phone}</p>
+        <p><b>Location:</b> ${order.location || order.address || "N/A"}</p>
 
         <div style="margin:10px 0; padding:10px; background:#0f172a; border-radius:8px;">
           <strong>Items:</strong>

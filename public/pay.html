@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://kit.fontawesome.com/e1426ab85b.js" crossorigin="anonymous"></script>
 <title>Checkout</title>
 
 <style>
@@ -344,6 +345,179 @@ footer {
 .navfilter.active {
   font-weight: bolder;
 }
+#delivery-preview{
+  margin-top:15px;
+  padding:14px;
+  border-radius:14px;
+
+  background: linear-gradient(135deg,#1a120b,#22150d);
+
+  border:1px solid rgba(255,140,0,0.2);
+
+  display:none;
+  animation: fadeIn .35s ease;
+}
+
+.delivery-row{
+  display:flex;
+  justify-content:space-between;
+  margin:6px 0;
+}
+
+.delivery-badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:30px;
+
+  background:linear-gradient(135deg,#ff6600,#ffb703);
+
+  color:white;
+  font-size:12px;
+  font-weight:700;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+/* =========================
+CUSTOM LOCATION
+========================= */
+
+
+
+
+
+
+#custom-location-box{
+  margin-top:15px;
+  text-align:center;
+}
+
+.custom-location-btn{
+
+  width:100%;
+  padding:14px;
+
+  border:none;
+  border-radius:14px;
+
+  cursor:pointer;
+
+  background:linear-gradient(135deg,#1f1308,#2d1a0c);
+
+  border:1px solid rgba(255,183,3,0.15);
+
+  color:#ffcc80;
+
+  font-weight:700;
+  font-size:14px;
+
+  transition:.3s;
+}
+
+.custom-location-btn:hover{
+  transform:translateY(-2px);
+
+  background:linear-gradient(135deg,#ff6600,#ffb703);
+
+  color:white;
+}
+
+
+/* =========================
+PREMIUM MODAL
+========================= */
+
+.premium-modal{
+
+  display:none;
+
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.7);
+
+  z-index:5000;
+
+  justify-content:center;
+  align-items:center;
+
+  padding:20px;
+}
+
+.premium-modal-content{
+
+  width:100%;
+  max-width:420px;
+
+  background:linear-gradient(180deg,#161616,#0f0f10);
+
+  border-radius:22px;
+
+  padding:22px;
+
+  border:1px solid rgba(255,183,3,0.18);
+
+  box-shadow:0 25px 80px rgba(0,0,0,.55);
+
+  animation:premiumFade .35s ease;
+}
+
+@keyframes premiumFade{
+  from{
+    opacity:0;
+    transform:translateY(30px) scale(.95);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+.premium-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.close-premium{
+  background:none;
+  border:none;
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+}
+
+.premium-text{
+  color:#ddd;
+  line-height:1.7;
+  font-size:14px;
+  margin:18px 0;
+}
+.custom-location-btn i{
+  margin-right:8px;
+  font-size:15px;
+}
+
+.premium-top h3 i{
+  margin-right:8px;
+  color:#ffb703;
+}
+
+.main i{
+  margin-right:8px;
+}
+
+.close-premium i{
+  font-size:18px;
+}
 </style>
 
 </head>
@@ -386,18 +560,99 @@ footer {
 </div>
 
 <div class="input-group">
-<label>Delivery Location</label>
-<select id="location" onchange="updateTotal()">
-<option value="0">Select Location</option>
-<option value="0">Nairobi CBD - Ksh 0</option>
-<option value="50">Westlands - Ksh 50</option>
-<option value="100">Thika - Ksh 100</option>
-<option value="300">Western Region - Ksh 300</option>
-<option value="300">Meru Region - Ksh 300</option>
-<option value="300">Namanga - Ksh 300</option>
-<option value="200">Kajiado - Ksh 200</option>
-<option value="300">Coast Region - Ksh 300</option>
-</select>
+  <label>County/Region</label>
+
+  <select id="regionSelect">
+    <option value="">Select Region</option>
+  </select>
+</div>
+
+<div class="input-group">
+  <label>Town / Area</label>
+
+  <select id="townSelect" onchange="updateTotal()">
+    <option value="">Select Town</option>
+  </select>
+</div>
+
+<div id="delivery-preview"></div>
+
+<!-- =========================
+CUSTOM LOCATION REQUEST
+========================= -->
+
+<!-- =========================
+CUSTOM LOCATION REQUEST
+========================= -->
+
+<div id="custom-location-box">
+
+  <button
+    type="button"
+    class="custom-location-btn"
+    onclick="openCustomLocationModal()"
+  >
+
+    <i class="fa-solid fa-location-dot"></i>
+
+    <span>
+      My Location Is Not Listed
+    </span>
+
+  </button>
+
+</div>
+
+
+<!-- =========================
+PREMIUM MODAL
+========================= -->
+
+<div id="customLocationModal" class="premium-modal">
+
+  <div class="premium-modal-content">
+
+    <div class="premium-top">
+
+      <h3>
+        <i class="fa-solid fa-map-location-dot"></i>
+        Custom Delivery Request
+      </h3>
+
+      <button
+        class="close-premium"
+        onclick="closeCustomLocationModal()"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+    </div>
+
+    <p class="premium-text">
+      We currently dispatch to selected regions only.
+      <br><br>
+      If your area is unavailable, we can still process your order manually through WhatsApp support.
+    </p>
+
+    <input
+      type="text"
+      id="customLocationInput"
+      placeholder="Enter your location"
+    >
+
+    <button
+      class="main"
+      onclick="sendCustomLocationOrder()"
+    >
+
+      <i class="fa-brands fa-whatsapp"></i>
+
+      Continue to WhatsApp
+
+    </button>
+
+  </div>
+
 </div>
 
 <div class="input-group">
@@ -526,15 +781,443 @@ function loadCheckout() {
   updateTotal();
 }
 
-// ===============================
-function updateTotal() {
-  const transport = Number(document.getElementById("location").value) || 0;
-  const items = cart.reduce((s,i)=>s+(i.price*i.qty),0);
 
-  document.getElementById("item-price").innerText = items.toLocaleString();
-  document.getElementById("transport-fee").innerText = transport;
-  document.getElementById("total-price").innerText = (items+transport).toLocaleString();
+
+const DELIVERY_DATA = {
+
+  Nairobi: [
+    { town: "CBD", fee: 0, deliveryDays: 1 },
+    { town: "Westlands", fee: 50, deliveryDays: 1 },
+    { town: "Karen", fee: 50, deliveryDays: 1 },
+    { town: "Kasarani", fee: 80, deliveryDays: 1 },
+    { town: "Embakasi", fee: 80, deliveryDays: 1 },
+    { town: "Rongai", fee: 100, deliveryDays: 1 }
+  ],
+
+  Kiambu: [
+    { town: "Thika Road", fee: 100, deliveryDays: 1 },
+    { town: "Kiambu Town", fee: 50, deliveryDays: 1 }
+  ],
+
+  Kajiado: [
+    { town: "Kitengela", fee: 100, deliveryDays: 1 },
+    { town: "Isinya", fee: 150, deliveryDays: 2 },
+    { town: "Kajiado Town", fee: 200, deliveryDays: 2 },
+    { town: "Namanga", fee: 300, deliveryDays: 3 },
+    { town: "Loitoktok", fee: 300, deliveryDays: 3 }
+  ],
+
+  Bungoma: [
+    { town: "Bungoma Town", fee: 300, deliveryDays: 3 },
+    { town: "Kimilili", fee: 300, deliveryDays: 3 },
+    { town: "Webuye", fee: 300, deliveryDays: 3 },
+    { town: "Chwele", fee: 300, deliveryDays: 4 }
+  ],
+
+  Kisii: [
+    { town: "Kisii Town", fee: 300, deliveryDays: 3 },
+    { town: "Keroka", fee: 300, deliveryDays: 3 },
+    { town: "Ogembo", fee: 350, deliveryDays: 4 }
+  ],
+
+  Muranga: [
+    { town: "Muranga Town", fee: 200, deliveryDays: 2 }
+  ],
+
+  RiftValley: [
+    { town: "Naivasha", fee: 250, deliveryDays: 2 },
+    { town: "Nakuru", fee: 300, deliveryDays: 2 }
+  ],
+
+  Coast: [
+    { town: "Mombasa", fee: 300, deliveryDays: 4 },
+    { town: "Kilifi", fee: 350, deliveryDays: 4 },
+    { town: "Malindi", fee: 350, deliveryDays: 5 }
+  ]
+
+};
+
+
+const regionSelect = document.getElementById("regionSelect");
+const townSelect = document.getElementById("townSelect");
+
+Object.keys(DELIVERY_DATA).forEach(region => {
+  const option = document.createElement("option");
+
+  option.value = region;
+  option.textContent = region;
+
+  regionSelect.appendChild(option);
+});
+
+regionSelect.addEventListener("change", () => {
+
+  townSelect.innerHTML =
+    `<option value="">Select Town</option>`;
+
+  const towns = DELIVERY_DATA[regionSelect.value] || [];
+
+  towns.forEach(place => {
+
+    const option = document.createElement("option");
+
+    option.value = place.fee;
+
+    option.dataset.town = place.town;
+    option.dataset.days = place.deliveryDays;
+
+    option.textContent =
+      `${place.town} - Ksh ${place.fee}`;
+
+    townSelect.appendChild(option);
+  });
+
+});
+
+
+
+// ===============================
+// SATURDAY DELIVERY SYSTEM
+// ===============================
+
+function getNextSaturday() {
+
+  const now = new Date();
+
+  const nextSaturday = new Date(now);
+
+  // Saturday = 6
+  const daysUntilSaturday =
+    (6 - now.getDay() + 7) % 7 || 7;
+
+  nextSaturday.setDate(
+    now.getDate() + daysUntilSaturday
+  );
+
+  // Dispatch at 8 AM Saturday
+  nextSaturday.setHours(8,0,0,0);
+
+  return nextSaturday;
 }
+
+function formatDate(date){
+
+  return date.toLocaleDateString("en-KE",{
+    day:"numeric",
+    month:"long"
+  });
+
+}
+
+function getCountdown(){
+
+  const now = new Date();
+
+  const saturday = getNextSaturday();
+
+  const diff = saturday - now;
+
+  const days =
+    Math.floor(diff / (1000*60*60*24));
+
+  const hours =
+    Math.floor(
+      (diff % (1000*60*60*24))
+      / (1000*60*60)
+    );
+
+  const mins =
+    Math.floor(
+      (diff % (1000*60*60))
+      / (1000*60)
+    );
+
+  return { days, hours, mins };
+}
+
+
+
+// ===============================
+// PREMIUM TOTAL + DELIVERY PREVIEW
+// ===============================
+
+function updateTotal() {
+
+  const transport =
+    Number(townSelect.value) || 0;
+
+  const items =
+    cart.reduce((s,i)=>s+(i.price*i.qty),0);
+
+  const total = items + transport;
+
+  document.getElementById("item-price").innerText =
+    items.toLocaleString();
+
+  document.getElementById("transport-fee").innerText =
+    transport.toLocaleString();
+
+  document.getElementById("total-price").innerText =
+    total.toLocaleString();
+
+  const selected =
+    townSelect.options[townSelect.selectedIndex];
+
+  const preview =
+    document.getElementById("delivery-preview");
+
+  if(selected.dataset.town){
+
+    preview.style.display = "block";
+
+    // =========================
+    // NEXT SATURDAY
+    // =========================
+
+    const dispatchDate = getNextSaturday();
+
+    // Delivery date estimate
+    // =========================
+// DELIVERY DATE RANGE
+// =========================
+
+const deliveryDays =
+  Number(selected.dataset.days || 2);
+
+// Start from Saturday dispatch
+const startDelivery = new Date(dispatchDate);
+const endDelivery = new Date(dispatchDate);
+
+// Add delivery days
+startDelivery.setDate(
+  startDelivery.getDate() + deliveryDays
+);
+
+endDelivery.setDate(
+  endDelivery.getDate() + deliveryDays + 1
+);
+
+    // countdown
+    const countdown = getCountdown();
+
+    preview.innerHTML = `
+
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:12px;
+      ">
+
+        <div>
+          <div style="
+            font-size:13px;
+            color:#ffb703;
+            font-weight:700;
+          ">
+            SIX STAR EXPRESS
+          </div>
+
+          <div style="
+            font-size:11px;
+            color:#bbb;
+          ">
+            
+          </div>
+        </div>
+
+        
+
+      </div>
+
+      <div class="delivery-row">
+        <strong>Destination</strong>
+        <span>${selected.dataset.town}</span>
+      </div>
+
+      <div class="delivery-row">
+        <strong>Transport Fee</strong>
+        <span>Ksh ${transport}</span>
+      </div>
+
+      <div class="delivery-row">
+        <strong>Dispatch Date</strong>
+        <span>
+          Saturday,
+          ${formatDate(dispatchDate)}
+        </span>
+      </div>
+
+      <div class="delivery-row">
+        <strong>Expected Delivery</strong>
+
+        <span style="
+          color:#ffb703;
+          font-weight:700;
+        ">
+          ${formatDate(startDelivery)}
+          -
+          ${formatDate(endDelivery)}
+        </span>
+      </div>
+
+      <div style="
+        margin-top:14px;
+        padding:12px;
+        border-radius:12px;
+        background:rgba(255,183,3,0.08);
+        border:1px solid rgba(255,183,3,0.15);
+      ">
+
+        <div style="
+          font-size:13px;
+          font-weight:700;
+          color:#ffb703;
+          margin-bottom:6px;
+        ">
+          Order within the next
+          ${countdown.days}d
+          ${countdown.hours}hrs
+          ${countdown.mins}mins
+        </div>
+
+        <div style="
+          font-size:12px;
+          color:#ddd;
+          line-height:1.5;
+        ">
+          to be included in this Saturday's dispatch.
+        </div>
+
+      </div>
+
+    `;
+  }
+
+  else{
+
+    preview.style.display = "none";
+
+  }
+}
+
+// ===============================
+// CUSTOM LOCATION WHATSAPP
+// ===============================
+
+function openCustomLocationModal(){
+
+  document.getElementById(
+    "customLocationModal"
+  ).style.display = "flex";
+
+}
+
+function closeCustomLocationModal(){
+
+  document.getElementById(
+    "customLocationModal"
+  ).style.display = "none";
+
+}
+
+
+function sendCustomLocationOrder(){
+
+  const customLocation =
+    document.getElementById(
+      "customLocationInput"
+    ).value.trim();
+
+  if(!customLocation){
+
+    alert("Please enter your location");
+
+    return;
+  }
+
+  if(cart.length === 0){
+
+    alert("Your cart is empty");
+
+    return;
+  }
+
+  // =========================
+  // CUSTOMER DETAILS
+  // =========================
+
+  const name =
+    document.getElementById("name").value.trim();
+
+  const phone =
+    document.getElementById("phone").value.trim();
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  // =========================
+  // ORDER MESSAGE
+  // =========================
+
+  let message =
+`🛍️ *CUSTOM DELIVERY REQUEST*
+
+👤 Name: ${name}
+📞 Phone: ${phone}
+📧 Email: ${email}
+
+📍 Requested Location:
+${customLocation}
+
+━━━━━━━━━━━━━━━
+🧾 *ORDER DETAILS*
+━━━━━━━━━━━━━━━
+`;
+
+  let total = 0;
+
+  cart.forEach((item, i) => {
+
+    const itemTotal =
+      item.price * item.qty;
+
+    total += itemTotal;
+
+    message +=
+`${i + 1}. ${item.make} ${item.model}
+Qty: ${item.qty}
+Ksh ${itemTotal.toLocaleString()}
+
+`;
+  });
+
+  message += `
+━━━━━━━━━━━━━━━
+💰 TOTAL:
+Ksh ${total.toLocaleString()}
+━━━━━━━━━━━━━━━
+
+Please confirm if delivery to this location is possible. ✅
+`;
+
+  // =========================
+  // WHATSAPP REDIRECT
+  // =========================
+
+  const sellerPhone = "254794327798";
+
+  const whatsappURL =
+`https://wa.me/${sellerPhone}?text=${encodeURIComponent(message)}`;
+
+  window.open(
+    whatsappURL,
+    "_blank"
+  );
+
+}
+
+
 
 // ===============================
 function showPayment() {
@@ -588,10 +1271,13 @@ async function submitOrder(event) {
   const phone = document.getElementById("phone").value.trim();
   const email = document.getElementById("email").value.trim();
   const mpesaCode = document.getElementById("mpesa-code").value.trim();
-  const locationEl = document.getElementById("location");
+  const locationEl = document.getElementById("townSelect");
 
   const locationValue = locationEl.value;
-  const locationText = locationEl.options[locationEl.selectedIndex].text;
+  const locationText =
+  locationEl.selectedIndex > 0
+    ? locationEl.options[locationEl.selectedIndex].text
+    : "";
   const agentCode = document.getElementById("agentSelect").value;
   const total = Number(
     document.getElementById("total-price").innerText.replace(/,/g, "")
@@ -721,6 +1407,14 @@ document.addEventListener("DOMContentLoaded", () => {
   
  // 🔥 WAKE SERVER ON PAGE LOAD
   wakeServer();
+
+  setInterval(() => {
+
+  if(townSelect.value){
+    updateTotal();
+  }
+
+}, 60000);
 }); 
 
 
