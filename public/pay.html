@@ -23,7 +23,7 @@
 body {
   font-family: system-ui, 'Segoe UI', sans-serif;
   margin: 0;
-  padding: 20px;
+  
   background: radial-gradient(circle at top, #1a0f0a, var(--bg));
   color: var(--text);
 }
@@ -188,7 +188,6 @@ header {
   text-align: center;
   font-size: 1.8rem;
   font-weight: 700;
-
   background: linear-gradient(135deg, var(--orange), var(--amber));
   color: white;
   box-shadow: 0 6px 20px rgba(0,0,0,0.25);
@@ -518,6 +517,124 @@ PREMIUM MODAL
 .close-premium i{
   font-size:18px;
 }
+
+/* =========================
+BACK TO SHOPPING BUTTON
+========================= */
+
+.back-shopping {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 10px 0 15px;
+
+  padding: 10px 12px;
+
+  border-radius: 10px;
+
+  background: rgba(255,183,3,0.08);
+  border: 1px solid rgba(255,183,3,0.2);
+
+  color: #ffb703;
+  text-decoration: none;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  transition: 0.2s ease;
+}
+
+.back-shopping:hover {
+  transform: translateX(-3px);
+  background: rgba(255,183,3,0.15);
+}
+
+/* =========================
+SAFE MOBILE UI FIX (IMPROVED)
+========================= */
+
+@media (max-width: 600px) {
+
+  body {
+    padding: 10px; /* slightly tighter but cleaner */
+  }
+
+  /* =========================
+  CHECKOUT CONTAINER (ADD MARGIN LOOK)
+  ========================= */
+  .checkout-container {
+    padding: 16px;
+    border-radius: 14px;
+
+    margin: 12px auto;   /* 👈 adds breathing space */
+  }
+
+  /* HEADER FIX */
+  header {
+    font-size: 1.3rem;
+    padding: 12px;
+    line-height: 1.2;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+
+  /* =========================
+  CART ITEM (KEEP YOUR GRID STYLE)
+  ========================= */
+  
+
+  .cart-item img {
+    width: 45px;
+  }
+
+  .cart-item h4 {
+    grid-column: 2;
+    white-space: normal;
+    font-size: 0.85rem;
+  }
+
+  /* FIX QTY OVERLAP (IMPORTANT) */
+  .qty-controls {
+    grid-column: 1 / -1;
+    justify-content: space-between;
+    margin-top: 6px;
+  }
+
+  .qty-controls button {
+    min-width: 34px;
+    min-height: 34px;
+  }
+
+  .cart-item p {
+    grid-column: 2;
+    text-align: right;
+    font-size: 0.85rem;
+  }
+
+  /* INPUT FIX */
+  input, select {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* BUTTON FIX */
+  button.main {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  /* SUMMARY FIX */
+  .summary p,
+  .summary h3 {
+    font-size: 14px;
+  }
+}
 </style>
 
 </head>
@@ -539,8 +656,16 @@ PREMIUM MODAL
 
 <body>
 
+  
+
 <div class="checkout-container">
+  <a href="product.html" class="back-shopping">
+  <i class="fa-solid fa-arrow-left"></i>
+  Back to Shopping
+</a>
 <h2>Checkout</h2>
+
+
 
 <div id="checkout-items"></div>
 

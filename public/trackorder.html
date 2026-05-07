@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<script src="https://kit.fontawesome.com/e1426ab85b.js" crossorigin="anonymous"></script>
 <title>Track Your Order</title>
 
 <style>
@@ -264,7 +264,33 @@ button:disabled {
 .navfilter.active {
   font-weight: bolder;
 }
+.back-shopping {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 
+  margin: 10px 0 15px;
+
+  padding: 10px 12px;
+
+  border-radius: 10px;
+
+  background: rgba(255,183,3,0.08);
+  border: 1px solid rgba(255,183,3,0.2);
+
+  color: #ffb703;
+  text-decoration: none;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  transition: 0.2s ease;
+}
+
+.back-shopping:hover {
+  transform: translateX(-3px);
+  background: rgba(255,183,3,0.15);
+}
 
 </style>
 </head>
@@ -278,7 +304,7 @@ button:disabled {
          <nav>
             <a href="index.html" class="navfilter">Home</a>
             <a href="product.html" class="navfilter">All Products</a>
-            <a href="pay.html" class="navfilter active">My cart</a>
+            <a href="pay.html" class="navfilter active">Track Order</a>
             <a href="contact.html" class="navfilter">Contact</a>
             
         </nav><br>
@@ -286,7 +312,10 @@ button:disabled {
 
 
 <body>
-
+<a href="product.html" class="back-shopping">
+  <i class="fa-solid fa-arrow-left"></i>
+  Back to Shopping
+</a>
 <div class="container">
   <h1>📦 Track Your Order</h1>
 
