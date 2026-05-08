@@ -850,7 +850,7 @@ async function wakeServer() {
     console.log("Server still sleeping / slow:", err);
 
     // 🔥 AUTO FALLBACK TO WHATSAPP MODE
-    showWhatsAppFallback();
+    //showWhatsAppFallback();
   } finally {
     serverChecking = false;
   }
@@ -883,7 +883,118 @@ function showWhatsAppFallback() {
   };
 }
 
+function showServerFailureChoice(retryCallback) {
+document.body.style.overflow = "hidden";
+  const modal =
+    document.getElementById("customLocationModal");
 
+  const input =
+    document.getElementById("customLocationInput");
+
+  // hide custom input
+  // hide custom input
+input.style.display = "none";
+
+// hide original whatsapp button
+const originalBtn =
+  document.querySelector(
+    '.premium-modal-content > .main'
+  );
+
+originalBtn.style.display = "none";
+
+  modal.style.display = "flex";
+
+  // title
+  document.querySelector(
+    ".premium-top h3"
+  ).innerHTML = `
+    <i class="fa-solid fa-server"></i>
+    Server Unavailable
+  `;
+
+  // text
+  document.querySelector(
+    ".premium-text"
+  ).innerHTML = `
+    ⚠️ Our server is currently waking up or temporarily unavailable.
+    <br><br>
+
+    You can either:
+
+    <br><br>
+
+    • Retry placing your order<br>
+    • Continue instantly via WhatsApp
+  `;
+
+  // buttons container
+  const content =
+    document.querySelector(
+      ".premium-modal-content"
+    );
+
+  // remove old action area if exists
+  const oldActions =
+    document.getElementById("serverFailureActions");
+
+  if (oldActions) {
+    oldActions.remove();
+  }
+
+  // create actions
+  const actions = document.createElement("div");
+
+  actions.id = "serverFailureActions";
+
+  actions.innerHTML = `
+
+    <button
+      class="main"
+      id="retryServerBtn"
+      style="
+        margin-top:10px;
+        background:linear-gradient(135deg,#1f1308,#2d1a0c);
+        border:1px solid rgba(255,183,3,0.2);
+        color:#ffcc80;
+      "
+    >
+      <i class="fa-solid fa-rotate-right"></i>
+      Retry Again
+    </button>
+
+    <button
+      class="main"
+      id="whatsappFallbackBtn"
+    >
+      <i class="fa-brands fa-whatsapp"></i>
+      Continue to WhatsApp
+    </button>
+
+  `;
+
+  content.appendChild(actions);
+
+  // retry
+  document.getElementById(
+    "retryServerBtn"
+  ).onclick = async () => {
+
+    modal.style.display = "none";
+
+    await retryCallback();
+  };
+
+  // whatsapp
+  document.getElementById(
+    "whatsappFallbackBtn"
+  ).onclick = () => {
+
+    modal.style.display = "none";
+
+    sendWhatsAppFromCart();
+  };
+}
 
 function sendWhatsAppFromCart() {
 
@@ -891,43 +1002,96 @@ function sendWhatsAppFromCart() {
   const phone = document.getElementById("phone").value.trim();
   const email = document.getElementById("email").value.trim();
 
+  const mpesaCode =
+    document.getElementById("mpesa-code")?.value.trim() || "NOT PROVIDED";
+
+  const locationSelect =
+    document.getElementById("townSelect");
+
+  const location =
+    locationSelect.selectedIndex > 0
+      ? locationSelect.options[locationSelect.selectedIndex].text
+      : "Not selected";
+
+  const transport =
+    Number(locationSelect.value) || 0;
+
+  const agentCode =
+    document.getElementById("agentSelect").value || "None";
+
   if (!name || !phone || !email) {
     alert("Please fill in Name, Phone and Email first.");
     return;
   }
 
+  let itemsTotal = 0;
+
   let message =
 `🛍️ *ORDER (SERVER FALLBACK MODE)*
+
+━━━━━━━━━━━━━━━
+👤 CUSTOMER DETAILS
+━━━━━━━━━━━━━━━
 
 👤 Name: ${name}
 📞 Phone: ${phone}
 📧 Email: ${email}
+
+📍 Delivery Location:
+${location}
+
+🧾 M-Pesa Code:
+${mpesaCode}
+
+🤝 Agent:
+${agentCode}
 
 ━━━━━━━━━━━━━━━
 🧾 ORDER ITEMS
 ━━━━━━━━━━━━━━━
 `;
 
-  let total = 0;
-
   cart.forEach((item, i) => {
+
     const itemTotal = item.price * item.qty;
-    total += itemTotal;
+
+    itemsTotal += itemTotal;
 
     message += `
 ${i + 1}. ${item.make} ${item.model}
+
 Qty: ${item.qty}
-Ksh ${itemTotal.toLocaleString()}
+
+Unit Price: Ksh ${item.price.toLocaleString()}
+
+Subtotal: Ksh ${itemTotal.toLocaleString()}
+
 `;
   });
 
+  const finalTotal = itemsTotal + transport;
+
   message += `
 ━━━━━━━━━━━━━━━
-💰 TOTAL: Ksh ${total.toLocaleString()}
+💰 PAYMENT SUMMARY
 ━━━━━━━━━━━━━━━
 
-⚠️ Server was unavailable during checkout.
-Please confirm manually.
+🛒 Items Total:
+Ksh ${itemsTotal.toLocaleString()}
+
+🚚 Transport:
+Ksh ${transport.toLocaleString()}
+
+💵 FINAL TOTAL:
+Ksh ${finalTotal.toLocaleString()}
+
+━━━━━━━━━━━━━━━
+⚠️ SERVER STATUS
+━━━━━━━━━━━━━━━
+
+Server was unavailable during checkout.
+
+Please confirm this order manually.
 `;
 
   const sellerPhone = "254794327798";
@@ -1342,10 +1506,18 @@ function openCustomLocationModal(){
 }
 
 function closeCustomLocationModal(){
-
+document.body.style.overflow = "auto";
   document.getElementById(
     "customLocationModal"
   ).style.display = "none";
+  // restore hidden elements
+  document.querySelector(
+    '.premium-modal-content > .main'
+  ).style.display = "block";
+
+  document.getElementById(
+    "customLocationInput"
+  ).style.display = "block";
 
 }
 
@@ -1520,7 +1692,7 @@ async function submitOrder(event) {
   // =========================
   // ❌ VALIDATION
   // =========================
-  if (!name || !phone || !email || !mpesaCode || locationValue === "0") {
+  if (!name || !phone || !email || !mpesaCode || !locationValue) {
     msg.innerHTML = "<span style='color:red'>Please fill all fields including location</span>";
     if (btn) btn.disabled = false;
     return;
@@ -1568,79 +1740,137 @@ async function submitOrder(event) {
   // 🔁 FETCH WITH RETRY
   // =========================
   async function sendRequest(retries = 2) {
-    try {
-      const res = await fetchWithTimeout(`${API}/confirm-order`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
 
-      if (!res.ok) {
-        if (retries > 0) {
-          msg.innerHTML = "Waking server... retrying ⏳";
-          await new Promise(r => setTimeout(r, 2000));
-          return sendRequest(retries - 1);
-        }
-        throw new Error("Server error");
-      }
+  try {
 
-      return res.json();
+    const res = await fetchWithTimeout(`${API}/confirm-order`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
 
-    } catch (err) {
+    // =========================
+    // SERVER FAILED
+    // =========================
+    if (!res.ok) {
+
       if (retries > 0) {
-        msg.innerHTML = "Network issue... retrying 🔄";
+
+        msg.innerHTML =
+          "Waking server... retrying ⏳";
+
         await new Promise(r => setTimeout(r, 2000));
+
         return sendRequest(retries - 1);
       }
-      throw err;
+
+      // 🔥 ALL RETRIES FAILED
+      msg.innerHTML = `
+        <span style="color:#ffb703">
+          Server unavailable.<br>
+          Redirecting to WhatsApp...
+        </span>
+      `;
+
+      setTimeout(() => {
+
+        // SHOW CHOICE POPUP INSTEAD OF AUTO REDIRECT
+showServerFailureChoice(() => sendRequest(2));
+
+      }, 1500);
+
+      return;
     }
+
+    return res.json();
+
+  } catch (err) {
+
+    // =========================
+    // NETWORK ERROR
+    // =========================
+    if (retries > 0) {
+
+      msg.innerHTML =
+        "Network issue... retrying 🔄";
+
+      await new Promise(r => setTimeout(r, 2000));
+
+      return sendRequest(retries - 1);
+    }
+
+    // 🔥 FINAL FAILURE
+    // 🔥 FINAL FAILURE
+msg.innerHTML = `
+  <span style="color:#ffb703">
+    Server unavailable.
+  </span>
+`;
+
+// FORCE POPUP OPEN
+const modal = document.getElementById("customLocationModal");
+
+modal.style.display = "flex";
+
+// show popup immediately
+showServerFailureChoice(() => sendRequest(2));
+
+return null;
   }
+}
 
   // =========================
   // 🚀 EXECUTE
   // =========================
-  try {
-    const result = await sendRequest();
+   // =========================
+ // 🚀 EXECUTE
+ // =========================
+ try {
 
-    const orderNumber = result.orderNumber;
+   const result = await sendRequest();
 
-    localStorage.setItem("lastOrder", orderNumber);
-    localStorage.removeItem("cart");
+   // 🔥 stopped because WhatsApp fallback was used
+   if (!result) {
+     return;
+   }
 
-    msg.innerHTML = `
-      <div class="success">
-        ✅ Order placed successfully<br><br>
-        Order Number:<br><b>${orderNumber}</b><br><br>
-        Redirecting to tracking...
-      </div>
-    `;
+   const orderNumber = result.orderNumber;
 
-    setTimeout(() => {
-      window.location.href = "trackorder.html";
-    }, 2000);
+   localStorage.setItem("lastOrder", orderNumber);
 
-  } catch (err) {
-    console.error(err);
+   localStorage.removeItem("cart");
 
-    msg.innerHTML = `
-      <span style="color:red">
-        ❌ Failed to submit order.<br>
-        Please check your internet or try again.
-      </span>
-    `;
+   msg.innerHTML = `
+     <div class="success">
+       ✅ Order placed successfully<br><br>
 
-    if (btn) btn.disabled = false;
+       Order Number:<br>
+       <b>${orderNumber}</b><br><br>
 
-    if (!serverOnline) {
-  msg.innerHTML = "Server unavailable. Redirecting to WhatsApp...";
+       Redirecting to tracking...
+     </div>
+   `;
 
-  setTimeout(() => {
-    sendCustomLocationOrder(); // reuse your WhatsApp logic
-  }, 1500);
+   setTimeout(() => {
 
-  return;
-}
-  }
+     window.location.href =
+       "trackorder.html";
+
+   }, 2000);
+
+ } catch (err) {
+
+   console.error(err);
+
+   msg.innerHTML = `
+     <span style="color:red">
+       ❌ Failed to submit order.<br>
+       Please try again.
+     </span>
+   `;
+
+   if (btn) btn.disabled = false;
+ }
 }
 
 // ===============================
