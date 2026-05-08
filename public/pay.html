@@ -825,16 +825,122 @@ PREMIUM MODAL
 const API = "https://cars3-158h.onrender.com";
 
 async function wakeServer() {
+  if (serverChecking) return;
+  serverChecking = true;
+
   try {
+    const controller = new AbortController();
+
+    const timeout = setTimeout(() => {
+      controller.abort();
+    }, 4000); // 4s threshold
+
     await fetch(`${API}/health`, {
       method: "GET",
-      cache: "no-store"
+      cache: "no-store",
+      signal: controller.signal
     });
-    console.log("Server wake request sent");
+
+    clearTimeout(timeout);
+
+    serverOnline = true;
+    console.log("Server is awake");
   } catch (err) {
-    console.log("Wake failed or server starting:", err);
+    serverOnline = false;
+    console.log("Server still sleeping / slow:", err);
+
+    // 🔥 AUTO FALLBACK TO WHATSAPP MODE
+    showWhatsAppFallback();
+  } finally {
+    serverChecking = false;
   }
 }
+
+
+
+function showWhatsAppFallback() {
+  const modal = document.getElementById("customLocationModal");
+  const input = document.getElementById("customLocationInput");
+
+  modal.style.display = "flex";
+
+  // switch UI into "server failure mode"
+  input.style.display = "none";
+
+  const text = document.querySelector(".premium-text");
+  text.innerHTML = `
+    ⚠️ Server is currently unavailable or waking up.<br><br>
+    You can still place your order instantly via WhatsApp.
+  `;
+
+  const btn = document.querySelector(".premium-modal-content .main");
+
+  btn.innerHTML = `<i class="fa-brands fa-whatsapp"></i> Accept & Continue to WhatsApp`;
+
+  // override button behavior temporarily
+  btn.onclick = () => {
+    sendWhatsAppFromCart();
+  };
+}
+
+
+
+function sendWhatsAppFromCart() {
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("email").value.trim();
+
+  if (!name || !phone || !email) {
+    alert("Please fill in Name, Phone and Email first.");
+    return;
+  }
+
+  let message =
+`🛍️ *ORDER (SERVER FALLBACK MODE)*
+
+👤 Name: ${name}
+📞 Phone: ${phone}
+📧 Email: ${email}
+
+━━━━━━━━━━━━━━━
+🧾 ORDER ITEMS
+━━━━━━━━━━━━━━━
+`;
+
+  let total = 0;
+
+  cart.forEach((item, i) => {
+    const itemTotal = item.price * item.qty;
+    total += itemTotal;
+
+    message += `
+${i + 1}. ${item.make} ${item.model}
+Qty: ${item.qty}
+Ksh ${itemTotal.toLocaleString()}
+`;
+  });
+
+  message += `
+━━━━━━━━━━━━━━━
+💰 TOTAL: Ksh ${total.toLocaleString()}
+━━━━━━━━━━━━━━━
+
+⚠️ Server was unavailable during checkout.
+Please confirm manually.
+`;
+
+  const sellerPhone = "254794327798";
+
+  window.open(
+    `https://wa.me/${sellerPhone}?text=${encodeURIComponent(message)}`,
+    "_blank"
+  );
+}
+
+
+
+
 
 function cleanProduct(item) {
   return {
@@ -847,6 +953,8 @@ function cleanProduct(item) {
 // CART
 // ===============================
 let cart = [];
+let serverOnline = false;
+let serverChecking = false;
 
 try {
   cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -1522,6 +1630,16 @@ async function submitOrder(event) {
     `;
 
     if (btn) btn.disabled = false;
+
+    if (!serverOnline) {
+  msg.innerHTML = "Server unavailable. Redirecting to WhatsApp...";
+
+  setTimeout(() => {
+    sendCustomLocationOrder(); // reuse your WhatsApp logic
+  }, 1500);
+
+  return;
+}
   }
 }
 
