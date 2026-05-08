@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Products</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .price {
+      font-weight: bold;
+      color: green;
+    }
+
+    .old {
+      text-decoration: line-through;
+      color: gray;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Products</h2>
+
+<div class="grid" id="grid"></div>
+
+<script>
+async function loadProducts() {
+  const res = await fetch("https://cars3-158h.onrender.com/api/products");
+  const products = await res.json();
+
+  const grid = document.getElementById("grid");
+
+  grid.innerHTML = products.map(p => {
+    const img = p.image?.[0] || "https://via.placeholder.com/300";
+
+    return `
+      <div class="card">
+        <img src="${img}" />
+        <h3>${p.make} ${p.model}</h3>
+        <p>${p.category}</p>
+        <p class="price">KES ${p.price.toLocaleString()}</p>
+        ${p.oldPrice ? `<p class="old">KES ${p.oldPrice}</p>` : ""}
+        <p>${p.description.slice(0, 80)}...</p>
+      </div>
+    `;
+  }).join("");
+}
+
+loadProducts();
+</script>
+
+</body>
+</html>
