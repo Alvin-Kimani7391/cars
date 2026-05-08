@@ -577,12 +577,7 @@ SAFE MOBILE UI FIX (IMPROVED)
     line-height: 1.2;
   }
 
-  nav {
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 8px;
-    font-size: 0.85rem;
-  }
+ 
 
   /* =========================
   CART ITEM (KEEP YOUR GRID STYLE)
@@ -1281,6 +1276,12 @@ function sendCustomLocationOrder(){
   const email =
     document.getElementById("email").value.trim();
 
+
+// ✅ VALIDATION (FIX SECURITY LOOPHOLE)
+  if (!name || !phone || !email) {
+    alert("Please fill in Name, Phone and Email before continuing.");
+    return;
+  }
   // =========================
   // ORDER MESSAGE
   // =========================
