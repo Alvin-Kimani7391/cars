@@ -2927,7 +2927,7 @@
         "id": 211,
         "make": "Afno1 amazon A07",
         "model": "",
-        "category":"earphone",
+        "category":"shoes",
         "createdAt": "2026-04-27",
         "description": "Samsung Galaxy A07 — Big 6.7″ display, sharp 50MP camera, and a long-lasting 5000mAh battery, all in a sleek, budget-friendly package.",
         "general":"household",
@@ -2954,6 +2954,38 @@
           "color": "Silver",
         "price":200,
         "oldPrice":300,
+         "hotDeal": true 
+    },
+    {
+        "id": 213,
+        "make": "Adidas Unisex Campus Sneakers",
+        "model": "",
+        "category":"shoes",
+        "createdAt": "2026-05-16",
+        "description": "Adidas Unisex Campus Sneakers — classic design with modern comfort for everyday wear.",
+        "general":"household",
+        "year": 2020,
+     "image":"images2/shoes213.jpg",
+        "link":"images/wd.jpg",
+          "color": "black and white",
+        "price":2300,
+        "oldPrice":2700,
+         "hotDeal": true 
+    },
+    {
+        "id": 214,
+        "make": "Adidas Samba",
+        "model": "",
+        "category":"shoes",
+        "createdAt": "2026-05-16",
+        "description": "Adidas Samba — classic design with modern comfort for everyday wear.",
+        "general":"household",
+        "year": 2020,
+     "image":"images2/shoes214.jpg",
+        "link":"images/wd.jpg",
+          "color": "black and white",
+        "price":2300,
+        "oldPrice":2700,
          "hotDeal": true 
     }
 
