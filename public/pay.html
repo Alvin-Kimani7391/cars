@@ -1272,10 +1272,28 @@ Please confirm this order manually.
 function cleanProduct(item) {
   return {
     ...item,
+
+    // clean price (handles "Ksh 1,200" or "1200")
     price: Number(String(item.price).replace(/[^0-9]/g, "")) || 0,
-    qty: Number(item.qty) || 1
+
+    // ensure qty is valid
+    qty: Math.max(1, Number(item.qty) || 1),
+
+    // normalize color into array (important for shoes + clothing logic)
+    color: Array.isArray(item.color)
+      ? item.color
+      : item.color
+        ? [item.color]
+        : [],
+
+    // safety defaults used in your checkout UI
+    selectedColor: item.selectedColor || "",
+    selectedSize: item.selectedSize || "",
+    selectedShoeSize: item.selectedShoeSize || "",
+    selectedFit: item.selectedFit || ""
   };
 }
+
 // ===============================
 // CART
 // ===============================
@@ -1485,43 +1503,63 @@ function loadCheckout() {
           SHOE CONFIG
           ========================= -->
 
-          <div class="clothing-config">
+          <!-- SHOE COLORS -->
 
-            <div class="config-title">
-              <i class="fa-solid fa-shoe-prints"></i>
-              Select Shoe Details
-            </div>
+<div class="input-group">
 
-            <!-- SHOE COLORS -->
+  <label>Select Color</label>
 
-            <div class="color-options">
+  ${
+    (() => {
+      const shoeColors = Array.isArray(item.color)
+        ? item.color
+        : item.color
+          ? [item.color]
+          : [];
 
-              ${[
-                {name:"Black",hex:"#111"},
-                {name:"White",hex:"#f5f5f5"},
-                {name:"Red",hex:"#d62828"},
-                {name:"Blue",hex:"#2563eb"},
-                {name:"Grey",hex:"#757575"},
-                {name:"Brown",hex:"#6d4c41"}
-              ].map(color => `
+      // CASE 1: multiple colors → dropdown
+      if (shoeColors.length > 1) {
+        return `
+          <select onchange="selectColor(${i}, this.value)">
+            <option value="">Choose Color</option>
 
-                <div
-                  class="color-swatch
-                  ${item.selectedColor === color.name ? 'active':''}"
+            ${shoeColors.map(color => `
+              <option
+                value="${color}"
+                ${item.selectedColor === color ? "selected" : ""}
+              >
+                ${color}
+              </option>
+            `).join("")}
 
-                  style="background:${color.hex}"
+          </select>
+        `;
+      }
 
-                  title="${color.name}"
+      // CASE 2: single color → readonly display
+      if (shoeColors.length === 1) {
+        return `
+          <input
+            type="text"
+            value="${shoeColors[0]}"
+            disabled
+            style="opacity:0.85; cursor:not-allowed;"
+          />
+        `;
+      }
 
-                  onclick="
-                    selectColor(${i}, '${color.name}')
-                  "
-                ></div>
+      // CASE 3: no color data → fallback
+      return `
+        <input
+          type="text"
+          value="Default Color"
+          disabled
+        />
+      `;
+    })()
+  }
 
-              `).join("")}
-
-            </div>
-
+</div>
             <!-- SHOE SIZE -->
 
             <div class="size-options">
