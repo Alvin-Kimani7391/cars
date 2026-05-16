@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+like this <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -546,7 +546,7 @@ async function loadAgents() {
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <input id="agentName" placeholder="Full Name" style="${inputStyle}">
-          <input id="agentEmail" placeholder="Email" type="email" style="${inputStyle}">
+          <input id="agentEmail" placeholder="Email" style="${inputStyle}">
           <input id="agentIdNumber" placeholder="ID Number" style="${inputStyle}">
           <input id="agentLocation" placeholder="Location" style="${inputStyle}">
           <input id="agentWhatsapp" placeholder="WhatsApp" style="${inputStyle}">
@@ -554,39 +554,34 @@ async function loadAgents() {
 
         <button onclick="createAgent()" 
           style="margin-top:12px;width:100%;padding:10px;
-          background:#22c55e;border:none;border-radius:8px;color:white;font-weight:600;">
+          background:#22c55e;border:none;border-radius:8px;color:white;">
           ➕ Create Agent
         </button>
       </div>
 
-      <!-- AGENTS LIST -->
-      ${agents.length === 0 
-        ? `<p style="text-align:center;color:#94a3b8;">No agents yet</p>`
-        : agents.map(a => `
-          <div class="card">
-            <div style="display:flex;justify-content:space-between;">
-              <strong>${a.name}</strong>
-              <span class="order-pill">${a.code}</span>
-            </div>
-
-            <p>📧 ${a.email || "-"}</p>
-            <p>🪪 ${a.idNumber || "-"}</p>
-            <p>📍 ${a.location || "-"}</p>
-            <p>📱 ${a.whatsapp || "-"}</p>
-
-            <div style="margin-top:10px;display:flex;gap:8px;">
-              <button onclick="copyCode('${a.code}')">📋 Copy</button>
-              <button onclick="loadAgentOrders('${a.code}','${a.name}')">
-                📊 Orders
-              </button>
-            </div>
+      <!-- LIST -->
+      ${agents.map(a => `
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;">
+            <strong>${a.name}</strong>
+            <span class="order-pill">${a.code}</span>
           </div>
-        `).join("")}
+
+          <p>📧 ${a.email || "-"}</p>
+          <p>📍 ${a.location || "-"}</p>
+          <p>📱 ${a.whatsapp || "-"}</p>
+
+          <div style="margin-top:10px;display:flex;gap:8px;">
+            <button onclick="copyCode('${a.code}')">📋 Copy</button>
+            <button onclick="loadAgentOrders('${a.code}','${a.name}')">
+              📊 Orders
+            </button>
+          </div>
+        </div>
+      `).join("")}
     `;
   } catch (err) {
     console.error(err);
-    document.getElementById("agentsPanel").innerHTML =
-      `<p style="color:red;">Failed to load agents</p>`;
   } finally {
     hideLoader();
   }
@@ -598,15 +593,12 @@ async function loadAgents() {
 
 
 
-<<<<<<< HEAD
 
 
 
 
 
 
-=======
->>>>>>> fa38fec (Fix frontend)
 function updateSelectionUI() {
   const checkboxes = document.querySelectorAll(".order-check");
   const checked = document.querySelectorAll(".order-check:checked");
