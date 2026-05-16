@@ -362,6 +362,10 @@ button.delete:hover {
 #leaderboardPanel .card {
   margin: 0;
 }
+
+
+
+
 </style>
 </head>
 
@@ -454,6 +458,19 @@ const STATUSES = [
   "DELIVERED"
 ];
 
+const inputStyle = `
+  padding: 10px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #0f172a;
+  color: white;
+  box-sizing: border-box;
+`;
+
+
+
+
 /* =============================== */
 document.addEventListener("DOMContentLoaded", loadOrders);
 
@@ -510,35 +527,81 @@ function showPanel(panel, el) {
 }
 
 async function loadAgents() {
-  const res = await fetch(`${BASE}/api/agents`, {
-    headers: { "admin-key": ADMIN_KEY }
-  });
+  showLoader();
 
-  const agents = await res.json();
+  try {
+    const res = await fetch(`${BASE}/api/agents`, {
+      headers: { "admin-key": ADMIN_KEY }
+    });
 
-  const container = document.getElementById("agentsPanel");
+    const agents = await res.json();
+    const container = document.getElementById("agentsPanel");
 
-  container.innerHTML = `
-    <h3>🧑‍💼 Agents</h3>
+    container.innerHTML = `
+      <h3 style="margin-bottom:15px;">🧑‍💼 Agents (${agents.length})</h3>
 
-    <div style="margin-bottom:15px;">
-      <input id="agentName" placeholder="Agent name"
-        style="padding:10px; width:70%; border-radius:8px; border:1px solid #334155; background:#0f172a; color:white;">
-      <button onclick="createAgent()"
-        style="padding:10px 14px; background:#22c55e; border:none; border-radius:8px; cursor:pointer;">
-        Create
-      </button>
-    </div>
-
-    ${agents.map(a => `
+      <!-- CREATE FORM -->
       <div class="card">
-        <p><b>${a.name}</b></p>
-        <p>Code: <b>${a.code}</b></p>
-        <button onclick="copyCode('${a.code}')">Copy Code</button>
+        <h4 style="margin-bottom:10px;color:#94a3b8;">Add New Agent</h4>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <input id="agentName" placeholder="Full Name" style="${inputStyle}">
+          <input id="agentEmail" placeholder="Email" type="email" style="${inputStyle}">
+          <input id="agentIdNumber" placeholder="ID Number" style="${inputStyle}">
+          <input id="agentLocation" placeholder="Location" style="${inputStyle}">
+          <input id="agentWhatsapp" placeholder="WhatsApp" style="${inputStyle}">
+        </div>
+
+        <button onclick="createAgent()" 
+          style="margin-top:12px;width:100%;padding:10px;
+          background:#22c55e;border:none;border-radius:8px;color:white;font-weight:600;">
+          ➕ Create Agent
+        </button>
       </div>
-    `).join("")}
-  `;
+
+      <!-- AGENTS LIST -->
+      ${agents.length === 0 
+        ? `<p style="text-align:center;color:#94a3b8;">No agents yet</p>`
+        : agents.map(a => `
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;">
+              <strong>${a.name}</strong>
+              <span class="order-pill">${a.code}</span>
+            </div>
+
+            <p>📧 ${a.email || "-"}</p>
+            <p>🪪 ${a.idNumber || "-"}</p>
+            <p>📍 ${a.location || "-"}</p>
+            <p>📱 ${a.whatsapp || "-"}</p>
+
+            <div style="margin-top:10px;display:flex;gap:8px;">
+              <button onclick="copyCode('${a.code}')">📋 Copy</button>
+              <button onclick="loadAgentOrders('${a.code}','${a.name}')">
+                📊 Orders
+              </button>
+            </div>
+          </div>
+        `).join("")}
+    `;
+  } catch (err) {
+    console.error(err);
+    document.getElementById("agentsPanel").innerHTML =
+      `<p style="color:red;">Failed to load agents</p>`;
+  } finally {
+    hideLoader();
+  }
 }
+
+
+
+    
+
+
+
+
+
+
+
 
 
 function updateSelectionUI() {
@@ -697,31 +760,53 @@ async function restoreOrder(id) {
   loadOrders();
 }
 
-async function createAgent() {
-  showLoader();
-  try{// 👈 START LOADER
-  const name = document.getElementById("agentName").value.trim();
 
-  if (!name) {
-    
-    return alert("Enter agent name");
+
+// ✅ NEW
+async function createAgent() {
+  const name     = document.getElementById("agentName").value.trim();
+  const email    = document.getElementById("agentEmail").value.trim();
+  const idNumber = document.getElementById("agentIdNumber").value.trim();
+  const location = document.getElementById("agentLocation").value.trim();
+  const whatsapp = document.getElementById("agentWhatsapp").value.trim();
+
+  if (!name || !email || !idNumber || !location || !whatsapp) {
+    return alert("All fields are required");
   }
 
-  await fetch(`${BASE}/api/agents`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "admin-key": ADMIN_KEY
-    },
-    body: JSON.stringify({ name })
-  });
+  showLoader();
+  try {
+    const res = await fetch(`${BASE}/api/agents`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "admin-key": ADMIN_KEY
+      },
+      body: JSON.stringify({ name, email, idNumber, location, whatsapp })
+    });
 
-  document.getElementById("agentName").value = "";
-  loadAgents();
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(`Error: ${data.error}`);
+      return;
+    }
+
+    alert(`✅ Agent created! Code: ${data.code} — Welcome email sent to ${email}`);
+
+    // clear fields
+    ["agentName","agentEmail","agentIdNumber","agentLocation","agentWhatsapp"]
+      .forEach(id => document.getElementById(id).value = "");
+
+    loadAgents();
+  } catch (err) {
+    console.error(err);
+    alert("Failed to create agent");
+  } finally {
+    hideLoader();
+  }
 }
-finally {
-  hideLoader(); // 👈 STOP LOADER
-}}
+
 
 
 function copyCode(code) {
