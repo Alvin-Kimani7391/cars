@@ -8,7 +8,7 @@
         
         <title>Six Star Suppliers</title>
         <link rel="stylesheet" href="cars.css">
-        <link rel="icon" href="images2/preview.jpg">
+        <link rel="icon" href="images2/logo.jpg">
         <script src="https://kit.fontawesome.com/e1426ab85b.js" crossorigin="anonymous"></script>
 
 
@@ -379,8 +379,282 @@
   70% { transform: scale(1.4); opacity: 0; }
   100% { transform: scale(1.4); opacity: 0; }
 }
+/* =========================
+   PREMIUM POPUP
+========================= */
 
+.premium-popup-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(10px);
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999999;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: all 0.4s ease;
+}
+
+.premium-popup-overlay.show{
+  opacity: 1;
+  visibility: visible;
+}
+
+.premium-popup{
+  position: relative;
+
+  width: 92%;
+  max-width: 430px;
+
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255,255,255,0.15);
+
+  border-radius: 28px;
+
+  padding: 40px 28px;
+
+  text-align: center;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.35),
+    0 0 30px rgba(255,102,0,0.15);
+
+  transform: scale(0.8) translateY(40px);
+  transition: all 0.45s cubic-bezier(0.22,1,0.36,1);
+}
+
+.premium-popup-overlay.show .premium-popup{
+  transform: scale(1) translateY(0);
+}
+
+/* top glow */
+.premium-top-glow{
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 260px;
+  height: 260px;
+
+  background: radial-gradient(circle,
+    rgba(255,102,0,0.55),
+    transparent 70%);
+
+  z-index: 0;
+}
+
+.premium-icon{
+  position: relative;
+  z-index: 2;
+
+  width: 85px;
+  height: 85px;
+
+  margin: auto;
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg,#ff6600,#ff9900);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 10px 30px rgba(255,102,0,0.45);
+
+  animation: floaty 3s ease-in-out infinite;
+}
+
+.premium-icon i{
+  color: white;
+  font-size: 34px;
+}
+
+@keyframes floaty{
+  0%,100%{
+    transform: translateY(0px);
+  }
+  50%{
+    transform: translateY(-8px);
+  }
+}
+
+.premium-popup h2{
+  position: relative;
+  z-index: 2;
+
+  margin-top: 22px;
+  margin-bottom: 14px;
+
+  color: white;
+
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.premium-popup p{
+  position: relative;
+  z-index: 2;
+
+  color: rgba(255,255,255,0.88);
+
+  line-height: 1.7;
+  font-size: 1rem;
+
+  margin-bottom: 28px;
+}
+
+.premium-buttons{
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  position: relative;
+  z-index: 2;
+}
+
+.premium-btn{
+  text-decoration: none;
+
+  padding: 15px 18px;
+
+  border-radius: 18px;
+
+  font-weight: 700;
+  font-size: 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  transition: all 0.35s ease;
+}
+
+.premium-btn i{
+  font-size: 1.2rem;
+}
+
+.whatsapp-btn-popup{
+  background: linear-gradient(135deg,#25D366,#1ebe5d);
+  color: white;
+}
+
+.instagram-btn-popup{
+  background: linear-gradient(
+    135deg,
+    #833ab4,
+    #fd1d1d,
+    #fcb045
+  );
+
+  color: white;
+}
+
+.premium-btn:hover{
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+.premium-footer-text{
+  display: block;
+
+  margin-top: 22px;
+
+  color: rgba(255,255,255,0.7);
+
+  font-size: 0.9rem;
+}
+
+.premium-close{
+  position: absolute;
+  top: 14px;
+  right: 16px;
+
+  width: 38px;
+  height: 38px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.12);
+
+  color: white;
+
+  font-size: 1.3rem;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  z-index: 10;
+}
+
+.premium-close:hover{
+  background: rgba(255,255,255,0.2);
+  transform: rotate(90deg);
+}
+
+/* MOBILE */
+@media(max-width:480px){
+
+  .premium-popup{
+    padding: 34px 22px;
+  }
+
+  .premium-popup h2{
+    font-size: 1.6rem;
+  }
+
+  .premium-popup p{
+    font-size: 0.92rem;
+  }
+
+}
+/* PREMIUM LOGO */
+.premium-logo{
+  position: relative;
+  z-index: 2;
+
+  width: 95px;
+  height: 95px;
+
+  margin: auto;
+
+  border-radius: 50%;
+
+  padding: 5px;
+
+  background: linear-gradient(135deg,#ff6600,#ff9900);
+
+  box-shadow:
+    0 10px 30px rgba(255,102,0,0.45),
+    0 0 25px rgba(255,153,0,0.25);
+
+  animation: floaty 3s ease-in-out infinite;
+}
+
+.premium-logo img{
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  border: 3px solid white;
+}
 
         </style>
         <meta property="og:title" content="Six Star Suppliers – Quality Products at Affordable Prices">
@@ -393,7 +667,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Six Star Suppliers – Quality Products at Affordable Prices">
 <meta name="twitter:description" content="Fast deliveries across Kenya.">
-<meta name="twitter:image" content="https://zackzionsuppliers.netlify.app/images2/preview.jpg">
+<meta name="twitter:image" content="https://zackzionsuppliers.netlify.app/images2/logo.jpg">
 
 
     </head>
@@ -412,19 +686,6 @@
                 
 
   
-  <li><a  ><button class="filter-btn active" data-category="all">All</button></a></li>
-  <li><a ><button class="filter-btn" data-category="fridge">Fridge</button></a></li>
-  <li><a ><button class="filter-btn" data-category="mouse">Mouse</button></a></li>
-  <li><a ><button class="filter-btn" data-category="microwave">Microwave</button></a></li>
-  <li><a ><button class="filter-btn" data-category="extension">Extension</button></a></li>
-  <li><a ><button class="filter-btn" data-category="reflector&labcoat">Comrade Arena</button></a></li>
-  <li><a ><button class="filter-btn" data-category="bt">BT Speaker</button></a></li>
-  <li><a ><button class="filter-btn" data-category="airpods">EarPods</button></a></li>
-  <li><a ><button class="filter-btn" data-category="powerbank">PowerBank</button></a></li>
-  <li><a ><button class="filter-btn" data-category="system">Multimedia Systems</button></a></li>
-  <li><a ><button class="filter-btn" data-category="pad">Gaming Hub</button></a></li>
-  
-  <li><a ><button class="filter-btn" data-category="headphones">HeadPhones</button></a></li>
   
 </ul>
 
@@ -653,6 +914,53 @@
   
   <span>Shop Now</span>
 </a>
+
+<!-- PREMIUM SOCIAL POPUP -->
+<div id="premiumPopup" class="premium-popup-overlay">
+
+  <div class="premium-popup">
+
+    <button class="premium-close" id="closePremiumPopup">&times;</button>
+
+    <div class="premium-top-glow"></div>
+
+    <div class="premium-logo">
+  <img src="images2/logo.jpg" alt="Six Star Suppliers Logo">
+</div>
+
+    <h2>Join The Six Star Community ✨</h2>
+
+    <p>
+      Get exclusive deals, hot arrivals, giveaways & flash discounts before everyone else.
+    </p>
+
+    <div class="premium-buttons">
+
+      <a href="https://https://chat.whatsapp.com/HW6C4EIfItAE4RXuYXb3GW"
+         target="_blank"
+         class="premium-btn whatsapp-btn-popup">
+
+        <i class="fa-brands fa-whatsapp"></i>
+        Join WhatsApp
+      </a>
+
+      <a href="https://www.instagram.com/sixstarsuppliers?igsh=MXU5ZHJnOW0yb2ptbQ=="
+         target="_blank"
+         class="premium-btn instagram-btn-popup">
+
+        <i class="fa-brands fa-instagram"></i>
+        Follow Instagram
+      </a>
+
+    </div>
+
+    <span class="premium-footer-text">
+      Trusted by hundreds of happy customers across Kenya
+    </span>
+
+  </div>
+
+</div>
         </main>
         <footer id="footer" class="footer">
             <div class="footer1">
@@ -693,8 +1001,8 @@
                         <a href="https://www.facebook.com/share/1GkdidaAiP/"><i class="fa-brands fa-facebook-f fa-2xl "   style="color: #ffffff;"></i></a>
                         <a href="https://wa.me/25494327798"><i class="fa-brands fa-whatsapp fa-2xl" style="color: #ffffff;"></i></a>
                 <a href="https://vm.tiktok.com/ZMHTmxytY9hkR-cyBwf/"><i class="fa-brands fa-tiktok fa-2xl" style="color: #f8f6f6;"></i></a>
-                <a href="https://www.instagram.com/zakayowathiari?igsh=MWdiYmFjMHdiZGF2Mw==" target="_blank"><i class="fa-brands fa-instagram fa-2xl" style="color: #ffffff;"></i></a>
-                <a href="https://x.com/zackzionsu81654?t=WZZB9CX79pPlQ2BK34V9lg&s=09" target="_blank"><i class="fa-brands fa-square-x-twitter fa-2xl" style="color: #fafafa;"></i></a>
+                <a href="https://www.instagram.com/sixstarsuppliers?igsh=MXU5ZHJnOW0yb2ptbQ==" target="_blank"><i class="fa-brands fa-instagram fa-2xl" style="color: #ffffff;"></i></a>
+                <a href="https://x.com/sixstarsuppliers?t=WZZB9CX79pPlQ2BK34V9lg&s=09" target="_blank"><i class="fa-brands fa-square-x-twitter fa-2xl" style="color: #fafafa;"></i></a>
                 
                     </div>
                 </a>
@@ -707,7 +1015,45 @@
 
         </footer>
 <script>
-  
+
+/* =========================
+   PREMIUM POPUP
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const popup = document.getElementById("premiumPopup");
+  const closeBtn = document.getElementById("closePremiumPopup");
+
+  // only show once every 24 hrs
+  const alreadySeen = localStorage.getItem("premiumPopupSeen");
+
+  if(!alreadySeen){
+
+    setTimeout(() => {
+      popup.classList.add("show");
+    }, 1800);
+
+    localStorage.setItem("premiumPopupSeen", "true");
+
+    setTimeout(() => {
+      localStorage.removeItem("premiumPopupSeen");
+    }, 86400000);
+
+  }
+
+  closeBtn.addEventListener("click", () => {
+    popup.classList.remove("show");
+  });
+
+  popup.addEventListener("click", (e) => {
+    if(e.target === popup){
+      popup.classList.remove("show");
+    }
+  });
+
+});
+
 </script>
 
 
