@@ -1270,27 +1270,38 @@ Please confirm this order manually.
 
 
 function cleanProduct(item) {
+
   return {
+
     ...item,
 
-    // clean price (handles "Ksh 1,200" or "1200")
-    price: Number(String(item.price).replace(/[^0-9]/g, "")) || 0,
+    price:
+      Number(
+        String(item.price).replace(/[^0-9]/g, "")
+      ) || 0,
 
-    // ensure qty is valid
-    qty: Math.max(1, Number(item.qty) || 1),
+    qty:
+      Math.max(1, Number(item.qty) || 1),
 
-    // normalize color into array (important for shoes + clothing logic)
-    color: Array.isArray(item.color)
-      ? item.color
-      : item.color
-        ? [item.color]
-        : [],
+    // normalize colors
+    color:
+      Array.isArray(item.color)
+        ? item.color
+        : typeof item.color === "string"
+          ? [item.color.trim()]
+          : [],
 
-    // safety defaults used in your checkout UI
-    selectedColor: item.selectedColor || "",
-    selectedSize: item.selectedSize || "",
-    selectedShoeSize: item.selectedShoeSize || "",
-    selectedFit: item.selectedFit || ""
+    selectedColor:
+      item.selectedColor || "",
+
+    selectedSize:
+      item.selectedSize || "",
+
+    selectedShoeSize:
+      item.selectedShoeSize || "",
+
+    selectedFit:
+      item.selectedFit || ""
   };
 }
 
@@ -1319,6 +1330,55 @@ function increaseQty(i){ cart[i].qty++; saveCart(); loadCheckout(); }
 function decreaseQty(i){ if(cart[i].qty>1){ cart[i].qty--; saveCart(); loadCheckout(); } }
 function removeFromCart(i){ cart.splice(i,1); saveCart(); loadCheckout(); }
 
+
+function buildShoeColorHTML(item, i) {
+
+  // Normalize: already array (from cleanProduct), but double-check
+  const shoeColors = Array.isArray(item.color)
+    ? item.color
+    : typeof item.color === "string" && item.color.trim()
+      ? [item.color.trim()]
+      : [];
+
+  // Auto-select single color and save BEFORE rendering
+  if (shoeColors.length === 1 && !item.selectedColor) {
+    cart[i].selectedColor = shoeColors[0];
+    saveCart();
+    item.selectedColor = shoeColors[0]; // update local ref too
+  }
+
+  // Multiple colors → dropdown
+  if (shoeColors.length > 1) {
+    const options = shoeColors.map(color => {
+      const isSelected = item.selectedColor === color ? "selected" : "";
+      return `<option value="${color}" ${isSelected}>${color}</option>`;
+    }).join("");
+
+    return `
+      <select onchange="selectColor(${i}, this.value)">
+        <option value="">Choose Color</option>
+        ${options}
+      </select>
+    `;
+  }
+
+  // Single color → disabled input
+  if (shoeColors.length === 1) {
+    return `
+      <input
+        type="text"
+        value="${shoeColors[0]}"
+        disabled
+        style="opacity:.9; cursor:not-allowed; font-weight:600;"
+      />
+    `;
+  }
+
+  // No color data at all
+  return `<input type="text" value="No color available" disabled />`;
+}
+
+
 // ===============================
 function loadCheckout() {
 
@@ -1338,7 +1398,7 @@ function loadCheckout() {
   }
 
   cart.forEach((item,i)=>{
-
+console.log(cart);
     const img =
       Array.isArray(item.image)
       ? item.image[0]
@@ -1506,59 +1566,8 @@ function loadCheckout() {
           <!-- SHOE COLORS -->
 
 <div class="input-group">
-
   <label>Select Color</label>
-
-  ${
-    (() => {
-      const shoeColors = Array.isArray(item.color)
-        ? item.color
-        : item.color
-          ? [item.color]
-          : [];
-
-      // CASE 1: multiple colors → dropdown
-      if (shoeColors.length > 1) {
-        return `
-          <select onchange="selectColor(${i}, this.value)">
-            <option value="">Choose Color</option>
-
-            ${shoeColors.map(color => `
-              <option
-                value="${color}"
-                ${item.selectedColor === color ? "selected" : ""}
-              >
-                ${color}
-              </option>
-            `).join("")}
-
-          </select>
-        `;
-      }
-
-      // CASE 2: single color → readonly display
-      if (shoeColors.length === 1) {
-        return `
-          <input
-            type="text"
-            value="${shoeColors[0]}"
-            disabled
-            style="opacity:0.85; cursor:not-allowed;"
-          />
-        `;
-      }
-
-      // CASE 3: no color data → fallback
-      return `
-        <input
-          type="text"
-          value="Default Color"
-          disabled
-        />
-      `;
-    })()
-  }
-
+  ${buildShoeColorHTML(item, i)}
 </div>
             <!-- SHOE SIZE -->
 
