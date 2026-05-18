@@ -1016,36 +1016,22 @@
         </footer>
 <script>
 
-/* =========================
-   PREMIUM POPUP
-========================= */
-
 document.addEventListener("DOMContentLoaded", () => {
 
   const popup = document.getElementById("premiumPopup");
   const closeBtn = document.getElementById("closePremiumPopup");
 
-  // only show once every 24 hrs
-  const alreadySeen = localStorage.getItem("premiumPopupSeen");
+  // show popup every visit
+  setTimeout(() => {
+    popup.classList.add("show");
+  }, 1800);
 
-  if(!alreadySeen){
-
-    setTimeout(() => {
-      popup.classList.add("show");
-    }, 1800);
-
-    /*localStorage.setItem("premiumPopupSeen", "true");
-
-    setTimeout(() => {
-      localStorage.removeItem("premiumPopupSeen");
-    }, 86400000);*/
-
-  }
-
+  // close button
   closeBtn.addEventListener("click", () => {
     popup.classList.remove("show");
   });
 
+  // close when clicking outside
   popup.addEventListener("click", (e) => {
     if(e.target === popup){
       popup.classList.remove("show");
