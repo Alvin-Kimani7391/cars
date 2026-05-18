@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shopify Selling Products Online - About</title>
+  <title>Six Star Suppliers- About</title>
+  <link rel="icon" href="images2/logo.jpg">
   <script src="https://kit.fontawesome.com/e1426ab85b.js" crossorigin="anonymous"></script>
   <style>
     /* General Styles */
@@ -475,7 +476,123 @@ footer {
 .navfilter.active {
   font-weight: bolder;
 }
-  </style>
+
+/* ===== STATS SECTION ===== */
+/* =========================
+   PREMIUM STATS SECTION
+   RESPONSIVE + MODERN
+========================= */
+
+.stats-section{
+  position:relative;
+  width:100%;
+  margin:60px auto;
+  padding:clamp(60px, 8vw, 120px) 16px;
+  border-radius:24px;
+  overflow:hidden;
+
+  /* Logo background */
+  background:
+    url("logo.png") center/260px no-repeat,
+    linear-gradient(135deg,#0a0a0a,#1a1a1a);
+}
+
+/* dark glow overlay */
+.stats-overlay{
+  position:absolute;
+  inset:0;
+  background: radial-gradient(
+    circle at top,
+    rgba(255,102,0,0.25),
+    rgba(0,0,0,0.88)
+  );
+}
+
+/* GRID WRAPPER */
+.stats-wrapper{
+  position:relative;
+  z-index:2;
+
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:18px;
+
+  max-width:1100px;
+  margin:auto;
+}
+
+/* CARD STYLE */
+.stat-box{
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  padding:28px 18px;
+  border-radius:18px;
+  text-align:center;
+  color:#fff;
+
+  box-shadow:0 10px 25px rgba(0,0,0,0.35);
+  transition: all 0.3s ease;
+}
+
+/* hover effect */
+.stat-box:hover{
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(255,140,0,0.6);
+}
+
+/* NUMBER */
+.stat-box h3{
+  font-size:clamp(1.8rem, 4vw, 2.8rem);
+  font-weight:800;
+  color:#ffb347;
+  margin-bottom:6px;
+}
+
+/* LABEL */
+.stat-box p{
+  font-size:clamp(0.85rem, 2vw, 1rem);
+  opacity:0.85;
+}
+
+/* =========================
+   📱 MOBILE OPTIMIZATION
+========================= */
+@media (max-width:600px){
+
+  .stats-section{
+    border-radius:16px;
+    padding:70px 12px;
+    background-size:180px; /* keeps logo visible but not overpowering */
+  }
+
+  .stats-wrapper{
+    grid-template-columns:repeat(2,1fr); /* cleaner mobile layout */
+    gap:12px;
+  }
+
+  .stat-box{
+    padding:20px 14px;
+    border-radius:14px;
+  }
+
+  .stat-box h3{
+    font-size:1.8rem;
+  }
+
+  .stat-box p{
+    font-size:0.8rem;
+  }
+}
+
+/* ultra small phones */
+@media (max-width:380px){
+  .stats-wrapper{
+    grid-template-columns:1fr;
+  }
+}</style>
 </head>
 <body>
   <div id="loader">
@@ -558,7 +675,39 @@ Product colors may vary slightly due to lighting or device display differences.<
     <p>We value your feedback! If you have any suggestions, questions, or concerns, please reach out to our customer support. We aim to respond as quickly as possible.</p>
   <h2>Privacy Policy</h2>
     <p>We respect your privacy and protect your personal information. We collect data like name, email, and order details to process purchases, improve our services, and communicate with you. We do not sell your data. By using our site, you agree to our privacy practices.</p>
-    <button id="feedbackBtn">Give Feedback</button>
+   
+
+<!-- ===== PREMIUM STATS SECTION ===== -->
+<section class="stats-section">
+
+  <div class="stats-overlay"></div>
+
+  <div class="stats-wrapper">
+
+    <div class="stat-box">
+      <h3 class="count" data-target="500">0</h3>
+      <p>Happy Customers</p>
+    </div>
+
+    <div class="stat-box">
+      <h3 class="count" data-target="1200">0</h3>
+      <p>Products Sold</p>
+    </div>
+
+    <div class="stat-box">
+      <h3 class="count" data-target="98">0</h3>
+      <p>Positive Reviews</p>
+    </div>
+
+    <div class="stat-box">
+      <h3 class="count" data-target="24">0</h3>
+      <p>Support Hours</p>
+    </div>
+
+  </div>
+
+</section>
+ <button id="feedbackBtn">Give Feedback</button>
 
     <section class="contact-info">
       <p><i class="fa-brands fa-whatsapp fa-2xl" style="color: #0ee132;"></i><strong>Customer Support:</strong><br>+254 794 327 798</p>
@@ -589,6 +738,29 @@ Product colors may vary slightly due to lighting or device display differences.<
 
 
 <script>
+
+const counters = document.querySelectorAll('.count');
+
+counters.forEach(counter => {
+  const target = +counter.dataset.target;
+  let current = 0;
+
+  const step = target / 80;
+
+  function update(){
+    current += step;
+
+    if(current < target){
+      counter.innerText = Math.floor(current);
+      requestAnimationFrame(update);
+    } else {
+      counter.innerText = target + (target === 98 ? "%" : "+");
+    }
+  }
+
+  update();
+});
+
   const navItems = document.querySelectorAll('.navfilter');
 
   navItems.forEach(item => {
