@@ -9,12 +9,115 @@
   <style>
     /* General Styles */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
+   body {
   margin: 0;
   padding: 0;
-  background: #f5f6f8;
   font-family: 'Segoe UI', Tahoma, sans-serif;
+  overflow-x: hidden;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* 🌙 DARK MODE (default) */
+body.dark {
+  color: #fff;
+  background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+}
+
+/* ☀️ LIGHT MODE */
+body.light {
   color: #222;
+  background: #f5f6f8;
+}
+
+
+#themeToggle {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  background: #ff6600;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: 0.3s ease;
+  z-index: 1000;
+}
+
+#themeToggle:hover {
+  transform: scale(1.1);
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+
+  width: 55px;
+  height: 30px;
+  border-radius: 50px;
+
+  border: none;
+  cursor: pointer;
+
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 5px;
+  transition: all 0.4s ease;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* sliding circle icon */
+.theme-toggle .icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ff6600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  transition: all 0.4s ease;
+}
+
+/* LIGHT MODE style */
+body.light .theme-toggle {
+  background: #eaeaea;
+}
+
+body.light .theme-toggle .icon {
+  transform: translateX(25px);
+  background: #ff9900;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  transition: all 0.4s ease;
+}
+
+/* 🌙 DARK MODE background glow */
+body.dark::before {
+  background:
+    radial-gradient(circle at top left, rgba(255,102,0,0.25), transparent 40%),
+    radial-gradient(circle at bottom right, rgba(255,153,0,0.18), transparent 45%);
+}
+
+/* ☀️ LIGHT MODE background glow */
+body.light::before {
+  background:
+    radial-gradient(circle at top left, rgba(255,102,0,0.12), transparent 45%),
+    radial-gradient(circle at bottom right, rgba(255,153,0,0.08), transparent 50%);
 }
 
 main {
@@ -592,7 +695,56 @@ footer {
   .stats-wrapper{
     grid-template-columns:1fr;
   }
-}</style>
+}
+/* ===== ANIMATED SECTIONS ===== */
+.fade-section{
+  opacity:0;
+  transform:translateY(30px);
+  transition:all 0.7s ease;
+}
+
+.fade-section.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ===== HERO WELCOME ===== */
+.hero-welcome{
+  text-align:center;
+  padding:20px 20px 30px; /* reduced top padding */
+  margin-top:0;
+}
+
+.hero-welcome h1{
+  font-size:clamp(1.4rem, 4vw, 2.5rem);
+  font-weight:800;
+  color:#ff6600;
+  min-height:50px;
+  letter-spacing:1px;
+}
+
+.hero-welcome p{
+  font-size:1rem;
+  opacity:0.8;
+ 
+}
+
+/* subtle cursor */
+#typingText::after{
+  content:"|";
+  animation:blink 0.7s infinite;
+  margin-left:5px;
+}
+
+@keyframes blink{
+  50%{opacity:0;}
+}
+
+.hero-welcome h1 {
+  color: #ffb347;
+  text-shadow: 0 0 20px rgba(255,102,0,0.4);
+}
+</style>
 </head>
 <body>
   <div id="loader">
@@ -632,13 +784,22 @@ footer {
             <a href="about.html" class="navfilter active">About</a>
             <a href="product.html " class="navfilter">Products</a>
             <a href="contact.html" class="navfilter">Contact</a>
-            <a><button id="showcart"></button></a>
+            <a><button id="themeToggle" class="theme-toggle">
+  <span class="icon">🌙</span>
+</button></a>
         </nav><br>
 
 
 <main>
+
+  <!-- ===== WELCOME HERO ===== -->
+<section class="hero-welcome">
+  <h1 id="typingText"></h1>
+  <p>Premium products • Trusted delivery • Quality guaranteed</p>
+</section>
+
   <!-- About Section -->
-  <section id="about">
+  <section id="about" class="fade-section">
     <h1>Our Story</h1>
     <p>Welcome to our online shop! We offer a wide range of products with secure online shopping and fast delivery right to your doorstep. Our goal is to provide quality products at competitive prices, while ensuring a smooth and reliable shopping experience.</p>
 
@@ -736,8 +897,85 @@ Product colors may vary slightly due to lighting or device display differences.<
   </div>
 </main>
 
+<script>
+const toggleBtn = document.getElementById("themeToggle");
+const body = document.body;
+const icon = document.querySelector(".theme-toggle .icon");
+
+// default
+body.classList.add("dark");
+
+toggleBtn.addEventListener("click", () => {
+  if (body.classList.contains("dark")) {
+    body.classList.remove("dark");
+    body.classList.add("light");
+    icon.textContent = "☀️";
+  } else {
+    body.classList.remove("light");
+    body.classList.add("dark");
+    icon.textContent = "🌙";
+  }
+});
+</script>
 
 <script>
+const text = "Welcome to Six Star Suppliers";
+const typingTarget = document.getElementById("typingText");
+
+let i = 0;
+let isDeleting = false;
+
+function typeWriter() {
+  if (!isDeleting) {
+    // typing forward
+    typingTarget.innerHTML = text.substring(0, i + 1);
+    i++;
+
+    if (i === text.length) {
+      isDeleting = true;
+      setTimeout(typeWriter, 1200); // pause before deleting
+      return;
+    }
+  } else {
+    // deleting (SLOWER here)
+    typingTarget.innerHTML = text.substring(0, i - 1);
+    i--;
+
+    if (i === 0) {
+      isDeleting = false;
+      setTimeout(typeWriter, 700); // pause before re-typing
+      return;
+    }
+  }
+
+  // typing faster, deleting slower
+  const speed = isDeleting ? 120 : 80;
+  setTimeout(typeWriter, speed);
+}
+
+window.addEventListener("load", () => {
+  typingTarget.innerHTML = "";
+  typeWriter();
+});
+</script>
+
+
+<script>
+const sections = document.querySelectorAll(".fade-section");
+
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("show");
+    }
+  });
+},{threshold:0.15});
+
+sections.forEach(sec => observer.observe(sec));
+</script>
+
+<script>
+
 
 const counters = document.querySelectorAll('.count');
 
