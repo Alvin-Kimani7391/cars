@@ -787,6 +787,240 @@ PREMIUM CLOTHING OPTIONS
   border-color:#ffb703;
   color:white;
 }
+
+/* =========================
+PREMIUM CART CARD
+========================= */
+
+.premium-cart{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:14px;
+
+  padding:16px;
+}
+
+.cart-left{
+  display:flex;
+  gap:14px;
+  flex:1;
+}
+
+.cart-left img{
+  width:78px;
+  height:78px;
+  object-fit:cover;
+
+  border-radius:14px;
+
+  border:1px solid rgba(255,183,3,0.12);
+}
+
+.cart-details{
+  flex:1;
+}
+
+.price-line{
+  margin-top:4px;
+  margin-bottom:12px;
+
+  color:#ffb703;
+  font-weight:700;
+  font-size:14px;
+}
+
+/* =========================
+INLINE CONFIG
+========================= */
+
+.mini-config{
+  margin-top:10px;
+}
+
+.mini-label{
+  font-size:11px;
+  color:#aaa;
+
+  margin-bottom:8px;
+
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+
+.mini-config .color-options{
+  margin-bottom:12px;
+}
+
+.mini-config .color-swatch{
+  width:28px;
+  height:28px;
+}
+
+.mini-config .size-btn{
+  min-width:42px;
+  padding:8px 10px;
+  font-size:12px;
+}
+
+/* =========================
+RIGHT SIDE ACTIONS
+========================= */
+
+.cart-actions{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  align-items:flex-end;
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media(max-width:600px){
+
+  .premium-cart{
+    flex-direction:column;
+  }
+
+  .cart-actions{
+    width:100%;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+  }
+
+  .cart-left{
+    width:100%;
+  }
+}
+
+/* =========================
+/* =========================
+PREMIUM SHOE COLOR PICKER (BASE)
+========================= */
+
+.premium-color-options{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+/* CARD */
+.premium-color-card{
+  position:relative;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  padding:10px 14px;
+  border-radius:16px;
+
+  border:1px solid rgba(255,183,3,0.12);
+  background:#141414;
+  color:#fff;
+
+  cursor:pointer;
+  transition:.25s ease;
+
+  min-width:110px;
+}
+
+/* HOVER (desktop only feel) */
+.premium-color-card:hover{
+  transform:translateY(-2px);
+  border-color:#ffb703;
+  box-shadow:0 10px 24px rgba(0,0,0,.35);
+}
+
+/* ACTIVE STATE */
+.premium-color-card.active{
+  background:linear-gradient(
+    135deg,
+    rgba(255,102,0,.18),
+    rgba(255,183,3,.12)
+  );
+
+  border-color:#ffb703;
+  box-shadow:0 10px 28px rgba(255,140,0,.18);
+}
+
+/* COLOR CIRCLE */
+.premium-color-circle{
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.18);
+
+  flex-shrink:0;
+
+  background-size: cover;
+  background-position: center;
+  display: inline-block;
+}
+
+/* COLOR NAME */
+.premium-color-name{
+  font-size:13px;
+  font-weight:600;
+  color:#f5dcc5;
+  text-transform:capitalize;
+}
+
+/* CHECK ICON */
+.premium-check{
+  margin-left:auto;
+  color:#ffb703;
+  font-size:13px;
+}
+
+/* =========================
+📱 MOBILE RESPONSIVE FIX
+========================= */
+
+@media (max-width: 600px){
+
+  .premium-color-options{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:10px;
+  }
+
+  .premium-color-card{
+    min-width:unset;
+    width:100%;
+
+    padding:10px 10px;
+    border-radius:14px;
+
+    gap:8px;
+  }
+
+  .premium-color-circle{
+    width:20px;
+    height:20px;
+  }
+
+  .premium-color-name{
+    font-size:12px;
+  }
+
+  .premium-check{
+    font-size:12px;
+  }
+}
+
+/* =========================
+VERY SMALL PHONES (optional)
+========================= */
+
+@media (max-width: 380px){
+  .premium-color-options{
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
 </style>
 
 </head>
@@ -1285,10 +1519,14 @@ function cleanProduct(item) {
 
     // normalize colors
     color:
-      Array.isArray(item.color)
-        ? item.color
-        : typeof item.color === "string"
-          ? [item.color.trim()]
+  Array.isArray(item.color)
+    ? item.color
+    : Array.isArray(item.colors)
+      ? item.colors
+      : typeof item.color === "string"
+        ? [item.color.trim()]
+        : typeof item.colors === "string"
+          ? [item.colors.trim()]
           : [],
 
     selectedColor:
@@ -1379,6 +1617,35 @@ function buildShoeColorHTML(item, i) {
 }
 
 
+function getColorStyle(color){
+
+  const c = color.toLowerCase().trim();
+
+  const gradients = {
+
+    "black/white":
+      "background: linear-gradient(135deg,#111 50%,#fff 50%);",
+
+    "red/black":
+      "background: linear-gradient(135deg,#d62828 50%,#111 50%);",
+
+    "blue/white":
+      "background: linear-gradient(135deg,#2563eb 50%,#fff 50%);",
+
+    "green/black":
+      "background: linear-gradient(135deg,#2e7d32 50%,#111 50%);",
+
+    "multi":
+      "background: linear-gradient(135deg,#ff0000,#ffcc00,#00c853,#2962ff);"
+  };
+
+  if (gradients[c]) {
+    return gradients[c];
+  }
+
+  return `background-color:${c};`;
+}
+
 // ===============================
 function loadCheckout() {
 
@@ -1420,187 +1687,200 @@ console.log(cart);
 
       <div class="cart-item-wrapper">
 
-        <div class="cart-item">
+        <div class="cart-item premium-cart">
 
-          <img src="${img}">
+  <div class="cart-left">
 
-          <h4>${item.make} ${item.model || ""}</h4>
+    <img src="${img}">
 
-          <div class="qty-controls">
+    <div class="cart-details">
 
-            <button
-              onclick="decreaseQty(${i})"
-              ${item.qty===1?'disabled':''}
-            >
-              -
-            </button>
+      <h4>${item.make} ${item.model || ""}</h4>
 
-            <span>${item.qty}</span>
+      <div class="price-line">
+        Ksh ${(item.price * item.qty).toLocaleString()}
+      </div>
 
-            <button
-              onclick="increaseQty(${i})"
-            >
-              +
-            </button>
+      ${
+        isClothing
+        ?
+        `
+        <div class="mini-config">
+
+          <!-- COLORS -->
+          <div class="mini-label">Color</div>
+
+          <div class="color-options">
+
+            ${[
+              {name:"Black",hex:"#111"},
+              {name:"White",hex:"#f5f5f5"},
+              {name:"Red",hex:"#d62828"},
+              {name:"Blue",hex:"#2563eb"},
+              {name:"Green",hex:"#2e7d32"}
+            ].map(color => `
+
+              <div
+                class="color-swatch
+                ${item.selectedColor === color.name ? 'active':''}"
+
+                style="background:${color.hex}"
+
+                onclick="
+                  selectColor(${i}, '${color.name}')
+                "
+              ></div>
+
+            `).join("")}
 
           </div>
 
-          <p>
-            Ksh ${(item.price*item.qty).toLocaleString()}
-          </p>
+          <!-- SIZE -->
+          <div class="mini-label">Size</div>
 
-          <button
-            class="removebtn"
-            onclick="removeFromCart(${i})"
-          >
-            X
-          </button>
+          <div class="size-options">
+
+            ${["S","M","L","XL","XXL"].map(size => `
+
+              <button
+                type="button"
+
+                class="size-btn
+                ${item.selectedSize === size ? 'active':''}"
+
+                onclick="
+                  selectSize(${i}, '${size}')
+                "
+              >
+                ${size}
+              </button>
+
+            `).join("")}
+
+          </div>
 
         </div>
+        `
+        : ""
+      }
 
-        ${
-          isClothing
-          ?
-          `
-          <!-- =========================
-          CLOTHING CONFIG
-          ========================= -->
+      ${
+        isShoes
+        ?
+        `
+        <div class="mini-config">
 
-          <div class="clothing-config">
+          <div class="mini-label">Color</div>
 
-            <div class="config-title">
-              <i class="fa-solid fa-shirt"></i>
-              Customize Your Style
-            </div>
+         <div class="premium-color-options">
 
-            <!-- COLORS -->
+  ${(Array.isArray(item.color)
+    ? item.color
+    : []).map(color => `
 
-            <div class="color-options">
+    <button
+      type="button"
 
-              ${[
-                {name:"Black",hex:"#111"},
-                {name:"White",hex:"#f5f5f5"},
-                {name:"Red",hex:"#d62828"},
-                {name:"Blue",hex:"#2563eb"},
-                {name:"Green",hex:"#2e7d32"},
-                {name:"Brown",hex:"#6d4c41"}
-              ].map(color => `
+      class="
+        premium-color-card
+        ${item.selectedColor === color ? 'active' : ''}
+      "
 
-                <div
-                  class="color-swatch
-                  ${item.selectedColor === color.name ? 'active':''}"
+      onclick="
+        selectColor(${i}, '${color}')
+      "
+    >
 
-                  style="background:${color.hex}"
+      <span
+        class="premium-color-circle"
+        style="${getColorStyle(color)}"
+      ></span>
 
-                  title="${color.name}"
+      <span class="premium-color-name">
+        ${color}
+      </span>
 
-                  onclick="
-                    selectColor(${i}, '${color.name}')
-                  "
-                ></div>
+      ${
+        item.selectedColor === color
+        ? `
+          <span class="premium-check">
+            <i class="fa-solid fa-check"></i>
+          </span>
+        `
+        : ""
+      }
 
-              `).join("")}
+    </button>
 
-            </div>
+  `).join("")}
 
-            <!-- SIZE -->
-
-            <div class="size-options">
-
-              ${["S","M","L","XL","XXL"].map(size => `
-
-                <button
-                  type="button"
-
-                  class="size-btn
-                  ${item.selectedSize === size ? 'active':''}"
-
-                  onclick="
-                    selectSize(${i}, '${size}')
-                  "
-                >
-                  ${size}
-                </button>
-
-              `).join("")}
-
-            </div>
-
-            <!-- FIT -->
-
-            <div class="fit-options">
-
-              ${["Slim Fit","Regular","Oversized"].map(fit => `
-
-                <button
-                  type="button"
-
-                  class="fit-btn
-                  ${item.selectedFit === fit ? 'active':''}"
-
-                  onclick="
-                    selectFit(${i}, '${fit}')
-                  "
-                >
-                  ${fit}
-                </button>
-
-              `).join("")}
-
-            </div>
-
-          </div>
-          `
-          :
-          ""
-        }
-
-        ${
-          isShoes
-          ?
-          `
-          <!-- =========================
-          SHOE CONFIG
-          ========================= -->
-
-          <!-- SHOE COLORS -->
-
-<div class="input-group">
-  <label>Select Color</label>
-  ${buildShoeColorHTML(item, i)}
 </div>
-            <!-- SHOE SIZE -->
 
-            <div class="size-options">
+          <div class="mini-label">Shoe Size</div>
 
-              ${[
-                "38","39","40",
-                "41","42","43",
-                "44","45","46"
-              ].map(size => `
+          <div class="size-options">
 
-                <button
-                  type="button"
+            ${[
+              "38","39","40",
+              "41","42","43",
+              "44","45","46"
+            ].map(size => `
 
-                  class="size-btn
-                  ${item.selectedShoeSize === size ? 'active':''}"
+              <button
+                type="button"
 
-                  onclick="
-                    selectShoeSize(${i}, '${size}')
-                  "
-                >
-                  EU ${size}
-                </button>
+                class="size-btn
+                ${item.selectedShoeSize === size ? 'active':''}"
 
-              `).join("")}
+                onclick="
+                  selectShoeSize(${i}, '${size}')
+                "
+              >
+                ${size}
+              </button>
 
-            </div>
+            `).join("")}
 
           </div>
-          `
-          :
-          ""
-        }
+
+        </div>
+        `
+        : ""
+      }
+
+    </div>
+
+  </div>
+
+  <div class="cart-actions">
+
+    <div class="qty-controls">
+
+      <button
+        onclick="decreaseQty(${i})"
+        ${item.qty===1?'disabled':''}
+      >
+        -
+      </button>
+
+      <span>${item.qty}</span>
+
+      <button onclick="increaseQty(${i})">
+        +
+      </button>
+
+    </div>
+
+    <button
+      class="removebtn"
+      onclick="removeFromCart(${i})"
+    >
+      <i class="fa-solid fa-trash"></i>
+    </button>
+
+  </div>
+
+</div>
 
       </div>
 
