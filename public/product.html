@@ -435,15 +435,47 @@ footer {
   100% { transform: scale(1.4); opacity: 0; }
 }
 
+.product-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 10px;
+}
 
-@media (max-width: 768px) {
-  .whatsapp-float,
-  #show-cart-btn {
-    height: 48px;        /* 🔥 SAME HEIGHT */
-    padding: 0 16px;     /* remove vertical padding */
-    display: flex;
-    align-items: center;
-  }
+.product-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* DISCOUNT */
+.discount {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #f68b1e;
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  z-index: 10; /* ✅ ensures visibility */
+}
+
+/* STOCK BAR */
+.stock-bar {
+  height: 5px;
+  background: #ddd;
+  margin-top: 5px;
+}
+
+.stock-fill {
+  height: 100%;
+  background: orange;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: white;
 }
     </style>
 </head>
@@ -583,7 +615,7 @@ footer {
   </div>
 
         <div class="product" id="product"></div><br>
-        <button  style="display: none;" id="show-cart-btn">Shop</button><br><br>
+        <button  style="display: none;" id="show-cart-btn">Shop</button>
 
         <div id="popup" class="popup">
           <div class="cart">
@@ -593,7 +625,7 @@ footer {
             
 
         
-        </div><br><br>
+        </div>
         
         <div id="cart-total"></div></div>
 
@@ -648,7 +680,7 @@ footer {
    id="whatsappBtn2">
 
   
-  <span>Shop Now</span>
+  <span id="showcartbtn">Shop Now</span>
 </a>
 
         </main>

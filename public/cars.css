@@ -99,6 +99,7 @@
   max-width: 310px; /* keeps desktop the same */
   height: 370px;
   background: #fff;
+  position: relative;
   
   
 }

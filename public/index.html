@@ -656,6 +656,246 @@
   border: 3px solid white;
 }
 
+
+
+
+/* ===== HOT DEALS FLASH SECTION ===== */
+.flash-sales {
+  margin: 15px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* HEADER (TOP RED BAR) */
+.flash-header {
+  background: linear-gradient(90deg, #ff6600, #ff9900); /* your brand */
+  color: rgb(0, 0, 0);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+/* LEFT SIDE */
+.flash-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flash-icon {
+  font-size: 18px;
+}
+
+.timer {
+  font-size: 13px;
+  margin-left: 10px;
+}
+
+/* SEE ALL BUTTON */
+.see-all {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.product-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 10px;
+}
+
+.product-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* CARD */
+.product-card {
+  width: 160px;
+  height: 260px; /* ✅ FIXED like before */
+
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 8px;
+
+  display: flex;
+  flex-direction: column;
+
+ 
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* IMAGE */
+.product-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: contain;
+}
+
+/* NAME */
+.product-name {
+  font-size: 13px;
+  height: 32px;
+  overflow: hidden;
+}
+
+/* PRICE */
+.product-price {
+  color: green;
+  font-size: 1.2em;
+  font-weight: bold;
+
+}
+
+/* OLD PRICE */
+.price {
+  color: green;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.old-price {
+  color: #d33925;
+  text-decoration: line-through;
+}
+
+/* DISCOUNT */
+.discount {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #f68b1e;
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+}
+
+/* STOCK BAR */
+.stock-bar {
+  height: 5px;
+  background: #ddd;
+  margin-top: 5px;
+}
+
+.stock-fill {
+  height: 100%;
+  background: orange;
+}
+
+/* ===== NEW ARRIVALS SECTION ===== */
+.new-arrivals-section {
+  margin: 15px;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* HEADER */
+.new-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px 12px;
+  color: #f68b1e;
+  background: linear-gradient(90deg, #222, #444); /* darker = different from others */ /* light instead of red */
+  border-bottom: 1px solid #eee;
+}
+
+.new-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.new-icon {
+  font-size: 18px;
+}
+
+/* TITLE */
+.new-header h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+/* SEE ALL */
+.new-header .see-all {
+  font-size: 13px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fffffe;
+}
+
+.see-all:hover {
+  text-decoration: underline;
+}
+.new-arrivals-section .product-scroll {
+  padding: 10px;
+}
+
+/* ===== CATALOG SECTION ===== */
+.catalog-section {
+  margin: 15px;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* HEADER */
+.catalog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px;
+
+  background: linear-gradient(90deg, #222, #444); /* darker = different from others */
+  color: #fff;
+}
+
+/* LEFT SIDE */
+.catalog-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.catalog-icon {
+  font-size: 18px;
+}
+
+/* TITLE */
+.catalog-header h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+/* BUTTON */
+.catalog-header .see-all {
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background: white;
+}
+
+
+
+/* smooth layout */
+section {
+  scroll-margin-top: 80px;
+}
+
         </style>
         <meta property="og:title" content="Six Star Suppliers – Quality Products at Affordable Prices">
 <meta property="og:description" content="Six Star Suppliers is an online shopping website offering high-quality products at affordable prices. Shop now for the best deals!">
@@ -764,47 +1004,68 @@
   <button class="filter-btn" data-category="microwave">Microwave</button>
 </div>-->
         
+<!-- ===== HOT DEALS (FLASH STYLE) ===== -->
+<section class="flash-sales">
 
-<!-- ===== NEW ARRIVALS SECTION ===== -->
-<section class="section-block">
-  <div class="section-header">
-    <h2>New Arrivals</h2>
+  <div class="flash-header">
+    <div class="flash-left">
+      <span class="flash-icon">🔥</span>
+      <strong>Hot Deals</strong>
+      <span class="timer">TIME LEFT: 
+        <span id="hours">10</span>h :
+        <span id="minutes">00</span>m :
+        <span id="seconds">00</span>s
+      </span>
+    </div>
+
+    <a href="hotdeals.html" class="see-all">See All</a>
+  </div>
+
+  <div id="flash-products" class="product-scroll"></div>
+
+</section>
+
+<!-- ===== NEW ARRIVALS (PREMIUM STYLE) ===== -->
+<section class="new-arrivals-section">
+
+  <div class="new-header">
+    <div class="new-left">
+      <span class="new-icon">🆕</span>
+      <h2>New Arrivals</h2>
+    </div>
+
+    <a href="newarrivals.html" class="see-all">See All</a>
   </div>
 
   <div id="new-arrivals" class="product-scroll"></div>
 
-  <div class="view-more">
-    <a href="newarrivals.html">>> View More New Arrivals</a>
-  </div>
 </section>
 
-
 <!-- ===== HOT DEALS SECTION ===== -->
-<section class="section-block">
-  <div class="section-header">
-    <h2>Hot Deals</h2>
+
+
+
+
+<!-- ===== OUR CATALOG (BROWSE STYLE) ===== -->
+<section class="catalog-section">
+
+  <div class="catalog-header">
+    <div class="catalog-left">
+      <span class="catalog-icon">🛍</span>
+      <h2>Our Catalog</h2>
+    </div>
+
+    <a href="product.html" class="see-all">Browse All</a>
   </div>
 
-  <div id="hot-deals" class="product-scroll"></div>
+  <div id="someproduct" class="product-scroll"></div>
 
-  <div class="view-more">
-    <a href="hotdeals.html">>> View More Hot Deals</a>
-  </div>
 </section>
-<br>
 
-<!-- ===== HOT DEALS SECTION ===== -->
-<section class="section-block">
-  <div class="section-header">
-    <h2>Our Catalog</h2>
-  </div>
-<div id="someproduct" class="product-scroll"></div>
-<div class="view-more">
-    <a href="product.html">>> View all the products</a>
-  </div>
+<!-- hidden full product list -->
+<div class="product" id="product" style="display: none;"></div>
 
-        <div class="product" id="product" style="display: none;"></div><br>
-        <button style="display: none;" id="show-cart-btn">Shop</button><br><br>
+        <button style="display: none;" id="show-cart-btn">Shop</button>
 
         <div id="popup" class="popup">
           <div class="cart">
@@ -1072,7 +1333,40 @@ viewBtn.addEventListener("click", () => {
 
 
 
+<script>
+  // Set countdown duration (example: 10 hours)
+  let totalTime = 10 * 60 * 60; // 10 hours in seconds
 
+  const hoursEl = document.getElementById("hours");
+  const minutesEl = document.getElementById("minutes");
+  const secondsEl = document.getElementById("seconds");
+
+  function updateTimer() {
+    const hours = Math.floor(totalTime / 3600);
+    const minutes = Math.floor((totalTime % 3600) / 60);
+    const seconds = totalTime % 60;
+
+    // Display with leading zeros
+    hoursEl.textContent = String(hours).padStart(2, "0");
+    minutesEl.textContent = String(minutes).padStart(2, "0");
+    secondsEl.textContent = String(seconds).padStart(2, "0");
+
+    // Stop when timer reaches zero
+    if (totalTime <= 0) {
+      clearInterval(timerInterval);
+      document.querySelector(".timer").innerHTML = "🔥 Deal Expired";
+      return;
+    }
+
+    totalTime--;
+  }
+
+  // Run immediately
+  updateTimer();
+
+  // Update every second
+  const timerInterval = setInterval(updateTimer, 1000);
+</script>
 
 
 
@@ -1461,53 +1755,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  
-function displayHotDealsPreview() {
-  const hotDeals = cars.filter(car => car.hotDeal === true);
-
-  const preview = hotDeals.slice(0, 6); // 👈 ONLY 3
 
   
+  
+function displayHotDealsFlash() {
+  const container = document.getElementById("flash-products");
+  container.innerHTML = "";
 
-  preview.forEach(car => {
+  const hotDeals = cars.filter(car => car.hotDeal === true).slice(0, 10);
+
+  hotDeals.forEach(car => {
     const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
 
-    const div = document.createElement("div");
-    
-    div.classList.add("product-item");
+    const discount = car.oldPrice
+      ? Math.round(((car.oldPrice - car.price) / car.oldPrice) * 100)
+      : 0;
 
-    let oldPriceHtml = "";
-      if (car.oldPrice) {
-        oldPriceHtml = `<p class="old-price"><strong>Was: Ksh.${car.oldPrice.toLocaleString()}</strong></p>`;
-      }
+    const stockPercent = Math.floor(Math.random() * 80) + 20; // realistic
+
+    const div = document.createElement("div");
+    div.classList.add("product-card");
 
     div.innerHTML = `
+      ${discount ? `<div class="discount">-${discount}%</div>` : ""}
+
       <img src="${imgSrc}" onclick="openProduct(${car.id})">
-      <div class="product-item-info">
-          <h3>${car.make} ${car.model}</h3>
-          <p class="price"><strong>Price: Ksh.${car.price.toLocaleString()}</strong></p>
-          ${oldPriceHtml}
-          <button class="addbtn" onclick="addToCart(${car.id})">Add To Cart</button>
-        </div>
+
+      <div class="product-name">${car.make} ${car.model}</div>
+
+      <div class="product-price">KSh ${car.price.toLocaleString()}</div>
+
+      ${car.oldPrice ? `<div class="old-price">KSh ${car.oldPrice.toLocaleString()}</div>` : ""}
+
+      <div class="stock-bar">
+        <div class="stock-fill" style="width:${stockPercent}%"></div>
+      </div>
+
+      <small>${Math.floor(Math.random()*40)+5} items left</small>
     `;
 
-    hotDealsContainer.appendChild(div);
+    container.appendChild(div);
   });
-
- // ✅ View all button
-  //const viewAll = document.getElementById("hotDealsBtn");
-  
-  //viewAll.onclick = () => window.location.href = "hotdeals.html";
-
- 
-
-  //hotDealsContainer.appendChild(viewAll);
 }
 
 function displayNewArrivalsPreview() {
   const newProducts = cars.filter(isNewProduct);
 
-  const preview = newProducts.slice(0, 6); // same style as hot deals
+  const preview = newProducts.slice(0, 8); // same style as hot deals
 
   newArrivalsContainer.innerHTML = ""; // IMPORTANT: prevent duplicates
 
@@ -1515,22 +1809,32 @@ function displayNewArrivalsPreview() {
     const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
 
     const div = document.createElement("div");
-    div.classList.add("product-item");
+    div.classList.add("product-card");
 
-    let oldPriceHtml = "";
-    if (car.oldPrice) {
-      oldPriceHtml = `<p class="old-price"><strong>Was: Ksh.${car.oldPrice.toLocaleString()}</strong></p>`;
-    }
+const discount = car.oldPrice
+  ? Math.round(((car.oldPrice - car.price) / car.oldPrice) * 100)
+  : 0;
 
-    div.innerHTML = `
-      <img src="${imgSrc}" onclick="openProduct(${car.id})">
-      <div class="product-item-info">
-        <h3>${car.make} ${car.model}</h3>
-        <p class="price"><strong>Price: Ksh.${car.price.toLocaleString()}</strong></p>
-        ${oldPriceHtml}
-        <button class="addbtn" onclick="addToCart(${car.id})">Add To Cart</button>
+  const stockPercent = Math.floor(Math.random() * 80) + 20;
+
+div.innerHTML = `
+  ${discount ? `<div class="discount">-${discount}%</div>` : ""}
+
+  <img src="${imgSrc}" onclick="openProduct(${car.id})">
+
+  <div class="product-name">${car.make} ${car.model}</div>
+
+  <div class="product-price">KSh ${car.price.toLocaleString()}</div>
+
+  ${car.oldPrice ? `<div class="old-price">KSh ${car.oldPrice.toLocaleString()}</div>` : ""}
+
+  <div class="stock-bar">
+        <div class="stock-fill" style="width:${stockPercent}%"></div>
       </div>
-    `;
+
+      <small>${Math.floor(Math.random()*40)+5} items left</small>
+  
+`;
 
     newArrivalsContainer.appendChild(div);
   });
@@ -1542,29 +1846,38 @@ function displayNewArrivalsPreview() {
 
 
 function displaySomeProducts() {
-  someProductsContainer.innerHTML = ""; // prevent duplicates
+  someProductsContainer.innerHTML = "";
 
-  const preview = cars.slice(0, 6); // 👈 6 products only
+  const preview = cars.slice(0, 10);
 
   preview.forEach(car => {
     const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
 
-    const div = document.createElement("div");
-    div.classList.add("product-item");
+    const discount = car.oldPrice
+      ? Math.round(((car.oldPrice - car.price) / car.oldPrice) * 100)
+      : 0;
 
-    let oldPriceHtml = "";
-    if (car.oldPrice) {
-      oldPriceHtml = `<p class="old-price"><strong>Was: Ksh.${car.oldPrice.toLocaleString()}</strong></p>`;
-    }
+    const stockPercent = Math.floor(Math.random() * 80) + 20;
+
+    const div = document.createElement("div");
+    div.classList.add("product-card");
 
     div.innerHTML = `
+      ${discount ? `<div class="discount">-${discount}%</div>` : ""}
+
       <img src="${imgSrc}" onclick="openProduct(${car.id})">
-      <div class="product-item-info">
-        <h3>${car.make} ${car.model}</h3>
-        <p class="price"><strong>Price: Ksh.${car.price.toLocaleString()}</strong></p>
-        ${oldPriceHtml}
-        <button class="addbtn" onclick="addToCart(${car.id})">Add To Cart</button>
+
+      <div class="product-name">${car.make} ${car.model}</div>
+
+      <div class="product-price">KSh ${car.price.toLocaleString()}</div>
+
+      ${car.oldPrice ? `<div class="old-price">KSh ${car.oldPrice.toLocaleString()}</div>` : ""}
+
+      <div class="stock-bar">
+        <div class="stock-fill" style="width:${stockPercent}%"></div>
       </div>
+
+      <small>${Math.floor(Math.random()*40)+5} items left</small>
     `;
 
     someProductsContainer.appendChild(div);
@@ -1823,7 +2136,7 @@ let carsLoadedFromBackend = false;
 // ===============================
 function renderAllCars() {
   displayNewArrivalsPreview();
-  displayHotDealsPreview();
+  displayHotDealsFlash();
   displaySomeProducts();
 
   const categoryFromURL = getCategoryFromURL();

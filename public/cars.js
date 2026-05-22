@@ -347,6 +347,13 @@ updateCartUI();
     carsToShow.forEach(car => {
       const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
 
+      const discount = car.oldPrice
+      ? Math.round(((car.oldPrice - car.price) / car.oldPrice) * 100)
+      : 0;
+
+    const stockPercent = Math.floor(Math.random() * 80) + 20;
+
+
       const div = document.createElement("div");
       div.classList.add("product-item");
 
@@ -356,11 +363,19 @@ updateCartUI();
       }
 
       div.innerHTML = `
+      ${discount ? `<div class="discount">-${discount}%</div>` : ""}
         <img src="${imgSrc}" onclick="openProduct(${car.id})">
         <div class="product-item-info">
           <h3>${car.make} ${car.model}</h3>
           <p class="price"><strong>Price: Ksh.${car.price.toLocaleString()}</strong></p>
           ${oldPriceHtml}
+
+           <div class="stock-bar">
+        <div class="stock-fill" style="width:${stockPercent}%"></div>
+      </div>
+
+      <small>${Math.floor(Math.random()*40)+5} items left</small>
+
           <button class="addbtn" onclick="addToCart(${car.id})">Add To Cart</button>
         </div>
       `;
