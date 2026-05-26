@@ -895,6 +895,347 @@ nav {
 section {
   scroll-margin-top: 80px;
 }
+/* BUTTON */
+    /* =========================
+   PREMIUM MENU BUTTON
+========================= */
+/* =========================
+   PREMIUM MENU BUTTON
+========================= */
+#button2{
+  position: fixed;
+  top: 15px;
+  left: 15px;
+
+  width: 52px;
+  height: 52px;
+
+  border: none;
+  border-radius: 16px;
+
+  background: linear-gradient(135deg,#ff6600,#ff9900);
+  color: white;
+
+  font-size: 22px;
+  cursor: pointer;
+
+  z-index: 100001;
+
+  box-shadow: 0 10px 25px rgba(255,102,0,0.35);
+
+  transition:
+    left 0.45s cubic-bezier(0.22,1,0.36,1),
+    transform 0.35s ease,
+    background 0.3s ease;
+}
+
+/* HOVER */
+#button2:hover{
+  transform: scale(1.06) rotate(4deg);
+}
+
+/* 🔥 MOVE BUTTON TO MENU EDGE */
+#button2.active{
+  left: 150px; /* menu width + small spacing */
+  background: #111;
+}
+
+/* MOBILE */
+@media(max-width:480px){
+
+  #button2.active{
+    left: calc(85% + 8px);
+  }
+
+}
+/* =========================
+   OVERLAY
+========================= */
+#menuOverlay{
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(5px);
+
+  z-index: 99998;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: 0.35s ease;
+}
+
+#menuOverlay.active{
+  opacity: 1;
+  visibility: visible;
+}
+
+/* =========================
+   MENU SIDEBAR
+========================= */
+#menu{
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 310px;
+  height: 100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      #1a1a1a,
+      #111
+    );
+
+  z-index: 99999;
+
+  transform: translateX(-100%);
+  transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  box-shadow:
+    10px 0 40px rgba(0,0,0,0.45);
+}
+
+/* ACTIVE */
+#menu.active{
+  transform: translateX(0);
+}
+
+/* =========================
+   TOP SECTION
+========================= */
+.menu-top{
+  padding: 35px 25px;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff6600,
+      #ff9900
+    );
+}
+
+/* LOGO */
+.menu-logo{
+  width: 72px;
+  height: 72px;
+
+  border-radius: 50%;
+  overflow: hidden;
+
+  border: 3px solid white;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.25);
+}
+
+.menu-logo img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* BRAND */
+.menu-brand h2{
+  margin: 0;
+  color: white;
+  font-size: 1.4rem;
+}
+
+.menu-brand span{
+  color: rgba(255,255,255,0.9);
+  font-size: 0.95rem;
+}
+
+/* =========================
+   LINKS
+========================= */
+.menu-links{
+  padding: 20px 0;
+  flex: 1;
+}
+
+.menu-links a{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 18px 28px;
+
+  color: #f5f5f5;
+  text-decoration: none;
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  border-left: 4px solid transparent;
+
+  transition: all 0.3s ease;
+}
+
+.menu-links a i{
+  width: 24px;
+  font-size: 1.1rem;
+  color: #ff9900;
+}
+
+/* HOVER */
+.menu-links a:hover{
+  background: rgba(255,255,255,0.06);
+
+  border-left: 4px solid #ff9900;
+
+  padding-left: 36px;
+
+  color: white;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.menu-footer{
+  padding: 22px;
+
+  text-align: center;
+
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.menu-footer p{
+  color: rgba(255,255,255,0.65);
+  font-size: 0.9rem;
+}
+
+/* MOBILE */
+@media(max-width:480px){
+
+  #menu{
+    width: 85%;
+  }
+
+  .menu-top{
+    padding: 28px 20px;
+  }
+
+}
+
+
+/* NAVBAR */
+  .navbar {
+    width: 100%;
+    height: 80px;
+    background: rgba(11, 11, 11, 0.95);
+    border-bottom: 1px solid #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px);
+  }
+
+  /* LEFT */
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .btn {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(198, 165, 92, 0.3);
+    background: #151515;
+    color: #C6A55C;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .btn:hover {
+    border-color: #C6A55C;
+    background: #1d1d1d;
+  }
+
+  .logo-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+  }
+
+  .brand-title {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .brand-sub {
+    color: #C6A55C;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  /* RIGHT */
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .icon-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid #2a2a2a;
+    background: #151515;
+    color: #C6A55C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+    font-size: 16px;
+  }
+
+  .icon-btn:hover {
+    border-color: #C6A55C;
+    background: #1d1d1d;
+  }
+
+  .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 18px;
+    height: 18px;
+    background: #C6A55C;
+    color: black;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
         </style>
         <meta property="og:title" content="Six Star Suppliers – Quality Products at Affordable Prices">
@@ -920,7 +1261,74 @@ section {
         <header><p>Six Star Suppliers</p></header>
 
 
-        <button id="button" onclick="togglemenu()" style="color: white;">☰</button>
+       <!-- BUTTON -->
+  <!-- PREMIUM MENU BUTTON -->
+<button id="button2" onclick="togglemenu2()">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<!-- OVERLAY -->
+<div id="menuOverlay" onclick="togglemenu2()"></div>
+
+<!-- PREMIUM SIDEBAR MENU -->
+<div id="menu">
+
+  <!-- TOP -->
+  <div class="menu-top">
+
+    <div class="menu-logo">
+      <img src="images2/logo.jpg" alt="logo">
+    </div>
+
+    <div class="menu-brand">
+      <h2>Six Star</h2>
+      <span>Suppliers</span>
+    </div>
+
+  </div>
+
+  <!-- LINKS -->
+  <div class="menu-links">
+
+    <a href="index.html">
+      <i class="fa-solid fa-house"></i>
+      Home
+    </a>
+
+    <a href="about.html">
+      <i class="fa-solid fa-circle-info"></i>
+      About
+    </a>
+
+    <a href="product.html">
+      <i class="fa-solid fa-bag-shopping"></i>
+      ALL Products
+    </a>
+
+    <a href="pay.html">
+  <i class="fa-solid fa-cart-shopping"></i>
+  My Cart
+</a>
+
+    <a href="trackorder.html">
+  <i class="fa-solid fa-truck-fast"></i>
+  Track My Order
+</a>
+
+    <a href="contact.html">
+      <i class="fa-solid fa-phone"></i>
+      Contact
+    </a>
+
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="menu-footer">
+    <p>Premium Shopping Experience ✨</p>
+  </div>
+
+</div>
+
             <span class="sidebar" id="sidebar">
             <ul id="list"class="list">
                 
@@ -994,16 +1402,8 @@ section {
 
         <div id="filter-buttons">
   <!--  
-<button class="filter-btn active" data-category="all">All</button>
-  <button class="filter-btn" data-category="tv">TV</button>
-  <button class="filter-btn" data-category="Fridge">Fridge</button>
-  <button class="filter-btn" data-category="Washing Machine">Washing Machine</button>
-  <button class="filter-btn" data-category="Water Dispenser">Water Dispenser</button>
-  <button class="filter-btn" data-category="blender">Blender</button>
-  <button class="filter-btn" data-category="mixer">Mixer</button>
-  <button class="filter-btn" data-category="burner">Burners</button>
-  <button class="filter-btn" data-category="phone">Phone</button>
-  <button class="filter-btn" data-category="microwave">Microwave</button>
+
+
 </div>-->
         
 <!-- ===== HOT DEALS (FLASH STYLE) ===== -->
@@ -1277,6 +1677,27 @@ section {
             </div>
 
         </footer>
+<script>
+function togglemenu2() {
+
+  const menu = document.getElementById("menu");
+  const overlay = document.getElementById("menuOverlay");
+  const button = document.getElementById("button2");
+
+  menu.classList.toggle("active");
+  overlay.classList.toggle("active");
+  button.classList.toggle("active");
+
+
+  // ICON SWITCH
+  if(menu.classList.contains("active")){
+    button.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+  } else {
+    button.innerHTML = `<i class="fa-solid fa-bars"></i>`;
+  }
+}
+</script>
+
 <script>
 
 document.addEventListener("DOMContentLoaded", () => {
