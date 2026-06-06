@@ -7,7 +7,7 @@
 
         
         <title>Six Star Suppliers</title>
-        <link rel="stylesheet" href="cars.css">
+        
         <link rel="icon" href="images2/logo.jpg">
         <script src="https://kit.fontawesome.com/e1426ab85b.js" crossorigin="anonymous"></script>
 
@@ -17,6 +17,9 @@
                 font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
                 margin: 0;
                 padding: 0;
+                body {
+  overflow-x: hidden;
+}
             }
            .navfilter {
   position: relative;
@@ -902,41 +905,16 @@ section {
 /* =========================
    PREMIUM MENU BUTTON
 ========================= */
-#button2{
-  position: fixed;
-  top: 15px;
-  left: 15px;
-
-  width: 52px;
-  height: 52px;
-
-  border: none;
-  border-radius: 16px;
-
-  background: linear-gradient(135deg,#ff6600,#ff9900);
-  color: white;
-
-  font-size: 22px;
-  cursor: pointer;
-
-  z-index: 100001;
-
-  box-shadow: 0 10px 25px rgba(255,102,0,0.35);
-
-  transition:
-    left 0.45s cubic-bezier(0.22,1,0.36,1),
-    transform 0.35s ease,
-    background 0.3s ease;
-}
 
 /* HOVER */
 #button2:hover{
-  transform: scale(1.06) rotate(4deg);
+  background-color: #111;
+  color: #ffffff;
 }
 
 /* 🔥 MOVE BUTTON TO MENU EDGE */
 #button2.active{
-  left: 150px; /* menu width + small spacing */
+  
   background: #111;
 }
 
@@ -1237,6 +1215,428 @@ section {
     justify-content: center;
   }
 
+  header{
+position: sticky;
+  top: 0;
+  z-index: 9998;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  
+/* ===== SHOP BY CATEGORY - CIRCLE STYLE ===== */
+.category-grid-section {
+  background: #fff8f2;
+  padding: 22px 14px 28px;
+  margin: 0;
+}
+
+.category-grid-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.category-grid-header h2 {
+  font-size: 19px;
+  font-weight: 800;
+  color: #111;
+  margin: 0;
+}
+
+.see-all-link {
+  color: #ff6600;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  background: rgba(255,102,0,0.08);
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,102,0,0.2);
+}
+
+.see-all-link:hover {
+  background: rgba(255,102,0,0.15);
+}
+
+.category-circles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px 8px;
+}
+
+.cat-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.cat-circle-img {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2.5px solid #ff6600;
+  box-shadow: 0 3px 10px rgba(255,102,0,0.18);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  background: #fff;
+}
+
+.cat-circle-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cat-circle:active .cat-circle-img {
+  transform: scale(0.93);
+}
+
+.cat-circle:hover .cat-circle-img {
+  transform: scale(1.07);
+  box-shadow: 0 6px 18px rgba(255,102,0,0.3);
+}
+
+.cat-circle span {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #222;
+  text-align: center;
+  line-height: 1.2;
+  letter-spacing: 0.3px;
+}
+
+@media (max-width: 360px) {
+  .cat-circle-img {
+    width: 58px;
+    height: 58px;
+  }
+  .category-circles {
+    gap: 12px 6px;
+  }
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #111;
+  color: #ccc;
+  margin-top: 50px;
+}
+
+/* Top footer */
+.footer1 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+
+  padding: 40px 20px;
+  border-bottom: 1px solid #333;
+}
+
+/* Section titles */
+.footer1 h2 {
+  color: #ff9900;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+}
+
+/* Links */
+.footer1 a {
+  display: block;
+  margin: 6px 0;
+  text-decoration: none;
+  color: #aaa;
+  font-size: 0.95em;
+  transition: 0.3s ease;
+}
+
+.footer1 a:hover {
+  color: #fff;
+  transform: translateX(5px);
+}
+
+/* Social icons */
+.footer1 .icon a {
+  display: inline-block;
+  margin: 5px;
+}
+
+/* Bottom footer */
+.footer2 {
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9em;
+  background: #000;
+  color: #777;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+
+  
+
+  .footer1 {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+
+
+
+/* Bouncing animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.7); /* how big they grow */
+  }
+}
+            .visit-us{
+                background: linear-gradient(135deg, #ff6600, #ff9900);
+    color: black;
+    padding: 18px 0;
+    border-radius: 20px;
+    margin: 30px auto 0 auto;
+    width: 60%;
+    font-size: 1.3em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    text-align: center
+            }
+            footer{
+                text-align: center;
+                background-color: black;
+                
+  transform: translateY(10px); /* start slightly below view */
+  opacity: 0;
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+            }
+            footer.visible{
+                transform: translateY(0);
+  opacity: 1;
+            }
+            .footer1{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 100px;
+                background-color: black;
+                color: white;
+                margin-top: 100px;
+                align-items: center;
+                justify-content: center;
+                padding: 40px 10px;
+                border-bottom: solid 3px orange;
+                
+            }
+            .footer1 a{
+                font-size: 1.3em ;
+            }
+            .footer1 h2{
+                color:linear-gradient(135deg, #ff6600, #ff9900);
+            }
+            .footer2{
+                background-color: black;
+                color: white;
+                height: 70px;
+                text-align: center;
+                padding: 15px;
+            }
+            .footer2 p{
+                margin-top: 20px;
+                text-align: center;
+                font-size: 1.5em;
+            }
+            section .icon{
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            section a{
+                margin: 4px;
+                text-align: center;
+                display: block;
+                padding: 10px;
+                cursor: pointer;
+                font-size: 1.0em;
+                text-decoration: none;
+                color: inherit;
+            }
+            @media (max-width: 600px) {
+                 .visit-us{
+                width: 90%;
+                font-size: 0.9em;
+                padding: 15px 0;
+            }
+          footer{
+     font-size: 0.7em;
+    text-align: center;
+    justify-content: center;
+  }
+  .footer1{
+    gap: 10px;
+  }
+  .footer1 i{
+    font-size: 30px !important;  /* 👍 smaller icons for mobile */
+  }
+   .footer1 section a i{
+    font-size: 30px !important;
+  }
+
+  /* ===== SEARCH SUGGESTIONS ===== */
+#suggestions-box {
+  display: none;
+  position: absolute;
+  top: calc(100% - 4px);
+  left: 14px;
+  right: 14px;
+  background: #fff;
+  border-radius: 16px;
+  border: 1.5px solid #f0f0f0;
+  box-shadow: 0 16px 45px rgba(0,0,0,0.13);
+  z-index: 999999;
+  overflow: hidden;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+#suggestions-box::-webkit-scrollbar { display: none; }
+
+.sug-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 14px 7px;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.sug-header-bar span {
+  font-size: 10px;
+  font-weight: 700;
+  color: #bbb;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.sug-header-bar button {
+  font-size: 11px;
+  color: #ff6600;
+  font-weight: 700;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.sug-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid #fafafa;
+  transition: background 0.15s;
+  text-decoration: none;
+}
+
+.sug-item:last-of-type { border-bottom: none; }
+
+.sug-item:hover,
+.sug-item.sug-active { background: #fff8f2; }
+
+.sug-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #f5f5f5;
+  border: 1px solid #f0f0f0;
+}
+
+.sug-info { flex: 1; min-width: 0; }
+
+.sug-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 0 3px;
+}
+
+.sug-name em {
+  color: #ff6600;
+  font-style: normal;
+}
+
+.sug-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sug-price {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #1a9e4a;
+}
+
+.sug-badge {
+  font-size: 10px;
+  background: #fff3ea;
+  color: #cc5200;
+  padding: 1px 6px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+.sug-chevron {
+  color: #ddd;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.sug-footer-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #fafafa;
+  border-top: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.sug-footer-row:hover { background: #fff3ea; }
+
+.sug-footer-row span {
+  font-size: 12.5px;
+  color: #ff6600;
+  font-weight: 700;
+}
+
+.sug-footer-row i { color: #ff6600; font-size: 14px; }
+
+.sug-empty {
+  padding: 26px 14px;
+  text-align: center;
+  color: #aaa;
+  font-size: 13px;
+}
+
+.sug-empty strong {
+  display: block;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
         </style>
         <meta property="og:title" content="Six Star Suppliers – Quality Products at Affordable Prices">
 <meta property="og:description" content="Six Star Suppliers is an online shopping website offering high-quality products at affordable prices. Shop now for the best deals!">
@@ -1258,14 +1658,74 @@ section {
   <div class="dot"></div>
   <div class="dot"></div>
 </div>
-        <header><p>Six Star Suppliers</p></header>
+
+
+        <!-- HEADER -->
+<header style="background:#fff; border-bottom:1px solid #eee;">
+
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px; height:64px;">
+      
+    <!-- Hamburger (your existing button2 already handles this) -->
+    <!-- Replace this: -->
+
+
+<!-- With this: -->
+<button id="button2" onclick="togglemenu2()" style="
+  width:44px; height:44px; border:none; border-radius:10px;
+   color:rgb(0, 0, 0);background-color: white;
+  font-size:20px; cursor:pointer; display:flex; align-items:center;
+  justify-content:center; box-shadow:0 4px 12px rgba(255, 255, 255, 0.35);
+  transition:transform 0.3s ease, background 0.3s ease; flex-shrink:0;">
+  
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+    <!-- Logo + Brand -->
+    <div style="display:flex; align-items:center; gap:10px;">
+      <img src="images2/logo.jpg" alt="logo"
+        style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid #ff6600;">
+      <div>
+        <div style="font-size:17px; font-weight:700; color:#111; line-height:1.1;">
+          <span style="color:#ff6600;">Six Star</span> Suppliers
+        </div>
+        <div style="font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#888;">
+          Quality · Affordable
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart button -->
+    <button id="showcartbtn"
+      style="width:40px; height:40px; border:1.5px solid #eee; background:#fff; border-radius:10px; cursor:pointer; position:relative; display:flex; align-items:center; justify-content:center;">
+      <i class="fa-solid fa-cart-shopping" style="font-size:18px; color:#222;"></i>
+      <span id="cart-badge"
+        style="position:absolute; top:-5px; right:-5px; width:18px; height:18px; background:#ff6600; color:#fff; font-size:10px; font-weight:700; border-radius:50%; display:flex; align-items:center; justify-content:center;">0</span>
+    </button>
+  </div>
+
+  <!-- SEARCH BAR -->
+  <div style="padding:0 14px 12px;">
+    <div style="display:flex; align-items:center; background:#f5f5f5; border-radius:30px; overflow:hidden; border:1.5px solid #eee;">
+      <input type="text" id="searchbar" placeholder="Search products by name..."
+        style="flex:1; border:none; background:transparent; padding:11px 14px; font-size:14px; color:#333; outline:none;">
+      
+        
+            
+      
+        <button
+        style="width:46px; height:46px; border:none; background:linear-gradient(90deg,#ff6600,#ff9900); color:#fff; cursor:pointer; border-radius:0 28px 28px 0; display:flex; align-items:center; justify-content:center;">
+        <i class="fa-solid fa-magnifying-glass" style="font-size:16px;"></i>
+      </button>
+    </div>
+    <div id="suggestions-box"></div>
+  </div>
+
+</header>
 
 
        <!-- BUTTON -->
   <!-- PREMIUM MENU BUTTON -->
-<button id="button2" onclick="togglemenu2()">
-  <i class="fa-solid fa-bars"></i>
-</button>
+
 
 <!-- OVERLAY -->
 <div id="menuOverlay" onclick="togglemenu2()"></div>
@@ -1338,7 +1798,7 @@ section {
 </ul>
 
             </span>
-            
+      <!--     
         <nav>
             <a href="index.html" class="navfilter active">Home</a>
             <a href="about.html" class="navfilter">About</a>
@@ -1346,57 +1806,20 @@ section {
             <a href="contact.html" class="navfilter">Contact</a>
             <a><button id="showcart"></button></a>
         </nav><br>
+-->
 
-<div class="view-toggle">
-  <span>Click here to ...</span>
-  <button id="viewBtn">View categories ▼</button>
-</div>
 
-        <div class="category-bar">
-  <button class="filter-btn active" data-category="all"><img src="images2/image.png" >All</button>
-  
-  <button class="filter-btn" data-category="household"><img src="images2/carpets188.jpg" >Household</button>
-  <button class="filter-btn" data-category="shoes"><img src="images2/shoes247.jpg" >Shoes</button>
-  <button class="filter-btn" data-category="bag"><img src="images2/bag252.jpg" >Hand Bags</button>
-  <button class="filter-btn" data-category="system"><img src="images2/system140.jpg">Systems</button>
-  <button class="filter-btn" data-category="bt"><img src="images2/bt10.jpg" >BT Speaker</button>
-  <button class="filter-btn" data-category="airpods"><img src="images2/earpods2.jpg" >EarPods</button>
-  <button class="filter-btn" data-category="headphones"><img src="images2/headphones163.jpg" >Headphones</button>
-  <button class="filter-btn" data-category="powerbank"><img src="images2/powerbank82.jpg" >PowerBank</button>
-  <button class="filter-btn" data-category="reflector&labcoat"><img src="images2/calc168.webp" >Comrade Arena</button>
-  <button class="filter-btn" data-category="pad"><img src="images2/fc26101.jpg" >Gaming</button>
-  <button class="filter-btn" data-category="mouse"><img src="images2/mouse108.jpg" >Mouse</button>
-  <button class="filter-btn" data-category="microwave"><img src="images2/microwaveI1.jpg" >Microwave</button>
-  <button class="filter-btn" data-category="extension"><img src="images2/extension163.webp" >Extension</button>
-  <button class="filter-btn" data-category="fridge"><img src="images2/fridge160.jpg" >Fridge</button>
-  
-  
-</div>
+       
 
         <main>
+          <!-- 
             <div class="search-wrapper">
             <input type="text" id="searchbar" placeholder="Search products by name..." />
             <div id="suggestions-box" class="suggestions-box"></div>
+          -->
         
             
-            <div id="hotsearches" class="hotsearches">
-  <div id="hotsearches-content"  class="hotsearches-content">
-    <span id="closehotsearches">&times;</span>
-    <h2 style="color: rgb(0, 0, 0); font-size: 1.3em;">Hot Searches</h2><br>
-    <div class="hotsearches-buttons">
-   <button class="hot-item">NUNIX M1 3.1 Woofer</button>
-   <button class="hot-item">Safe Toe Safety Boot</button>
-   <button class="hot-item">Generic helmet</button>
-   <button class="hot-item">Protective safety clear glasses</button>
-   <button class="hot-item">JBL M-BT550 headphone</button>
-   <button class="hot-item">Nunix Z199C Dispenser</button>
-   <button class="hot-item">Bosch 11Pcs Cookware</button>
-   <button class="hot-item">ULTRA headphones i25</button>
-   <button class="hot-item">G.H-A8 Earphones</button>
-   <button class="hot-item">Sony FC 26 - PS5</button>
-  
-  </div>
-  </div>
+            
 </div>
         </div>
 
@@ -1469,50 +1892,95 @@ section {
 
         <button style="display: none;" id="show-cart-btn">Shop</button>
 
-        <div id="popup" class="popup">
-          <div class="cart">
-   <!--   -->     <button id="closePopup" class="close">&times;</button>
-        <div id="cart-content" class="cart-content"></div>
-        <div  id="cart"></div>
-            
-
         
-        </div><br><br>
-        
-        <div id="cart-total"></div></div>
 
         <div id="pagination" class="pagination" style="display: none;"></div>
            
         
-        <div id="mycart" class="mycart">
-  <div class="cart-box" >
-    <button id="closeMyCart" class="close2">&times;</button>
-    <div id="mycart-content"></div>
-    <div id="cartbox"></div>
+
+        <!-- ===== SHOP BY CATEGORY - CIRCLE STYLE ===== -->
+<section class="category-grid-section">
+
+  <div class="category-grid-header">
+    <h2>Shop by Category</h2>
+    <a href="product.html" class="see-all-link">View All ›</a>
   </div>
-</div>
-<!-- WhatsApp Order Form Modal -->
-<div id="orderFormModal" class="order-modal">
-  <div class="order-modal-content">
-    <span id="closeOrderForm" class="close-btn">&times;</span>
-    <h2>Send Order to Seller</h2>
-    <form id="orderForm">
-      <label for="buyerName">Full Name:</label>
-      <input type="text" id="buyerName" required>
 
-      <label for="buyerEmail">Email:</label>
-      <input type="email" id="buyerEmail" required>
+  <div class="category-circles">
 
-      <label for="buyerPhone">WhatsApp Number:</label>
-      <input type="tel" id="buyerPhone" placeholder="25470000000" required>
+    <a class="cat-circle" href="product.html?category=household">
+      <div class="cat-circle-img"><img src="images2/carpets188.jpg" alt="Household"></div>
+      <span>Household</span>
+    </a>
 
-      <label for="buyerAddress">Delivery Address (or type 'Pickup'):</label>
-      <input type="text" id="buyerAddress" required>
+    <a class="cat-circle" href="product.html?category=shoes">
+      <div class="cat-circle-img"><img src="images2/shoes247.jpg" alt="Shoes"></div>
+      <span>Shoes</span>
+    </a>
 
-      <button type="submit" id="submitOrderBtn">Send via WhatsApp</button>
-    </form>
+    <a class="cat-circle" href="product.html?category=bag">
+      <div class="cat-circle-img"><img src="images2/bag252.jpg" alt="Bags"></div>
+      <span>Hand Bags</span>
+    </a>
+
+    <a class="cat-circle" href="product.html?category=system">
+      <div class="cat-circle-img"><img src="images2/system140.jpg" alt="Systems"></div>
+      <span>Systems</span>
+    </a>
+
+    <a class="cat-circle" href="product.html?category=bt">
+      <div class="cat-circle-img"><img src="images2/bt10.jpg" alt="BT Speaker"></div>
+      <span>BT Speakers</span>
+    </a>
+
+    <a class="cat-circle" href="product.html?category=airpods">
+      <div class="cat-circle-img"><img src="images2/earpods2.jpg" alt="EarPods"></div>
+      <span>EarPods</span>
+    </a>
+
+    <a class="cat-circle" href="product.html?category=headphones">
+      <div class="cat-circle-img"><img src="images2/headphones163.jpg" alt="Headphones"></div>
+      <span>Headphones</span>
+    </a>
+
+    <a class="cat-circle" href="product.html?category=powerbank">
+      <div class="cat-circle-img"><img src="images2/powerbank82.jpg" alt="PowerBank"></div>
+      <span>PowerBank</span>
+    </a>
+
+    <a class="cat-circle" href="product.html?category=reflector&labcoat">
+      <div class="cat-circle-img"><img src="images2/calc168.webp" alt="Comrade Arena"></div>
+      <span>Comrade Arena</span>
+    </a>
+
+    <a class="cat-circle" href="product.html?category=pad">
+      <div class="cat-circle-img"><img src="images2/fc26101.jpg" alt="Gaming"></div>
+      <span>Gaming</span>
+    </a>
+
+    <a class="cat-circle" href="product.html?category=mouse">
+      <div class="cat-circle-img"><img src="images2/mouse108.jpg" alt="Mouse"></div>
+      <span>Mouse</span>
+    </a>
+
+    <a class="cat-circle" href="product.html?category=microwave">
+      <div class="cat-circle-img"><img src="images2/microwaveI1.jpg" alt="Microwave"></div>
+      <span>Microwave</span>
+    </a>
+
+    <a class="cat-circle" href="product.html?category=extension">
+      <div class="cat-circle-img"><img src="images2/extension163.webp" alt="Extension"></div>
+      <span>Extension</span>
+    </a>
+
+    <a class="cat-circle" href="product.html?category=fridge">
+      <div class="cat-circle-img"><img src="images2/fridge160.jpg" alt="Fridge"></div>
+      <span>Fridge</span>
+    </a>
+
   </div>
-</div>
+
+</section>
 
 
 <div class="slider-container">
@@ -1727,16 +2195,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
-<script>
-viewBtn.addEventListener("click", () => {
-  categoryBar.classList.toggle("show");
 
-  if (categoryBar.classList.contains("show")) {
-    viewBtn.textContent = "Hide categories ▲";
-  } else {
-    viewBtn.textContent = "View categories ▼";
-  }
-});
 
 </script>
 
@@ -1810,7 +2269,7 @@ const cartcontainer = document.getElementById("cart-content");
 const carttotal = document.getElementById("cart-total");
 const popup = document.getElementById("popup");
 const closePopup = document.getElementById("closePopup");
-const showcart = document.getElementById("showcart");
+const showcart = document.getElementById("showcartbtn");
 const mycart = document.getElementById("mycart");
 const mycartcontent = document.getElementById("mycart-content");
 const closeMyCart = document.getElementById("closeMyCart");
@@ -1819,19 +2278,12 @@ const hotDealsContainer = document.getElementById("hot-deals");
 const someProductsContainer = document.getElementById("someproduct");
 
 
-// Modals
-const orderModal = document.getElementById("orderFormModal");
-const closeOrderForm = document.getElementById("closeOrderForm");
-const hotsearches = document.getElementById("hotsearches");
-const closehotsearches = document.getElementById("closehotsearches");
 
-// === EVENT LISTENERS FOR POPUPS ===
-closehotsearches.addEventListener("click", () => hotsearches.style.display = "none");
-closeOrderForm.addEventListener("click", () => orderModal.style.display = "none");
+
+
 
 window.addEventListener("click", e => {
-  if (e.target === orderModal) orderModal.style.display = "none";
-  if (e.target === hotsearches) hotsearches.style.display = "none";
+ 
   if (e.target === mycart) mycart.style.display = "none";
   if (e.target === popup) popup.style.display = "none";
 });
@@ -1858,45 +2310,8 @@ function shufflearray(array){
 // ===============================
 // ORDER FORM (UNCHANGED)
 // ===============================
-function sendOrderToSeller() {
-  document.getElementById("orderFormModal").style.display = "flex";
-}
 
-document.getElementById("orderForm").addEventListener("submit", function (e) {
-  e.preventDefault();
 
-  cart = JSON.parse(localStorage.getItem("cart")) || [];
-  if (cart.length === 0) {
-    alert("Your cart is empty!");
-    return;
-  }
-
-  const buyerName = document.getElementById("buyerName").value.trim();
-  const buyerEmail = document.getElementById("buyerEmail").value.trim();
-  const buyerPhone = document.getElementById("buyerPhone").value.trim();
-  const buyerAddress = document.getElementById("buyerAddress").value.trim();
-
-  let message = `🛍️ *New Order from ${buyerName}*\n\n`;
-  message += `📞 Phone: ${buyerPhone}\n📧 Email: ${buyerEmail}\n🏠 Address: ${buyerAddress}\n\n`;
-  message += `🧾 *Order Details:*\n`;
-
-  let total = 0;
-  cart.forEach((item, i) => {
-    message += `${i + 1}. ${item.make} ${item.model} - *Ksh.${item.price.toLocaleString()}*\n`;
-    total += item.price;
-  });
-
-  message += `\n-------------------------\n💰 *Total: Ksh.${total.toLocaleString()}*\n\nPlease confirm my order. ✅`;
-
-  const sellerPhone = "254794327798";
-  const whatsappURL = `https://wa.me/${sellerPhone}?text=${encodeURIComponent(message)}`;
-  window.open(whatsappURL, "_blank");
-
-  localStorage.removeItem("cart");
-  displaycart();
-  updateshowcart();
-  orderModal.style.display = "none";
-});
 
 // ===============================
 // CART MANAGEMENT
@@ -1908,8 +2323,6 @@ showcart.addEventListener("click", () => {
   window.location.href = "pay.html";
 });
 
-closeMyCart.addEventListener("click", () => (mycart.style.display = "none"));
-closePopup.addEventListener("click", () => (popup.style.display = "none"));
 
 function addToCart(id) {
   const car = cars.find(c => c.id === id);
@@ -1950,137 +2363,19 @@ function checkout(method, total) {
 // ===============================
 // DISPLAY MINI CART
 // ===============================
-function displaymycart() {
-  const cartbox = document.getElementById("cartbox");
 
-  mycartcontent.innerHTML = "";
-
-  let itemCount = 0;
-  let total = 0;
-
-  // ✅ COUNT + TOTAL FIRST
-  cart.forEach(item => {
-    itemCount++;
-    total += item.price;
-  });
-
-  // ✅ KEEP your cartbox (unchanged)
-  if (cartbox) {
-    cartbox.classList.add("cartboxx");
-    cartbox.innerHTML = `MY CART: ${itemCount}`;
-  }
-
-  // ✅ ADD HEADER AT TOP (NEW FIX)
-  const header = document.createElement("div");
-  header.classList.add("cart-header");
-  header.innerHTML = `<h2>MY CART: ${itemCount}</h2>`;
-  mycartcontent.appendChild(header);
-
-  // ✅ SHOW ITEMS OR EMPTY MESSAGE
-  if (cart.length > 0) {
-
-    cart.forEach((item, index) => {
-      const imgSrc = Array.isArray(item.image) ? item.image[0] : item.image;
-
-      const div = document.createElement("div");
-      div.classList.add("cart-item");
-
-      div.innerHTML = `
-        <div class="mycart-item-info">
-          <img src="${imgSrc}" style="width:50px;height:auto;">
-          <h3>${item.make} ${item.model}</h3>
-          <p><strong>Price: Ksh.${item.price.toLocaleString()}</strong></p>
-          <button class="removebtn" onclick="removeFromCart(${index})">Remove</button>
-        </div>
-      `;
-
-      mycartcontent.appendChild(div);
-    });
-
-    // ✅ SUMMARY
-    const summary = document.createElement("div");
-    summary.classList.add("cart-summary2");
-
-    summary.innerHTML = `
-      <h3>SubTotal: Ksh.${total.toLocaleString()}</h3>
-      <button class="paybtn" id="send-order-btn-mini">Send Order to Seller</button>
-    `;
-
-    mycartcontent.appendChild(summary);
-
-    setTimeout(() => {
-      const sendOrderBtn = document.getElementById("send-order-btn-mini");
-      if (sendOrderBtn) sendOrderBtn.addEventListener("click", sendOrderToSeller);
-    }, 10);
-
-  } else {
-    // ✅ FIX: don't wipe header
-    const empty = document.createElement("p");
-    empty.classList.add("empty");
-    empty.textContent = "Your cart is empty.";
-    mycartcontent.appendChild(empty);
-  }
-
-  carttotal.textContent = `Total: Ksh.${total.toLocaleString()}`;
-}
 
 // ===============================
 // UPDATE CART ICON
 // ===============================
 function updateshowcart() {
-  showcart.innerHTML = `
-    <a><i class="fa-solid fa-cart-shopping fa-lg" style="color: #f9f9ff;"></i> ${cart.length}</a>
-  `;
+  const badge = document.getElementById("cart-badge");
+  if (badge) badge.textContent = cart.length;
 }
 
 // ===============================
 // DISPLAY CART
 // ===============================
-function displaycart() {
-  cartcontainer.innerHTML = "";
-  let total = 0;
-
-  cart.forEach((item, index) => {
-    const imgSrc = Array.isArray(item.image) ? item.image[0] : item.image;
-    total += item.price;
-
-    const div = document.createElement("div");
-    div.classList.add("cart-item");
-
-    div.innerHTML = `
-      <div class="cart-item-info">
-        <img src="${imgSrc}" style="width:50px;height:auto;">
-        <h3>${item.make} ${item.model}</h3>
-        <p><strong>Price: Ksh.${item.price.toLocaleString()}</strong></p>
-        <button class="removebtn" onclick="removeFromCart(${index})">Remove</button>
-      </div>
-    `;
-
-    cartcontainer.appendChild(div);
-  });
-
-  if (cart.length > 0) {
-    const summary = document.createElement("div");
-    summary.classList.add("cart-summary");
-
-    summary.innerHTML = `
-      <h3>Total: Ksh.${total.toLocaleString()}</h3>
-      <button class="paybtn" id="send-order-btn">Send Order to Seller</button>
-    `;
-
-    cartcontainer.appendChild(summary);
-
-    setTimeout(() => {
-      const sendOrderBtn = document.getElementById("send-order-btn");
-      if (sendOrderBtn) sendOrderBtn.addEventListener("click", sendOrderToSeller);
-    }, 10);
-
-  } else {
-    cartcontainer.innerHTML = `<p class="empty">Your cart is empty.</p>`;
-  }
-
-  carttotal.textContent = `Total: Ksh.${total.toLocaleString()}`;
-}
 
 // ===============================
 // PRODUCT PAGE (FIXED FOR VERCEL + BACKEND)
@@ -2315,52 +2610,79 @@ function getCategoryFromURL() {
 
 
 
-
-function showSuggestions(searchText) {
+function showSuggestions(query) {
   const box = document.getElementById("suggestions-box");
+  const q = query.trim().toLowerCase();
 
-  if (!searchText) {
-    box.style.display = "none";
+  if (!q) { box.style.display = "none"; return; }
+
+  const filtered = cars.filter(car =>
+    `${car.make} ${car.model}`.toLowerCase().includes(q)
+  );
+
+  if (!filtered.length) {
+    box.innerHTML = `<div class="sug-empty"><strong>No products found</strong>Try a different keyword</div>`;
+    box.style.display = "block";
     return;
   }
 
-  const matches = cars.filter(car =>
-    `${car.make} ${car.model}`.toLowerCase().includes(searchText.toLowerCase())
-  ).slice(0, 6); // limit to 6 results
-
-  box.innerHTML = "";
-
-  if (matches.length === 0) {
-    box.style.display = "none";
-    return;
+  function highlight(text) {
+    const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+    return text.replace(re, '<em>$1</em>');
   }
 
-  matches.forEach(car => {
+  const items = filtered.slice(0, 6).map((car, i) => {
     const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
+    const disc = car.oldPrice ? Math.round(((car.oldPrice - car.price) / car.oldPrice) * 100) : 0;
+    const badge = disc
+      ? `<span class="sug-badge">-${disc}%</span>`
+      : `<span class="sug-badge">${car.category || ''}</span>`;
+    return `
+      <div class="sug-item" data-id="${car.id}">
+        <img class="sug-thumb" src="${imgSrc}" alt=""
+          onerror="this.style.opacity='0'">
+        <div class="sug-info">
+          <p class="sug-name">${highlight(`${car.make} ${car.model}`)}</p>
+          <div class="sug-meta">
+            <span class="sug-price">KSh ${car.price.toLocaleString()}</span>
+            ${badge}
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right sug-chevron"></i>
+      </div>`;
+  }).join("");
 
-    const div = document.createElement("div");
-    div.classList.add("suggestion-item");
-
-    div.innerHTML = `
-      <img src="${imgSrc}">
-      <span>${car.make} ${car.model}</span>
-    `;
-
-    // 🔥 CLICK → GO TO PRODUCT PAGE
-    div.addEventListener("click", () => {
-      window.location.href = `carstv.html?id=${car.id}`;
-    });
-
-    box.appendChild(div);
-  });
+  box.innerHTML = `
+    <div class="sug-header-bar">
+      <span>${filtered.length} result${filtered.length !== 1 ? 's' : ''}</span>
+      <button onclick="document.getElementById('searchbar').value=''; document.getElementById('suggestions-box').style.display='none';">Clear</button>
+    </div>
+    ${items}
+    <div class="sug-footer-row" id="sug-see-all">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <span>See all results for "<b>${query.trim()}</b>"</span>
+    </div>`;
 
   box.style.display = "block";
+
+  box.querySelectorAll(".sug-item").forEach(el => {
+    el.addEventListener("click", () => {
+      window.location.href = `carstv.html?id=${el.dataset.id}`;
+    });
+  });
+
+  document.getElementById("sug-see-all").addEventListener("click", () => {
+    window.location.href = `product.html?search=${encodeURIComponent(query.trim())}`;
+  });
 }
 
-
-
-
-
+document.addEventListener("click", e => {
+  const box = document.getElementById("suggestions-box");
+  const bar = document.getElementById("searchbar");
+  if (!box.contains(e.target) && e.target !== bar) {
+    box.style.display = "none";
+  }
+});
   
   function renderPagination(totalPages) {
   const pagination = document.getElementById("pagination");
@@ -2441,34 +2763,29 @@ function showSuggestions(searchText) {
   // SEARCH + FILTER (UNCHANGED)
   const searchbar = document.getElementById("searchbar");
 
-  searchbar.addEventListener("focus", () => (hotsearches.style.display = "flex"));
-  searchbar.addEventListener("blur", () => setTimeout(() => hotsearches.style.display = "none", 150));
+  
 
 
 
 
 
   searchbar.addEventListener("keyup", e => {
-  const text = e.target.value.trim().toLowerCase();
+  const text = e.target.value.trim();
+  displaycars(text.toLowerCase(), document.querySelector(".filter-btn.active")?.dataset.category || "all");
+  showSuggestions(text);
+});
 
-  displaycars(
-    text,
-    document.querySelector(".filter-btn.active")?.dataset.category || "all"
-  );
-
-  showSuggestions(text); // ✅ ADD THIS
+searchbar.addEventListener("focus", e => {
+  if (e.target.value.trim()) showSuggestions(e.target.value.trim());
 });
 
 
 
 
 document.addEventListener("click", (e) => {
-  const box = document.getElementById("suggestions-box");
+  
   const search = document.getElementById("searchbar");
 
-  if (!box.contains(e.target) && e.target !== search) {
-    box.style.display = "none";
-  }
 });
 
 
@@ -2522,8 +2839,7 @@ const hotDealsBtn = document.getElementById("hotDealsBtn");
   window.addEventListener("pageshow", () => {
     cart = JSON.parse(localStorage.getItem("cart")) || [];
     updateshowcart();
-    displaycart();
-    displaymycart();
+    
   });
 
 const footer = document.getElementById("footer");
@@ -2614,35 +2930,7 @@ fetch(API_URL + "/api/cars")
 
 </script>
 
-        <script>
-const categoryBar = document.querySelector(".category-bar");
-
-let isDown = false;
-let startX;
-let scrollLeft;
-
-categoryBar.addEventListener("mousedown", (e) => {
-  isDown = true;
-  startX = e.pageX - categoryBar.offsetLeft;
-  scrollLeft = categoryBar.scrollLeft;
-});
-
-categoryBar.addEventListener("mouseleave", () => {
-  isDown = false;
-});
-
-categoryBar.addEventListener("mouseup", () => {
-  isDown = false;
-});
-
-categoryBar.addEventListener("mousemove", (e) => {
-  if (!isDown) return;
-  e.preventDefault();
-  const x = e.pageX - categoryBar.offsetLeft;
-  const walk = (x - startX) * 2;
-  categoryBar.scrollLeft = scrollLeft - walk;
-});
-</script>
+        
 
 
         <script>
