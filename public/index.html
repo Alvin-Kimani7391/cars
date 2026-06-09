@@ -13,11 +13,17 @@
 
 
         <style>
+          * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
             body{
                 font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
                 margin: 0;
                 padding: 0;
-                box-sizing:border-box;
+                
             }
            .navfilter {
   position: relative;
@@ -1642,6 +1648,35 @@ footer {
   margin-bottom: 4px;
 }
 
+@media (max-width: 480px){
+
+  .premium-popup{
+    width: 95%;
+    padding: 24px 16px;
+    border-radius: 20px;
+    max-height: 85vh;
+  }
+
+  .premium-logo{
+    width: 70px;
+    height: 70px;
+  }
+
+  .premium-popup h2{
+    font-size: 1.3rem;
+  }
+
+  .premium-popup p{
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .premium-btn{
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+}
+
         </style>
         <meta property="og:title" content="Six Star Suppliers – Quality Products at Affordable Prices">
 <meta property="og:description" content="Six Star Suppliers is an online shopping website offering high-quality products at affordable prices. Shop now for the best deals!">
@@ -2489,7 +2524,7 @@ function displayHotDealsFlash() {
   const container = document.getElementById("flash-products");
   container.innerHTML = "";
 
-  const hotDeals = cars.filter(car => car.hotDeal === true).slice(0, 10);
+  const hotDeals = cars.filter(car => car.hotDeal === true).slice(0, 12);
 
   hotDeals.forEach(car => {
     const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
@@ -2528,7 +2563,7 @@ function displayHotDealsFlash() {
 function displayNewArrivalsPreview() {
   const newProducts = cars.filter(isNewProduct);
 
-  const preview = newProducts.slice(0, 8); // same style as hot deals
+  const preview = newProducts.slice(0, 12); // same style as hot deals
 
   newArrivalsContainer.innerHTML = ""; // IMPORTANT: prevent duplicates
 
@@ -2575,7 +2610,7 @@ div.innerHTML = `
 function displaySomeProducts() {
   someProductsContainer.innerHTML = "";
 
-  const preview = cars.slice(0, 10);
+  const preview = cars.slice(0, 12);
 
   preview.forEach(car => {
     const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
