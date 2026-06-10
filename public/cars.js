@@ -14,7 +14,7 @@ const cartcontainer = document.getElementById("cart-content");
 const carttotal = document.getElementById("cart-total");
 const popup = document.getElementById("popup");
 const closePopup = document.getElementById("closePopup");
-const showcart = document.getElementById("showcart");
+const showcart = document.getElementById("showcartbtn");
 const mycart = document.getElementById("mycart");
 const mycartcontent = document.getElementById("mycart-content");
 const closeMyCart = document.getElementById("closeMyCart");
@@ -23,19 +23,12 @@ const hotDealsContainer = document.getElementById("hot-deals");
 const someProductsContainer = document.getElementById("someproduct");
 
 
-// Modals
-const orderModal = document.getElementById("orderFormModal");
-const closeOrderForm = document.getElementById("closeOrderForm");
-const hotsearches = document.getElementById("hotsearches");
-const closehotsearches = document.getElementById("closehotsearches");
 
-// === EVENT LISTENERS FOR POPUPS ===
-closehotsearches.addEventListener("click", () => hotsearches.style.display = "none");
-closeOrderForm.addEventListener("click", () => orderModal.style.display = "none");
+
+
 
 window.addEventListener("click", e => {
-  if (e.target === orderModal) orderModal.style.display = "none";
-  if (e.target === hotsearches) hotsearches.style.display = "none";
+ 
   if (e.target === mycart) mycart.style.display = "none";
   if (e.target === popup) popup.style.display = "none";
 });
@@ -62,62 +55,23 @@ function shufflearray(array){
 // ===============================
 // ORDER FORM (UNCHANGED)
 // ===============================
-function sendOrderToSeller() {
-  document.getElementById("orderFormModal").style.display = "flex";
-}
 
-document.getElementById("orderForm").addEventListener("submit", function (e) {
-  e.preventDefault();
 
-  cart = JSON.parse(localStorage.getItem("cart")) || [];
-  if (cart.length === 0) {
-    alert("Your cart is empty!");
-    return;
-  }
-
-  const buyerName = document.getElementById("buyerName").value.trim();
-  const buyerEmail = document.getElementById("buyerEmail").value.trim();
-  const buyerPhone = document.getElementById("buyerPhone").value.trim();
-  const buyerAddress = document.getElementById("buyerAddress").value.trim();
-
-  let message = `🛍️ *New Order from ${buyerName}*\n\n`;
-  message += `📞 Phone: ${buyerPhone}\n📧 Email: ${buyerEmail}\n🏠 Address: ${buyerAddress}\n\n`;
-  message += `🧾 *Order Details:*\n`;
-
-  let total = 0;
-  cart.forEach((item, i) => {
-    message += `${i + 1}. ${item.make} ${item.model} - *Ksh.${item.price.toLocaleString()}*\n`;
-    total += item.price;
-  });
-
-  message += `\n-------------------------\n💰 *Total: Ksh.${total.toLocaleString()}*\n\nPlease confirm my order. ✅`;
-
-  const sellerPhone = "254794327798";
-  const whatsappURL = `https://wa.me/${sellerPhone}?text=${encodeURIComponent(message)}`;
-  window.open(whatsappURL, "_blank");
-
-  localStorage.removeItem("cart");
-  updateCartUI();
-  orderModal.style.display = "none";
-});
 
 // ===============================
 // CART MANAGEMENT
 // ===============================
 showcart.addEventListener("click", () => {
   displaymycart();
-window.location.href = "pay.html";
+  
   mycart.style.display = "none";
+  window.location.href = "pay.html";
 });
-
-closeMyCart.addEventListener("click", () => (mycart.style.display = "none"));
-closePopup.addEventListener("click", () => (popup.style.display = "none"));
 
 
 function updateCartUI() {
   updateshowcart();
-  displaycart();
-  displaymycart();
+  
 }
 
 
@@ -157,124 +111,19 @@ function checkout(method, total) {
 // ===============================
 // DISPLAY MINI CART
 // ===============================
-function displaymycart() {
-  const cartbox = document.getElementById("cartbox");
 
-  mycartcontent.innerHTML = "";
-
-  let itemCount = 0;
-  let total = 0;
-
-  cart.forEach((item, index) => {
-    itemCount++;
-    total += item.price; // ✅ FIX: calculate total
-
-    const imgSrc = Array.isArray(item.image) ? item.image[0] : item.image;
-
-    const div = document.createElement("div");
-    div.classList.add("cart-item");
-
-    div.innerHTML = `
-      <div class="mycart-item-info">
-        <img src="${imgSrc}" style="width:50px;height:auto;">
-        <h3>${item.make} ${item.model}</h3>
-        <p><strong>Price: Ksh.${item.price.toLocaleString()}</strong></p>
-        <button class="removebtn" onclick="removeFromCart(${index})">Remove</button>
-      </div>
-    `;
-
-    mycartcontent.appendChild(div);
-  });
-
-  // ✅ Cart count
-  if (cartbox) {
-    cartbox.classList.add("cartboxx");
-    cartbox.innerHTML = `MY CART: ${itemCount}`;
-  }
-
-  // ✅ Summary (FIXED CONTAINER)
-  if (cart.length > 0) {
-    const summary = document.createElement("div");
-    summary.classList.add("cart-summary2");
-
-    summary.innerHTML = `
-      <h3>SubTotal: Ksh.${total.toLocaleString()}</h3>
-      <button class="paybtn" id="send-order-btn-mini">Send Order to Seller</button>
-    `;
-
-    mycartcontent.appendChild(summary); // ✅ FIX HERE
-
-     setTimeout(() => {
-      const sendOrderBtn = document.getElementById("send-order-btn-mini");
-      if (sendOrderBtn) sendOrderBtn.addEventListener("click", sendOrderToSeller);
-    }, 10);
-
-  } else {
-    
-  mycartcontent.innerHTML = `<p class="empty">Your cart is empty.</p>`;
-
-  }
-
-  carttotal.textContent = `Total: Ksh.${total.toLocaleString()}`;
-}
 
 // ===============================
 // UPDATE CART ICON
 // ===============================
 function updateshowcart() {
-  showcart.innerHTML = `
-    <a><i class="fa-solid fa-cart-shopping fa-lg" style="color: #f9f9ff;"></i> ${cart.length}</a>
-  `;
+  const badge = document.getElementById("cart-badge");
+  if (badge) badge.textContent = cart.length;
 }
 
 // ===============================
 // DISPLAY CART
 // ===============================
-function displaycart() {
-  cartcontainer.innerHTML = "";
-  let total = 0;
-
-  cart.forEach((item, index) => {
-    const imgSrc = Array.isArray(item.image) ? item.image[0] : item.image;
-    total += item.price;
-
-    const div = document.createElement("div");
-    div.classList.add("cart-item");
-
-    div.innerHTML = `
-      <div class="cart-item-info">
-        <img src="${imgSrc}" style="width:50px;height:auto;">
-        <h3>${item.make} ${item.model}</h3>
-        <p><strong>Price: Ksh.${item.price.toLocaleString()}</strong></p>
-        <button class="removebtn" onclick="removeFromCart(${index})">Remove</button>
-      </div>
-    `;
-
-    cartcontainer.appendChild(div);
-  });
-
-  if (cart.length > 0) {
-    const summary = document.createElement("div");
-    summary.classList.add("cart-summary");
-
-    summary.innerHTML = `
-      <h3>Total: Ksh.${total.toLocaleString()}</h3>
-      <button class="paybtn" id="send-order-btn">Send Order to Seller</button>
-    `;
-
-    cartcontainer.appendChild(summary);
-
-    setTimeout(() => {
-      const sendOrderBtn = document.getElementById("send-order-btn");
-      if (sendOrderBtn) sendOrderBtn.addEventListener("click", sendOrderToSeller);
-    }, 10);
-
-  } else {
-    cartcontainer.innerHTML = `<p class="empty">Your cart is empty.</p>`;
-  }
-
-  carttotal.textContent = `Total: Ksh.${total.toLocaleString()}`;
-}
 
 // ===============================
 // PRODUCT PAGE (FIXED FOR VERCEL + BACKEND)
@@ -389,115 +238,9 @@ updateCartUI();
 
 
 
-  
-function displayHotDealsPreview() {
-  const hotDeals = cars.filter(car => car.hotDeal === true);
-
-  const preview = hotDeals.slice(0, 4); // 👈 ONLY 3
 
   
-
-  preview.forEach(car => {
-    const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
-
-    const div = document.createElement("div");
-    
-    div.classList.add("product-item");
-
-    let oldPriceHtml = "";
-      if (car.oldPrice) {
-        oldPriceHtml = `<p class="old-price"><strong>Was: Ksh.${car.oldPrice.toLocaleString()}</strong></p>`;
-      }
-
-    div.innerHTML = `
-      <img src="${imgSrc}" onclick="openProduct(${car.id})">
-      <div class="product-item-info">
-          <h3>${car.make} ${car.model}</h3>
-          <p class="price"><strong>Price: Ksh.${car.price.toLocaleString()}</strong></p>
-          ${oldPriceHtml}
-          <button class="addbtn" onclick="addToCart(${car.id})">Add To Cart</button>
-        </div>
-    `;
-
-    hotDealsContainer.appendChild(div);
-  });
-
- // ✅ View all button
-  //const viewAll = document.getElementById("hotDealsBtn");
   
-  //viewAll.onclick = () => window.location.href = "hotdeals.html";
-
- 
-
-  //hotDealsContainer.appendChild(viewAll);
-}
-
-function displayNewArrivalsPreview() {
-  const newProducts = cars.filter(isNewProduct);
-
-  const preview = newProducts.slice(0, 6); // same style as hot deals
-
-  newArrivalsContainer.innerHTML = ""; // IMPORTANT: prevent duplicates
-
-  preview.forEach(car => {
-    const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
-
-    const div = document.createElement("div");
-    div.classList.add("product-item");
-
-    let oldPriceHtml = "";
-    if (car.oldPrice) {
-      oldPriceHtml = `<p class="old-price"><strong>Was: Ksh.${car.oldPrice.toLocaleString()}</strong></p>`;
-    }
-
-    div.innerHTML = `
-      <img src="${imgSrc}" onclick="openProduct(${car.id})">
-      <div class="product-item-info">
-        <h3>${car.make} ${car.model}</h3>
-        <p class="price"><strong>Price: Ksh.${car.price.toLocaleString()}</strong></p>
-        ${oldPriceHtml}
-        <button class="addbtn" onclick="addToCart(${car.id})">Add To Cart</button>
-      </div>
-    `;
-
-    newArrivalsContainer.appendChild(div);
-  });
-}
-
-
-
-
-
-
-function displaySomeProducts() {
-  someProductsContainer.innerHTML = ""; // prevent duplicates
-
-  const preview = cars.slice(0, 5); // 👈 6 products only
-
-  preview.forEach(car => {
-    const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
-
-    const div = document.createElement("div");
-    div.classList.add("product-item");
-
-    let oldPriceHtml = "";
-    if (car.oldPrice) {
-      oldPriceHtml = `<p class="old-price"><strong>Was: Ksh.${car.oldPrice.toLocaleString()}</strong></p>`;
-    }
-
-    div.innerHTML = `
-      <img src="${imgSrc}" onclick="openProduct(${car.id})">
-      <div class="product-item-info">
-        <h3>${car.make} ${car.model}</h3>
-        <p class="price"><strong>Price: Ksh.${car.price.toLocaleString()}</strong></p>
-        ${oldPriceHtml}
-        <button class="addbtn" onclick="addToCart(${car.id})">Add To Cart</button>
-      </div>
-    `;
-
-    someProductsContainer.appendChild(div);
-  });
-}
 
 
 function getCategoryFromURL() {
@@ -507,52 +250,79 @@ function getCategoryFromURL() {
 
 
 
-
-function showSuggestions(searchText) {
+function showSuggestions(query) {
   const box = document.getElementById("suggestions-box");
+  const q = query.trim().toLowerCase();
 
-  if (!searchText) {
-    box.style.display = "none";
+  if (!q) { box.style.display = "none"; return; }
+
+  const filtered = cars.filter(car =>
+    `${car.make} ${car.model}`.toLowerCase().includes(q)
+  );
+
+  if (!filtered.length) {
+    box.innerHTML = `<div class="sug-empty"><strong>No products found</strong>Try a different keyword</div>`;
+    box.style.display = "block";
     return;
   }
 
-  const matches = cars.filter(car =>
-    `${car.make} ${car.model}`.toLowerCase().includes(searchText.toLowerCase())
-  ).slice(0, 6); // limit to 6 results
-
-  box.innerHTML = "";
-
-  if (matches.length === 0) {
-    box.style.display = "none";
-    return;
+  function highlight(text) {
+    const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+    return text.replace(re, '<em>$1</em>');
   }
 
-  matches.forEach(car => {
+  const items = filtered.slice(0, 6).map((car, i) => {
     const imgSrc = Array.isArray(car.image) ? car.image[0] : car.image;
+    const disc = car.oldPrice ? Math.round(((car.oldPrice - car.price) / car.oldPrice) * 100) : 0;
+    const badge = disc
+      ? `<span class="sug-badge">-${disc}%</span>`
+      : `<span class="sug-badge">${car.category || ''}</span>`;
+    return `
+      <div class="sug-item" data-id="${car.id}">
+        <img class="sug-thumb" src="${imgSrc}" alt=""
+          onerror="this.style.opacity='0'">
+        <div class="sug-info">
+          <p class="sug-name">${highlight(`${car.make} ${car.model}`)}</p>
+          <div class="sug-meta">
+            <span class="sug-price">KSh ${car.price.toLocaleString()}</span>
+            ${badge}
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right sug-chevron"></i>
+      </div>`;
+  }).join("");
 
-    const div = document.createElement("div");
-    div.classList.add("suggestion-item");
-
-    div.innerHTML = `
-      <img src="${imgSrc}">
-      <span>${car.make} ${car.model}</span>
-    `;
-
-    // 🔥 CLICK → GO TO PRODUCT PAGE
-    div.addEventListener("click", () => {
-      window.location.href = `carstv.html?id=${car.id}`;
-    });
-
-    box.appendChild(div);
-  });
+  box.innerHTML = `
+    <div class="sug-header-bar">
+      <span>${filtered.length} result${filtered.length !== 1 ? 's' : ''}</span>
+      <button onclick="document.getElementById('searchbar').value=''; document.getElementById('suggestions-box').style.display='none';">Clear</button>
+    </div>
+    ${items}
+    <div class="sug-footer-row" id="sug-see-all">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <span>See all results for "<b>${query.trim()}</b>"</span>
+    </div>`;
 
   box.style.display = "block";
+
+  box.querySelectorAll(".sug-item").forEach(el => {
+    el.addEventListener("click", () => {
+      window.location.href = `carstv.html?id=${el.dataset.id}`;
+    });
+  });
+
+  document.getElementById("sug-see-all").addEventListener("click", () => {
+    window.location.href = `product.html?search=${encodeURIComponent(query.trim())}`;
+  });
 }
 
-
-
-
-
+document.addEventListener("click", e => {
+  const box = document.getElementById("suggestions-box");
+  const bar = document.getElementById("searchbar");
+  if (!box.contains(e.target) && e.target !== bar) {
+    box.style.display = "none";
+  }
+});
   
   function renderPagination(totalPages) {
   const pagination = document.getElementById("pagination");
@@ -633,34 +403,29 @@ function showSuggestions(searchText) {
   // SEARCH + FILTER (UNCHANGED)
   const searchbar = document.getElementById("searchbar");
 
-  searchbar.addEventListener("focus", () => (hotsearches.style.display = "flex"));
-  searchbar.addEventListener("blur", () => setTimeout(() => hotsearches.style.display = "none", 150));
+  
 
 
 
 
 
   searchbar.addEventListener("keyup", e => {
-  const text = e.target.value.trim().toLowerCase();
+  const text = e.target.value.trim();
+  displaycars(text.toLowerCase(), document.querySelector(".filter-btn.active")?.dataset.category || "all");
+  showSuggestions(text);
+});
 
-  displaycars(
-    text,
-    document.querySelector(".filter-btn.active")?.dataset.category || "all"
-  );
-
-  showSuggestions(text); // ✅ ADD THIS
+searchbar.addEventListener("focus", e => {
+  if (e.target.value.trim()) showSuggestions(e.target.value.trim());
 });
 
 
 
 
 document.addEventListener("click", (e) => {
-  const box = document.getElementById("suggestions-box");
+  
   const search = document.getElementById("searchbar");
 
-  if (!box.contains(e.target) && e.target !== search) {
-    box.style.display = "none";
-  }
 });
 
 
@@ -673,12 +438,7 @@ document.addEventListener("click", e => {
   const category = btn.getAttribute("data-category");
 
   // ✅ redirect to product page with category
- 
-      document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
-      e.target.classList.add("active");
-      const searchText = searchbar.value.trim().toLowerCase();
-      displaycars(searchText, category);
-      hotsearches.style.display = "none";
+  window.location.href = `product.html?category=${encodeURIComponent(category)}`;
 });
 
 
@@ -712,20 +472,40 @@ const hotDealsBtn = document.getElementById("hotDealsBtn");
 
   showcartbtn.addEventListener("click", () => {
     displaycart();
-    window.location.href = "pay.html";
     popup.style.display = "none";
+    window.location.href = "pay.html";// add hash to URL
   });
 
   window.addEventListener("pageshow", () => {
-  cart = JSON.parse(localStorage.getItem("cart")) || [];
-  updateCartUI();
+    cart = JSON.parse(localStorage.getItem("cart")) || [];
+    updateshowcart();
+    
+  });
+
+const footer = document.getElementById("footer");
+
+const whatsappBtn = document.getElementById("whatsappBtn");
+const whatsappBtn2 = document.getElementById("whatsappBtn2");
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY + window.innerHeight;
+  const footerTop = footer.offsetTop;
+
+  if(scrollY >= footerTop) {
+    showcartbtn.classList.add('hidden');
+    whatsappBtn.classList.add('hidden');
+    whatsappBtn2.classList.add('hidden'); // 👈 ADD THIS
+  } else {
+    showcartbtn.classList.remove('hidden');
+    whatsappBtn.classList.remove('hidden'); // 👈 ADD THIS
+    whatsappBtn2.classList.remove('hidden'); // 👈 ADD THIS
+  }
 });
 
+  
+  
 
- 
-
-
-  // ===============================
+// ===============================
 // GLOBAL STATE
 // ===============================
 let carsLoadedFromBackend = false;
@@ -734,10 +514,7 @@ let carsLoadedFromBackend = false;
 // CENTRAL RENDER FUNCTION
 // ===============================
 function renderAllCars() {
-  displayNewArrivalsPreview();
-  displayHotDealsPreview();
-  displaySomeProducts();
-
+  
   const categoryFromURL = getCategoryFromURL();
   displaycars("", categoryFromURL);
 }
@@ -777,5 +554,4 @@ fetch(API_URL + "/api/cars")
   .catch(err => {
     console.log("Backend not available, using local only");
   });
-
-});
+  });
