@@ -118,12 +118,13 @@ header.ss-header{
 .ss-search-wrap{
   padding:0 14px 14px; position:relative;
   max-height:70px; opacity:1; transform:translateY(0);
-  overflow:hidden;
   transition:max-height .35s ease, opacity .3s ease, transform .3s ease, padding .35s ease;
+  /* no overflow:hidden here anymore */
 }
 .ss-search-wrap.collapsed{
   max-height:0; opacity:0; transform:translateY(-10px);
   padding-top:0; padding-bottom:0; pointer-events:none;
+  overflow:hidden;   /* 👈 only clip during the collapse state */
 }
 .ss-search{
   display:flex; align-items:center; background:var(--paper);
