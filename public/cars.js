@@ -34,6 +34,7 @@ window.addEventListener("click", e => {
 });
 
 // === GLOBAL VARIABLES ===
+let currentCategory = "all";
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let cars = [];
 let currentPage = 1;
@@ -173,7 +174,10 @@ function isNewProduct(car) {
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
 
+  
+
 updateCartUI();
+ syncActiveFilterButton(); // 👈 add this
 
   function displaycars(filter = "", category = "all") {
     carscontainer.innerHTML = "";
@@ -239,7 +243,10 @@ updateCartUI();
 
 
 
-  
+function renderAllCars() {
+  currentCategory = getCategoryFromURL();
+  displaycars("", currentCategory);
+}  
   
 
 
@@ -324,6 +331,14 @@ document.addEventListener("click", e => {
   }
 });
   
+
+function syncActiveFilterButton() {
+  const category = getCategoryFromURL(); // "all" if none in URL
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.category === category);
+  });
+}
+
   function renderPagination(totalPages) {
   const pagination = document.getElementById("pagination");
   if (!pagination) return;
@@ -338,19 +353,19 @@ document.addEventListener("click", e => {
     if (className) btn.classList.add(className);
     if (page === currentPage) btn.classList.add("active");
 
-    btn.addEventListener("click", () => {
-      currentPage = page;
+   btn.addEventListener("click", () => {
+  currentPage = page;
 
-      displaycars(
-        document.getElementById("searchbar").value.trim().toLowerCase(),
-        document.querySelector(".filter-btn.active")?.dataset.category || "all"
-      );
+  displaycars(
+    document.getElementById("searchbar").value.trim().toLowerCase(),
+    currentCategory
+  );
 
-      renderPagination(totalPages);
+  renderPagination(totalPages);
 
-      document.getElementById("product")
-        .scrollIntoView({ behavior: "smooth" });
-    });
+  document.getElementById("product")
+    .scrollIntoView({ behavior: "smooth" });
+});
 
     return btn;
   };
@@ -411,7 +426,8 @@ document.addEventListener("click", e => {
 
   searchbar.addEventListener("keyup", e => {
   const text = e.target.value.trim();
-  displaycars(text.toLowerCase(), document.querySelector(".filter-btn.active")?.dataset.category || "all");
+  currentPage = 1; // reset to page 1 on new search, otherwise you can land on an out-of-range page
+  displaycars(text.toLowerCase(), currentCategory);
   showSuggestions(text);
 });
 
@@ -513,11 +529,7 @@ let carsLoadedFromBackend = false;
 // ===============================
 // CENTRAL RENDER FUNCTION
 // ===============================
-function renderAllCars() {
-  
-  const categoryFromURL = getCategoryFromURL();
-  displaycars("", categoryFromURL);
-}
+
 
 // ===============================
 // 1. FAST LOAD (LOCAL JSON FIRST)
