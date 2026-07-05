@@ -4,359 +4,340 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://kit.fontawesome.com/e1426ab85b.js" crossorigin="anonymous"></script>
-<title>Track Your Order</title>
+<title>Track Your Order - Six Star Suppliers</title>
 
 <style>
-:root{
+:root {
+  --bg: #FFF9F1;
+  --panel: #FFFFFF;
+  --card: #FFFFFF;
+  --border: #F0E6D8;
+  --orange: #FF5A1F;
+  --orange-dark: #E04600;
+  --amber: #FFC93C;
+  --price: #12A150;
+  --danger: #E23744;
+  --text: #17181C;
+  --muted: #6b6d78;
+  --shadow: 0 10px 28px rgba(23,24,28,.08);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-display: 'Baloo 2', system-ui, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+body.dark {
   --bg: #0b0b0c;
   --panel: #121214;
   --card: #16161a;
   --border: rgba(255,140,0,0.18);
-
   --orange: #ff6600;
+  --orange-dark: #cc5200;
   --amber: #ffb703;
+  --price: #35d17a;
   --text: #fff3e0;
   --muted: #b9a48f;
+  --shadow: 0 20px 60px rgba(0,0,0,0.55);
 }
 
+* { box-sizing:border-box; margin:0; padding:0; }
 body {
-  margin: 0;
-  font-family: system-ui, 'Segoe UI', sans-serif;
-  background: radial-gradient(circle at top, #1a0f0a, var(--bg));
+  font-family: var(--font-body);
+  background: var(--bg);
   color: var(--text);
+  transition: background 0.25s ease, color 0.2s ease;
+  padding-bottom: 40px;
 }
+a { text-decoration: none; color: inherit; }
+h1,h2,h3 { font-family: var(--font-display); }
 
-/* ===== HEADER ===== */
-header {
-  padding: 16px;
-  text-align: center;
-  font-size: 1.8rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--orange), var(--amber));
-  color: white;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-}
-
-/* ===== NAV ===== */
-nav {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  padding: 10px;
-  background: #0f0f10;
-  position: sticky;
-  top: 0;
-  z-index: 999;
+/* ===== HEADER (identical to pay.html) ===== */
+.ss-header {
+  position: sticky; top: 0; z-index: 9998;
+  background: var(--panel);
   border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 10px rgba(23,24,28,.04);
+  transition: background 0.25s ease, border 0.2s ease;
 }
-
-nav a {
-  color: #ffd7b0;
-  text-decoration: none;
-  padding: 8px 12px;
-  border-radius: 20px;
-  transition: 0.25s;
+.ss-header__row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; height: 64px;
 }
-
-nav a:hover {
-  background: rgba(255,102,0,0.12);
+.ss-brand { display: flex; align-items: center; gap: 10px; }
+.ss-brand img {
+  width: 42px; height: 42px; border-radius: 50%; object-fit: cover;
+  border: 2.5px solid var(--orange);
 }
-
-/* ===== SIDEBAR BUTTON ===== */
-#button {
-  position: fixed;
-  top: 14px;
-  left: 14px;
-  background: #151515;
-  border: 1px solid var(--border);
-  color: white;
-  padding: 10px 12px;
-  border-radius: 10px;
-  cursor: pointer;
+.ss-brand-name {
+  font-family: var(--font-display); font-size: 18px; font-weight: 700;
+  color: var(--text); line-height: 1.1;
 }
-
-/* ===== CONTAINER ===== */
-.container {
-  max-width: 720px;
-  margin: 50px auto;
-  padding: 28px;
-  background: linear-gradient(180deg, var(--panel), #0f0f10);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+.ss-brand-name span { color: var(--orange); }
+.ss-brand-tag {
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted); font-weight: 700;
 }
-
-h1 {
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-/* ===== INPUT ===== */
-input {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: white;
-  outline: none;
-  font-size: 1rem;
-}
-
-input:focus {
-  border-color: var(--orange);
-  box-shadow: 0 0 0 3px rgba(255,102,0,0.15);
-}
-
-/* ===== BUTTON ===== */
-button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  background: linear-gradient(135deg, var(--orange), var(--amber));
-  color: white;
-  transition: 0.25s;
-}
-
-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-}
-
-button:disabled {
-  opacity: 0.6;
-}
-
-/* ===== CARD ===== */
-.card {
-  margin-top: 20px;
-  padding: 18px;
-  border-radius: 14px;
-  background: var(--card);
-  border: 1px solid var(--border);
-}
-
-/* ===== BADGE ===== */
-.badge {
-  display: inline-block;
-  padding: 5px 12px;
-  border-radius: 999px;
-  font-size: 12px;
-  margin-top: 10px;
-  font-weight: 600;
-}
-
-/* cleaner statuses */
-.PENDING { background: #ff8c00; }
-.CONFIRMED { background: #ffb703; color:#000; }
-.PROCESSING { background: #ff6a00; }
-.SHIPPED { background: #ff9100; }
-.OUT_FOR_DELIVERY { background: #ffb703; color:#000; }
-.DELIVERED { background: #ffcc00; color:#000; }
-
-/* ===== TIMELINE ===== */
-.timeline {
-  margin-top: 25px;
-  padding-left: 18px;
-  border-left: 2px solid rgba(255,140,0,0.25);
-}
-
-.step {
+.ss-header__actions { display: flex; align-items: center; gap: 8px; }
+.menu-btn, .theme-toggle, .ss-iconbtn {
+  width: 42px; height: 42px; border: none; border-radius: var(--radius-sm);
+  background: var(--bg); color: var(--text); font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: 0.2s ease;
+  box-shadow: inset 0 0 0 1.5px var(--border);
   position: relative;
-  margin-bottom: 18px;
+}
+.menu-btn:hover, .theme-toggle:hover, .ss-iconbtn:hover {
+  background: var(--amber); transform: translateY(-1px);
+}
+#cart-badge {
+  position: absolute; top: -6px; right: -6px; width: 19px; height: 19px;
+  background: var(--amber); color: var(--text); font-size: 10px; font-weight: 800;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--panel); transition: background 0.25s ease, border 0.2s ease;
 }
 
-.step::before {
-  content: "";
-  position: absolute;
-  left: -26px;
-  top: 5px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #2a2a2a;
-  border: 2px solid var(--orange);
+/* ===== SIDEBAR (identical to pay.html) ===== */
+#menuOverlay {
+  position: fixed; inset: 0; background: rgba(23,24,28,.5); backdrop-filter: blur(5px);
+  z-index: 99998; opacity: 0; visibility: hidden; transition: .35s ease;
 }
-
-.step.active::before {
-  background: var(--orange);
-  box-shadow: 0 0 10px var(--orange);
+#menuOverlay.active { opacity: 1; visibility: visible; }
+#menu {
+  position: fixed; top: 0; left: 0; width: 300px; height: 100vh;
+  background: linear-gradient(180deg,#1c1d22,#17181C);
+  z-index: 99999; transform: translateX(-100%);
+  transition: transform .45s cubic-bezier(.22,1,.36,1);
+  display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: 10px 0 40px rgba(0,0,0,.45);
 }
-
-.step h4 {
-  margin: 0;
-  font-size: 0.95rem;
-  color: #ffd7b0;
+#menu.active { transform: translateX(0); }
+.menu-top {
+  padding: 34px 24px; display: flex; align-items: center; gap: 14px;
+  background: linear-gradient(135deg,var(--orange),var(--amber));
 }
-
-.time {
-  font-size: 12px;
-  color: var(--muted);
+.menu-logo {
+  width: 64px; height: 64px; border-radius: 50%; overflow: hidden;
+  border: 3px solid #fff; box-shadow: 0 8px 20px rgba(0,0,0,.25);
 }
-
-/* ===== STATES ===== */
-.error {
-  color: #ff6b6b;
-  text-align: center;
-  margin-top: 15px;
+.menu-logo img { width: 100%; height: 100%; object-fit: cover; }
+.menu-brand h2 { margin: 0; color: #fff; font-size: 1.3rem; }
+.menu-brand span { color: rgba(255,255,255,.9); font-size: .9rem; }
+.menu-links { padding: 16px 0; flex: 1; }
+.menu-links a {
+  display: flex; align-items: center; gap: 14px; padding: 16px 26px;
+  color: #f2f2f2; text-decoration: none; font-size: 1rem; font-weight: 600;
+  border-left: 4px solid transparent; transition: all .25s ease;
 }
-
-.loading {
-  text-align: center;
-  color: var(--muted);
+.menu-links a i { width: 22px; font-size: 1.05rem; color: var(--amber); }
+.menu-links a:hover {
+  background: rgba(255,255,255,.06); border-left: 4px solid var(--orange);
+  padding-left: 34px; color: #fff;
 }
+.menu-footer { padding: 20px; text-align: center; border-top: 1px solid rgba(255,255,255,.08); }
+.menu-footer p { color: rgba(255,255,255,.6); font-size: .85rem; }
+@media(max-width:480px) { #menu { width: 85%; } .menu-top { padding: 26px 18px; } }
 
-.small {
-  text-align: center;
-  font-size: 12px;
-  color: var(--muted);
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 600px) {
-  .container {
-    margin: 25px 12px;
-    padding: 18px;
-  }
-
-  nav {
-    gap: 10px;
-    font-size: 0.85rem;
-  }
-
-  #button {
-    top: 10px;
-    left: 10px;
-  }
-}
-
-.navfilter {
-  position: relative;
-  display: inline-block;
-  padding: 8px 12px;
-  transition: color 0.3s ease;
-}
-
-.navfilter::after {
-  
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 6px;
-  background: linear-gradient(90deg, #ff6600, #ff9900);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.35s ease;
-  border-radius: 2px;
-}
-
-.navfilter:hover::after,
-.navfilter.active::after {
-  transform: scaleX(1);
-}
-
-.navfilter:hover,
-.navfilter.active {
-  font-weight: bolder;
-}
+/* ===== PAGE ===== */
 .back-shopping {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: inline-flex; align-items: center; gap: 8px; margin: 20px 16px 0;
+  padding: 9px 14px; border-radius: var(--radius-sm);
+  background: rgba(255,183,3,0.08); border: 1px solid rgba(255,183,3,0.2);
+  color: var(--orange-dark); font-weight: 700; font-size: 13.5px; transition: 0.2s ease;
+}
+.back-shopping:hover { transform: translateX(-3px); background: rgba(255,183,3,0.15); }
 
-  margin: 10px 0 15px;
-
-  padding: 10px 12px;
-
-  border-radius: 10px;
-
-  background: rgba(255,183,3,0.08);
-  border: 1px solid rgba(255,183,3,0.2);
-
-  color: #ffb703;
-  text-decoration: none;
-
-  font-weight: 600;
-  font-size: 14px;
-
-  transition: 0.2s ease;
+.track-container {
+  max-width: 640px; margin: 16px auto 0; padding: 0 16px;
 }
 
-.back-shopping:hover {
-  transform: translateX(-3px);
-  background: rgba(255,183,3,0.15);
+.track-hero {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 26px 22px; text-align: center; margin-bottom: 18px;
 }
+.track-hero .icon-badge {
+  width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 14px;
+  background: linear-gradient(135deg, var(--orange), var(--amber));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; color: #fff; box-shadow: 0 8px 20px rgba(255,90,31,.3);
+}
+.track-hero h1 { font-size: 20px; color: var(--text); margin-bottom: 6px; }
+.track-hero p { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
 
+input#orderInput {
+  width: 100%; padding: 14px 16px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border); background: var(--bg); color: var(--text);
+  outline: none; font-size: 14px; font-family: var(--font-body); transition: .2s ease;
+}
+input#orderInput:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255,90,31,.13); }
+
+button#trackBtn {
+  width: 100%; padding: 14px; margin-top: 10px; border: none; border-radius: var(--radius-sm);
+  font-weight: 800; font-size: 14px; cursor: pointer;
+  background: linear-gradient(135deg, var(--orange), var(--amber)); color: #fff;
+  box-shadow: 0 10px 22px rgba(255,90,31,.25); transition: .2s ease;
+}
+button#trackBtn:hover:not(:disabled) { transform: translateY(-2px); }
+button#trackBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.card {
+  margin-top: 16px; padding: 20px; border-radius: var(--radius);
+  background: var(--card); border: 1px solid var(--border);
+  box-shadow: var(--shadow); animation: cardIn .35s ease both;
+}
+@keyframes cardIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:none;} }
+.card h3 { font-size: 15px; color: var(--text); margin-bottom: 4px; font-family: var(--font-mono); }
+
+.order-items { margin: 14px 0; padding: 12px; border-radius: var(--radius-sm); background: var(--bg); border: 1px solid var(--border); }
+.order-item-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; font-size: 13.5px; }
+.order-item-row:not(:last-child) { border-bottom: 1px dashed var(--border); }
+.order-item-row .oi-name { color: var(--text); font-weight: 600; }
+.order-item-row .oi-price { color: var(--price); font-family: var(--font-mono); font-weight: 700; font-size: 12.5px; }
+
+.order-total {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14.5px; font-weight: 700; color: var(--text); margin-top: 6px;
+}
+.order-total span { font-family: var(--font-mono); color: var(--orange); }
+
+.badge {
+  display: inline-block; padding: 6px 14px; border-radius: 999px;
+  font-size: 11.5px; margin-top: 12px; font-weight: 800; letter-spacing: .3px;
+  text-transform: uppercase; color: #fff;
+}
+.PENDING { background: linear-gradient(90deg,#f59e0b,#f97316); }
+.CONFIRMED { background: linear-gradient(90deg,var(--amber),#f5a623); color:#17181C; }
+.PROCESSING { background: linear-gradient(90deg,var(--orange),var(--orange-dark)); }
+.SHIPPED { background: linear-gradient(90deg,#7C3AED,#5b21b6); }
+.OUT_FOR_DELIVERY { background: linear-gradient(90deg,#2563eb,#1d4ed8); }
+.DELIVERED { background: linear-gradient(90deg,var(--price),#0d8c43); }
+
+.timeline { margin-top: 22px; padding-left: 20px; border-left: 2px solid var(--border); }
+.step { position: relative; margin-bottom: 18px; }
+.step::before {
+  content: ""; position: absolute; left: -26px; top: 5px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--border); border: 2px solid var(--orange);
+}
+.step.active::before { background: var(--orange); box-shadow: 0 0 10px rgba(255,90,31,.5); }
+.step h4 { margin: 0; font-size: 13.5px; color: var(--text); text-transform: capitalize; }
+.step .time { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
+.error { color: var(--danger); text-align: center; margin-top: 15px; font-weight: 600; }
+.loading { text-align: center; color: var(--muted); padding: 20px 0; }
+.loading i { margin-right: 8px; }
+.small { text-align: center; font-size: 12.5px; color: var(--muted); }
+
+@media (max-width: 600px) {
+  .track-hero { padding: 22px 16px; }
+}
 </style>
 </head>
-
-
-<header><p>Six Star Suppliers</p></header>
-
-
-       
-
-         <nav>
-            <a href="index.html" class="navfilter">Home</a>
-            <a href="product.html" class="navfilter">All Products</a>
-            <a href="pay.html" class="navfilter active">Track Order</a>
-            <a href="contact.html" class="navfilter">Contact</a>
-            
-        </nav><br>
-
-
-
 <body>
+
+<!-- ===== SIDEBAR ===== -->
+<div id="menuOverlay"></div>
+<div id="menu">
+  <div class="menu-top">
+    <div class="menu-logo"><img src="images2/logo.jpg" alt="logo"></div>
+    <div class="menu-brand"><h2>Six Star</h2><span>premium essentials</span></div>
+  </div>
+  <div class="menu-links">
+    <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+    <a href="product.html"><i class="fa-solid fa-box"></i> All Products</a>
+    <a href="pay.html"><i class="fa-solid fa-cart-shopping"></i> My Cart</a>
+    <a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a>
+    <a href="trackorder.html"><i class="fa-solid fa-truck"></i> Track Order</a>
+  </div>
+  <div class="menu-footer"><p>© 2025 Six Star Suppliers</p></div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header class="ss-header">
+  <div class="ss-header__row">
+    <div class="ss-brand">
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+      <img src="images2/logo.jpg" alt="logo">
+      <div>
+        <div class="ss-brand-name">Six Star <span>Suppliers</span></div>
+        <div class="ss-brand-tag">premium essentials</div>
+      </div>
+    </div>
+    <div class="ss-header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="fa-regular fa-moon"></i></button>
+      <a href="pay.html" class="ss-iconbtn" aria-label="Cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span id="cart-badge">0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
 <a href="product.html" class="back-shopping">
-  <i class="fa-solid fa-arrow-left"></i>
-  Back to Shopping
+  <i class="fa-solid fa-arrow-left"></i> Back to Shopping
 </a>
-<div class="container">
-  <h1>📦 Track Your Order</h1>
 
-  <p class="small">Enter Order Number (ORD-XXXXXX) or Phone Number</p>
+<div class="track-container">
+  <div class="track-hero">
+    <div class="icon-badge"><i class="fa-solid fa-box"></i></div>
+    <h1>Track Your Order</h1>
+    <p class="small">Enter Order Number (ORD-XXXXXX) or Phone Number</p>
 
-  <input type="text" id="orderInput" placeholder="e.g. ORD-123456 or 0712345678">
-  <button id="trackBtn" onclick="trackOrder()">Track Order</button>
+    <input type="text" id="orderInput" placeholder="e.g. ORD-123456 or 0712345678">
+    <button id="trackBtn" onclick="trackOrder()">
+      <i class="fa-solid fa-magnifying-glass"></i> Track Order
+    </button>
+  </div>
 
   <div id="result"></div>
 </div>
 
-
 <script>
-  const navItems = document.querySelectorAll('.navfilter');
+// ===== SIDEBAR MENU =====
+const menuBtn = document.getElementById('menuBtn');
+const menu = document.getElementById('menu');
+const overlay = document.getElementById('menuOverlay');
+function toggleMenu() {
+  menu.classList.toggle('active');
+  overlay.classList.toggle('active');
+  document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+}
+menuBtn.addEventListener('click', toggleMenu);
+overlay.addEventListener('click', toggleMenu);
 
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-      // remove active from all
-      navItems.forEach(el => el.classList.remove('active'));
-
-      // add active to clicked one
-      item.classList.add('active');
-    });
-  });
-</script>
-
-<script>
-
-document.addEventListener("DOMContentLoaded", () => {
-  const savedOrder = localStorage.getItem("lastOrder");
-
-  if (savedOrder) {
-    document.getElementById("orderInput").value = savedOrder;
-
-    trackOrder(); // auto run search
-
-    // optional: clear after use
-    localStorage.removeItem("lastOrder");
+// ===== THEME TOGGLE (shared with pay.html) =====
+const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
+if (localStorage.getItem('theme') === 'dark') {
+  body.classList.add('dark');
+  themeToggle.innerHTML = '<i class="fa-regular fa-sun"></i>';
+} else {
+  themeToggle.innerHTML = '<i class="fa-regular fa-moon"></i>';
+}
+themeToggle.addEventListener('click', () => {
+  body.classList.toggle('dark');
+  if (body.classList.contains('dark')) {
+    localStorage.setItem('theme', 'dark');
+    themeToggle.innerHTML = '<i class="fa-regular fa-sun"></i>';
+  } else {
+    localStorage.setItem('theme', 'light');
+    themeToggle.innerHTML = '<i class="fa-regular fa-moon"></i>';
   }
 });
 
+// ===== CART BADGE =====
+function updateCartBadge() {
+  const badge = document.getElementById('cart-badge');
+  try {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const count = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+    badge.textContent = count;
+  } catch (e) { badge.textContent = '0'; }
+}
+updateCartBadge();
+
+// ===== TRACKING LOGIC (fully preserved) =====
 const API = "https://cars3-158h.onrender.com";
 
 function formatDate(date) {
@@ -376,12 +357,10 @@ async function trackOrder() {
   }
 
   btn.disabled = true;
-  result.innerHTML = `<p class="loading">Loading...</p>`;
+  result.innerHTML = `<p class="loading"><i class="fa-solid fa-spinner fa-spin"></i>Loading...</p>`;
 
   try {
     let url;
-
-    // detect order number vs phone
     if (value.startsWith("ORD-")) {
       url = `${API}/track-order/${value}`;
     } else {
@@ -397,11 +376,8 @@ async function trackOrder() {
       return;
     }
 
-    // ==========================
-    // PHONE RESULT (MULTIPLE ORDERS)
-    // ==========================
+    // MULTIPLE ORDERS (phone lookup)
     if (Array.isArray(data)) {
-
       if (data.length === 0) {
         result.innerHTML = `<p class="error">No orders found for this phone</p>`;
         btn.disabled = false;
@@ -411,27 +387,16 @@ async function trackOrder() {
       result.innerHTML = data.map(order => `
         <div class="card">
           <h3>${order.orderNumber}</h3>
-
-            <div style="margin:10px 0;">
-      ${renderItems(order.items)}
-    </div>
-
-          <p>Total: KES ${order.total}</p>
-
-          <div class="badge ${order.status}">
-            ${order.status.replaceAll("_", " ")}
-          </div>
+          <div class="order-items">${renderItems(order.items)}</div>
+          <div class="order-total">Total <span>KES ${Number(order.total).toLocaleString()}</span></div>
+          <div class="badge ${order.status}">${order.status.replaceAll("_", " ")}</div>
         </div>
       `).join("");
 
-    } 
-    // ==========================
-    // SINGLE ORDER RESULT
-    // ==========================
+    }
+    // SINGLE ORDER
     else {
-
       const history = data.statusHistory || [];
-
       const timeline = history.slice().reverse().map(step => `
         <div class="step active">
           <h4>${step.status.replaceAll("_", " ")}</h4>
@@ -442,20 +407,10 @@ async function trackOrder() {
       result.innerHTML = `
         <div class="card">
           <h3>Order: ${data.orderNumber}</h3>
-
-          <div style="margin:10px 0;">
-  ${renderItems(data.items)}
-</div>
-
-          <p>Total: KES ${data.total}</p>
-
-          <div class="badge ${data.status}">
-            ${data.status.replaceAll("_", " ")}
-          </div>
-
-          <div class="timeline">
-            ${timeline || "<p>No tracking history yet</p>"}
-          </div>
+          <div class="order-items">${renderItems(data.items)}</div>
+          <div class="order-total">Total <span>KES ${Number(data.total).toLocaleString()}</span></div>
+          <div class="badge ${data.status}">${data.status.replaceAll("_", " ")}</div>
+          <div class="timeline">${timeline || "<p style='color:var(--muted); font-size:13px;'>No tracking history yet</p>"}</div>
         </div>
       `;
     }
@@ -469,20 +424,31 @@ async function trackOrder() {
 }
 
 function renderItems(items) {
-  if (!items || items.length === 0) return "<p>No items</p>";
-
+  if (!items || items.length === 0) return "<p style='font-size:13px; color:var(--muted);'>No items</p>";
   return items.map(item => `
-    <div style="margin-bottom:8px;">
-      • ${item.make} ${item.model} x${item.qty}
-      <br>
-      <small>KES ${(item.price * item.qty).toLocaleString()}</small>
+    <div class="order-item-row">
+      <span class="oi-name">${item.make} ${item.model} <span style="color:var(--muted); font-weight:400;">×${item.qty}</span></span>
+      <span class="oi-price">KES ${(item.price * item.qty).toLocaleString()}</span>
     </div>
   `).join("");
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const savedOrder = localStorage.getItem("lastOrder");
+  if (savedOrder) {
+    document.getElementById("orderInput").value = savedOrder;
+    trackOrder();
+    localStorage.removeItem("lastOrder");
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const order = params.get("order");
+  if (order) {
+    document.getElementById("orderInput").value = order;
+    trackOrder();
+  }
+});
 </script>
-
-
 
 </body>
 </html>
