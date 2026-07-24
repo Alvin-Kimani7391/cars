@@ -1,4 +1,4 @@
-like this <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -26,7 +26,15 @@ h2 {
   margin: auto;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 15px;
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 button.refresh {
@@ -37,6 +45,17 @@ button.refresh {
   font-weight: bold;
   cursor: pointer;
 }
+
+button.logout {
+  background: #1f2937;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+button.logout:hover { background: #334155; }
 
 /* ===== SEARCH ===== */
 .searchbar {
@@ -373,7 +392,10 @@ button.delete:hover {
 
 <div class="topbar">
   <h2>📦 Orders Admin Panel</h2>
-  <button class="refresh" onclick="loadOrders()">Refresh</button>
+  <div class="topbar-actions">
+    <button class="refresh" onclick="loadOrders()">Refresh</button>
+    <button class="logout" onclick="adminLogout()">Log out</button>
+  </div>
 </div>
 
 <!-- ================= AGENTS SECTION ================= -->
@@ -433,6 +455,25 @@ button.delete:hover {
 </div>
 
 <script>
+/* ============================================================
+   AUTH GUARD — runs before anything else. Bounces straight back
+   to login.html if this browser hasn't signed in (see login.html
+   for the hardcoded credential check and where the flag is set).
+   ============================================================ */
+(function () {
+  const SESSION_KEY = "ssAdminAuth";
+  const authed = sessionStorage.getItem(SESSION_KEY) === "1" || localStorage.getItem(SESSION_KEY) === "1";
+  if (!authed) {
+    window.location.href = "login.html";
+  }
+})();
+
+function adminLogout() {
+  sessionStorage.removeItem("ssAdminAuth");
+  localStorage.removeItem("ssAdminAuth");
+  window.location.href = "login.html";
+}
+
 const BASE = "https://cars3-158h.onrender.com";
 const ADMIN_KEY = "12345secure";
 
