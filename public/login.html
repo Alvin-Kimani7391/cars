@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — Orders Dashboard</title>
+
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: system-ui;
+    background: #0b1220;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e2e8f0;
+    padding: 20px;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 380px;
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 16px;
+    padding: 32px 28px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+    animation: rise .35s ease;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .login-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin: 0 auto 16px;
+    box-shadow: 0 0 20px rgba(59,130,246,0.4);
+  }
+
+  h1 {
+    font-size: 19px;
+    text-align: center;
+    margin: 0 0 4px;
+  }
+
+  .sub {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 13px;
+    margin-bottom: 26px;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .field {
+    margin-bottom: 16px;
+  }
+
+  .input-wrap {
+    position: relative;
+  }
+
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+    width: 100%;
+    padding: 11px 40px 11px 12px;
+    border-radius: 10px;
+    border: 1px solid #334155;
+    background: #0f172a;
+    color: white;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+
+  input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+  }
+
+  .toggle-eye {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+  }
+  .toggle-eye:hover { color: #cbd5e1; }
+
+  .remember-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0 20px;
+    font-size: 13px;
+    color: #94a3b8;
+  }
+
+  .remember-row input {
+    width: 15px;
+    height: 15px;
+    accent-color: #3b82f6;
+    cursor: pointer;
+  }
+
+  button.submit {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #3b82f6;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background .15s ease, transform .1s ease;
+  }
+
+  button.submit:hover { background: #2563eb; }
+  button.submit:active { transform: translateY(1px); }
+  button.submit:disabled { opacity: .6; cursor: not-allowed; }
+
+  .error-box {
+    display: none;
+    background: rgba(239,68,68,0.12);
+    border: 1px solid rgba(239,68,68,0.35);
+    color: #fca5a5;
+    font-size: 13px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+  }
+  .error-box.show { display: block; }
+
+  .shake { animation: shake .35s ease; }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+  }
+
+  .footnote {
+    text-align: center;
+    font-size: 11px;
+    color: #475569;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<form class="login-card" id="loginForm" autocomplete="off">
+  <div class="login-icon">🔒</div>
+  <h1>Orders Admin Panel</h1>
+  <p class="sub">Sign in to manage orders, agents &amp; deliveries</p>
+
+  <div class="error-box" id="errorBox">Incorrect email or password.</div>
+
+  <div class="field">
+    <label for="email">Email</label>
+    <div class="input-wrap">
+      <input type="email" id="email" placeholder="you@example.com" required>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="password">Password</label>
+    <div class="input-wrap">
+      <input type="password" id="password" placeholder="••••••••" required>
+      <button type="button" class="toggle-eye" id="toggleEye" aria-label="Show password">👁</button>
+    </div>
+  </div>
+
+  <label class="remember-row">
+    <input type="checkbox" id="remember">
+    Keep me signed in on this device
+  </label>
+
+  <button type="submit" class="submit" id="submitBtn">Sign in</button>
+
+  <p class="footnote">Six Star Suppliers · Orders Admin</p>
+</form>
+
+<script>
+  /* ============================================================
+     Hardcoded admin credentials (client-side gate only — anyone
+     who views this page's source can read these, same as the
+     ADMIN_KEY already used elsewhere in this dashboard).
+     ============================================================ */
+  const ADMIN_EMAIL    = "sixstar7391@gmail";
+  const ADMIN_PASSWORD = "SixStar@2026?";
+
+  const DASHBOARD_PAGE = "admin.html"; // where to send them after login
+  const SESSION_KEY = "ssAdminAuth";
+
+  const form       = document.getElementById("loginForm");
+  const emailEl    = document.getElementById("email");
+  const passEl     = document.getElementById("password");
+  const rememberEl = document.getElementById("remember");
+  const errorBox   = document.getElementById("errorBox");
+  const submitBtn  = document.getElementById("submitBtn");
+  const card       = document.querySelector(".login-card");
+  const toggleEye  = document.getElementById("toggleEye");
+
+  // If already signed in (and not forced here), skip straight to the dashboard
+  if (sessionStorage.getItem(SESSION_KEY) === "1" || localStorage.getItem(SESSION_KEY) === "1") {
+    window.location.href = DASHBOARD_PAGE;
+  }
+
+  toggleEye.addEventListener("click", () => {
+    const showing = passEl.type === "text";
+    passEl.type = showing ? "password" : "text";
+    toggleEye.textContent = showing ? "👁" : "🙈";
+  });
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.classList.add("show");
+    card.classList.remove("shake");
+    void card.offsetWidth; // restart animation
+    card.classList.add("shake");
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    errorBox.classList.remove("show");
+
+    // trim only trailing/leading whitespace on email; password is checked
+    // byte-for-byte so nothing about it (including the trailing "?") gets lost
+    const email = emailEl.value.trim();
+    const password = passEl.value;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Signing in…";
+
+    // tiny delay so it doesn't feel like a raw client-side if/else
+    setTimeout(() => {
+      const emailMatch = email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+      const passwordMatch = password === ADMIN_PASSWORD; // case-sensitive, exact match
+
+      if (emailMatch && passwordMatch) {
+        if (rememberEl.checked) {
+          localStorage.setItem(SESSION_KEY, "1");
+        } else {
+          sessionStorage.setItem(SESSION_KEY, "1");
+        }
+        window.location.href = DASHBOARD_PAGE;
+        return;
+      }
+
+      showError("Incorrect email or password. Please try again.");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Sign in";
+      passEl.value = "";
+      passEl.focus();
+    }, 350);
+  });
+</script>
+
+</body>
+</html>
